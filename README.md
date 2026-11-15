@@ -98,6 +98,42 @@ which is what layer 2 addresses:
 - Verb forms VII/VIII with hamzat al-waṣl can be mistaken for form IV; imperatives in verse are often missed.
 - The frequency prior is built from only 2.1M words and has some noise of its own.
 
+## Benchmark corpus (for layer 3)
+
+Built from [OpenITI](https://github.com/OpenITI) by `python -m corpus.build DATA_DIR`
+(selection in `corpus/benchmark.py`). Texts are downloaded at build time, not
+stored in this repo; `corpus/books.tsv` and `corpus/manifest.tsv` record exactly
+which versions and chunks were used.
+
+| | |
+|---|---|
+| Authors | 26 (d. 255–429 AH), 19 with two or more secure books |
+| Books | 81: 70 secure, 4 disputed, 7 single-work authors (impostor pool) |
+| Prose | 9.8M words in 4,782 chunks of ~2,000 words |
+| Poetry | 1.4M words, separated from prose and excluded from chunks |
+| Genres (chunks) | history 2,167 · adab 2,015 · criticism 333 · ethics 148 · law 60 · zuhd 59 |
+
+**Disputed test cases:** al-Jāḥiẓ, *al-Maḥāsin wa-l-aḍdād* and *al-Tāj*;
+Ibn Qutayba, *al-Imāma wa-l-siyāsa*; Abū l-Faraj al-Iṣfahānī, *Adab al-ghurabāʾ*.
+Natural impostors include al-Bayhaqī's *al-Maḥāsin wa-l-masāwī* and Ibn ʿAbd
+Rabbih's *al-ʿIqd al-farīd*.
+
+**Cleaning:** OpenITI headers, page markers, milestones, footnote markers and
+editorial tags are removed. Verses are split out of prose in all three notations
+found (`%~%`, `( a % b )`, `a ... b`). Very long paragraphs are split at sentence
+punctuation.
+
+**Known limits:**
+- **Unmarked verse.** 17 books (flag `verse_marked = no` in `books.tsv`) have
+  less than 1% detected poetry. In adab and history works this usually means the
+  edition's verses run on as ordinary lines, so some poetry remains in their
+  chunks. Detecting verses by metre (layer 5) would fix this.
+- **Isnāds, Qur'an quotations and reported speech are still inside prose
+  chunks.** Removing them is the next step.
+- **Book sizes are very unequal.** Ṭabarī's *Tārīkh*, *al-Aghānī* and *Ansāb
+  al-ashrāf* contribute 400–700 chunks each, so analyses should cap chunks per
+  book.
+
 ## Installation
 
 ```bash
@@ -131,6 +167,7 @@ evaluate.py          synthetic corruption test
 run_samples.py       runs the Shamela samples
 resources/           Classical form frequencies (from Tashkeela)
 layer2/              layer 2 experiments (probe_labels.py: labels from Tashkeela vowels)
+corpus/              benchmark selection, OpenITI download/cleaning, chunking, manifests
 samples/             test passages from al-Maktaba al-Shāmila
 ```
 
@@ -150,3 +187,5 @@ samples/             test passages from al-Maktaba al-Shāmila
 - CAMeL Tools data packages carry their own licenses (the MSA morphology
   database is GPL v2).
 - Sample passages are short excerpts from al-Maktaba al-Shāmila, used for testing.
+- Benchmark texts come from OpenITI and are downloaded at build time rather than
+  redistributed here; OpenITI's own license terms apply to them.
