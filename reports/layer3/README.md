@@ -1,5 +1,8 @@
 # Layer 3: stylometry, first results (November 2026)
 
+> **Update:** the same tests with 40 chunks per book (1,969 chunks) are in [`../layer3_s40`](../layer3_s40/README.md): book accuracy 54% → 60% (70% within a genre), cross-genre and verification unchanged, disputed-work verdicts unchanged.
+
+
 **In short:** on the benchmark corpus, attribution works well *within a genre*
 and fails *across genres*. Among 19 candidate authors (chance = 5%), the best
 methods attribute about half of all held-out books correctly: 62–65% of books
