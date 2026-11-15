@@ -146,6 +146,39 @@ and keeps what they only *marked*:
 After cleaning: 78 books, 4,638 chunks, 9.5M prose words; 19 authors still
 have two or more secure books.
 
+**Quotations** (`python -m corpus.quotations DATA_DIR REFS_DIR`; counts per book in
+`corpus/quotations.tsv`). Much of a Classical book is other people's words, so
+borrowed text is found and then classified by how the author uses it:
+
+| Found by | Kind |
+|---|---|
+| word 4-grams shared with the Qur'an (OpenITI *Muṣḥaf*, basmala excluded) | Q |
+| word 5-grams shared with nine ḥadīth collections (Bukhārī, Muslim, the four Sunan, Muwaṭṭaʾ, Musnad Aḥmad, Dārimī); isnād words and shared formulas (dates, piety, letter openings) are not indexed, phrases found in more than 10% of benchmark books are treated as common phrasing, and a match needs 6+ words | H |
+| 5,345 proverb headwords from al-Maydānī, Abū ʿUbayd and al-Zamakhsharī (explanations not indexed) | M |
+| transmission chains: a transmission verb (حدثنا, أخبرني, سمعت…) linked by عن and name links (بن, أبي…) up to the reporter's قال / أنّ; a lone "سمعت أعرابيا" is not a chain | isnād |
+
+Each Q/H/M span is then either **reproduction** (12+ words, or its whole
+sentence apart from framing such as قال تعالى, وفي الحديث, وفي المثل) or
+**embedded** (woven into the author's sentence: اقتباس, a proverb in passing).
+Reproduced blocks and isnāds are replaced by placeholders (`<Q-BLOCK>`,
+`<H-BLOCK>`, `<M-BLOCK>`, `<ISNAD>`); embedded quotations by `<Q>`, `<H>`, `<M>`.
+Their words stop counting as the author's, while the act of quoting stays
+countable as a feature. Chunks are then rebuilt from the author's own words
+(`corpus/manifest_authorial.tsv`: 4,378 chunks).
+
+Result: 94.3% of prose words remain the authors' own. Removed or masked: isnāds
+391k words, Qur'an 90k (67k reproduced, 23k embedded), ḥadīth 46k, proverbs 12k.
+Extremes: Ibn Abī l-Dunyā's zuhd works 52–69% own words; *Taʾwīl mushkil
+al-Qurʾān* 80%; *al-Aghānī* 89% (122k words of isnāds); al-Jāḥiẓ 97–99%;
+Miskawayh 99.6%. A random sample of detected spans read in context showed
+correct matches throughout; one embedded proverb was classified as a block.
+
+Known limits: reported speech and quotations from sources not in the
+reference sets (letters, sermons, other prose works) stay in the author's text;
+shared narrative material (e.g. sīra episodes retold by historians) is
+caught only where it also appears in the ḥadīth collections; verse remaining
+in prose (unmarked editions) is not yet handled.
+
 **Known limits:**
 - **Unmarked verse.** 17 books (flag `verse_marked = no` in `books.tsv`) have
   less than 1% detected poetry. In adab and history works this usually means the
@@ -190,7 +223,8 @@ evaluate.py          synthetic corruption test
 run_samples.py       runs the Shamela samples
 resources/           Classical form frequencies (from Tashkeela)
 layer2/              layer 2 experiments (probe_labels.py: labels from Tashkeela vowels)
-corpus/              benchmark selection, OpenITI download/cleaning, chunking, manifests
+corpus/              benchmark selection, OpenITI download/cleaning, editorial cleanup,
+                     quotation and isnad handling, chunking, manifests
 samples/             test passages from al-Maktaba al-Shāmila
 ```
 
