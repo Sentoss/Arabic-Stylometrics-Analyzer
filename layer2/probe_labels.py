@@ -18,10 +18,19 @@ MARK = re.compile("[ً-ْٰ]")
 WORD = re.compile("[ء-يً-ْٰٱ]+")
 
 
+TANWIN_FATH = "ً"
+SUN = set("تثدذرزسشصضطظلن")
+
+
 def norm(d):
     """Reconcile vowel-writing conventions between Tashkeela and CAMeL:
-    CAMeL omits sukun and the short vowel before a long vowel (قالَ vs قَالَ)."""
+    - CAMeL omits sukun and the short vowel before a long vowel (قالَ / قَالَ)
+    - CAMeL writes long ā as a dagger alif (هٰذا / هَذَا, الرَحْمٰن / الرَّحْمَن)
+    - tanwīn al-fatḥ sits on the alif in CAMeL, before it in Tashkeela (ثَلاثاً / ثَلَاثًا)
+    """
     d = d.replace(SUKUN, "").replace("ٱ", "ا")
+    d = d.replace(DAGGER, FATHA)
+    d = re.sub(TANWIN_FATH + "([اى])", r"\1" + TANWIN_FATH, d)
     d = re.sub(FATHA + "(?=[اى])", "", d)
     d = re.sub(KASRA + "(?=ي(?![ً-ّ]))", "", d)
     d = re.sub(DAMMA + "(?=و(?![ً-ّ]))", "", d)
@@ -36,6 +45,12 @@ def split(d):
                 out[-1][1].add(ch)
         else:
             out.append([ch, set()])
+    # CAMeL leaves out the shadda of a sun letter after the article (الثَلاث);
+    # Tashkeela writes it (الثَّلَاث). Drop it on both sides.
+    for i in range(2, len(out)):
+        if out[i][0] in SUN and out[i - 1][0] == "ل" and not out[i - 1][1] \
+                and out[i - 2][0] == "ا":
+            out[i][1].discard(SHADDA)
     return out
 
 

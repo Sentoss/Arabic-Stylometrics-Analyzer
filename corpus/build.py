@@ -17,8 +17,14 @@ import json
 import re
 from pathlib import Path
 
+from collections import Counter
+
 from corpus.benchmark import BOOKS
+from corpus.editorial import clean_editorial
 from corpus.openiti import load_metadata, primary_version, download, parse_markdown
+
+EDIT_COLS = ["metre_label", "quran_ref", "number", "siglum", "gloss", "numbering",
+             "stray_symbol", "restored", "quran_hint", "quran_or_quote_hint", "quote_hint"]
 
 AR_WORD = re.compile(r"[ء-ي]+")
 
@@ -78,10 +84,18 @@ def main():
     books_out = ["book\tauthor\tdeath_ah\tgenre\tstatus\tversion\twords_prose\twords_poetry"
                  "\tverse_marked\tchunks\turl"]
     manifest = ["chunk_id\tbook\tauthor\tdeath_ah\tgenre\tstatus\tpage_from\tpage_to\twords\tpath"]
+    edits = ["book\twords\t" + "\t".join(EDIT_COLS)]
     for book, (genre, status) in BOOKS.items():
         r = primary_version(meta, book)
         if r is None:
             print("MISSING", book)
+            continue
+        if r.get("uncorrected_OCR") == "True":
+            # Uncorrected OCR versions carry OCR noise, editors' introductions,
+            # apparatus and indexes inside the text; no clean version exists.
+            books_out.append(f"{book}\t{book.split('.')[0]}\t{int(book[:4])}\t{genre}"
+                             f"\texcluded_ocr\t{r['versionUri']}\t0\t0\t-\t0\t{r['url']}")
+            print("EXCLUDED (uncorrected OCR)", book)
             continue
         raw_path = root / "raw" / (r["versionUri"] + ".mARkdown")
         try:
@@ -90,6 +104,11 @@ def main():
             print("FAILED", book, e)
             continue
         paras = parse_markdown(raw_path.read_text(encoding="utf-8"))
+        stats = Counter()
+        for p in paras:
+            if p["type"] != "heading":
+                p["text"], _ = clean_editorial(p["text"], stats)
+        paras = [p for p in paras if AR_WORD.search(p["text"])]
         with open(root / "clean" / f"{book}.jsonl", "w", encoding="utf-8") as f:
             for p in paras:
                 f.write(json.dumps(p, ensure_ascii=False) + "\n")
@@ -111,7 +130,9 @@ def main():
         marked = "yes" if wv >= 0.01 * (wp + wv) or genre in ("law", "ethics", "zuhd") else "no"
         books_out.append(f"{book}\t{author}\t{death}\t{genre}\t{status}\t{r['versionUri']}"
                          f"\t{wp}\t{wv}\t{marked}\t{n}\t{r['url']}")
+        edits.append(f"{book}\t{wp + wv}\t" + "\t".join(str(stats[c]) for c in EDIT_COLS))
         print(f"{book:50} prose {wp:>8,}  poetry {wv:>7,}  chunks {n:>4}")
+    (root / "editorial.tsv").write_text("\n".join(edits) + "\n", encoding="utf-8")
     (root / "books.tsv").write_text("\n".join(books_out) + "\n", encoding="utf-8")
     (root / "manifest.tsv").write_text("\n".join(manifest) + "\n", encoding="utf-8")
 
