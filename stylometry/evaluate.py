@@ -89,11 +89,13 @@ def run(metas, fams, spec, cands, center=False):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("data_dir")
+    ap.add_argument("--sample", default="sample.tsv",
+                    help="chunk list in DATA_DIR (e.g. sample12.tsv, sample40.tsv)")
     ap.add_argument("--out", default="reports/layer3")
     a = ap.parse_args()
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    metas, feats = load_sample(a.data_dir)
+    metas, feats = load_sample(a.data_dir, manifest=a.sample)
     cands = candidates(metas)
     fams = Families(feats)
     n_books = len({m["book"] for m in metas if m["status"] == "secure" and m["author"] in cands})

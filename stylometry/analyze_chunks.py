@@ -1,6 +1,6 @@
 """Run layer 1 over a sample of authorial chunks and store the token tiers.
 
-usage: python -m stylometry.analyze_chunks DATA_DIR [--per-book 12]
+usage: python -m stylometry.analyze_chunks DATA_DIR [--per-book 12] [--worker k/n]
 
 Picks up to N chunks per book, evenly spaced through the book (all chunks of
 disputed works), and writes DATA_DIR/analyzed/<chunk_id>.tsv with one row per
@@ -35,6 +35,8 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("data_dir")
     ap.add_argument("--per-book", type=int, default=12)
+    ap.add_argument("--worker", default="0/1",
+                    help="k/n: process every n-th chunk starting at k (parallel runs)")
     a = ap.parse_args()
     root = Path(a.data_dir)
     manifest = list(csv.DictReader(open(root / "manifest_authorial.tsv", encoding="utf-8"),
@@ -53,6 +55,8 @@ def main():
         by[r["book"]].append(r)
     todo = [r for i in range(max(map(len, by.values()), default=0))
             for rows in by.values() if i < len(rows) for r in [rows[i]]]
+    k, n = map(int, a.worker.split("/"))
+    todo = todo[k::n]
     print(f"{len(todo)} chunks to analyze", flush=True)
     if not todo:
         return

@@ -267,7 +267,7 @@ restore_cli.py       command-line interface
 evaluate.py          synthetic corruption test
 run_samples.py       runs the Shamela samples
 resources/           Classical form frequencies (from Tashkeela)
-layer2/              layer 2 experiments (probe_labels.py: labels from Tashkeela vowels)
+layer2/              layer 2: build_labels.py (training labels from Tashkeela vowels), probe_labels.py
 stylometry/          layer 3: chunk analysis, features, methods, evaluation, verification, figures
 analyze.py           analyse an outside text against the benchmark
 reports/layer3/      results report, figures, evaluation and verification data
@@ -279,7 +279,7 @@ samples/             test passages from al-Maktaba al-Shāmila
 ## Roadmap
 1. ~~Layer 1: spelling restoration~~
 2. ~~Layer 3: stylometry~~ (first results; next: process all 4,378 chunks, more genre-robust features)
-3. Layer 2 (next): Classical disambiguator. CAMeLBERT-CA fine-tuned on labels derived from Tashkeela's vowels; a first probe gives a unique label for ~74% of words after reconciling vowel-writing conventions between Tashkeela and CAMeL (sun-letter shadda, tanwīn placement, dagger alif); 19% stay ambiguous because vowels cannot decide, 5% are dictionary gaps (passives, Classical forms) (see `layer2/probe_labels.py`).
+3. Layer 2 (in progress): Classical disambiguator. Step 1 done: training labels for 2.1 M Tashkeela words (`layer2/build_labels.py`): 78% settled (64% fully, 14% up to an unmarked feature), 16% ties kept as option sets, 4% dictionary gaps (passives, isnād verbs, Classical vowelings, names), 2% unknown. Next: a Classical supplement to the dictionary, then fine-tuning CAMeLBERT-CA. See [`layer2/README.md`](layer2/README.md).
 4. Layers 4–5: rule-based rhetoric, metre and rhyme.
 5. Layer 6 and lexicon extension from Qabas.
 

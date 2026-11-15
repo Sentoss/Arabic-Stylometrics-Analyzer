@@ -29,6 +29,8 @@ def norm(d):
     - tanwīn al-fatḥ sits on the alif in CAMeL, before it in Tashkeela (ثَلاثاً / ثَلَاثًا)
     """
     d = d.replace(SUKUN, "").replace("ٱ", "ا")
+    # Tashkeela vowels the connecting alif (وَاَللَّهُ, اُنْظُرْ); CAMeL does not
+    d = re.sub("ا[َُِ]", "ا", d)
     d = d.replace(DAGGER, FATHA)
     d = re.sub(TANWIN_FATH + "([اى])", r"\1" + TANWIN_FATH, d)
     d = re.sub(FATHA + "(?=[اى])", "", d)
@@ -54,14 +56,15 @@ def split(d):
     return out
 
 
-def compatible(written, analysis, full):
+def compatible(written, analysis, full, enc_len=0):
     """Every mark the text gives must be in the reading (text may be partial).
-    In fully vowelled text a missing shadda is evidence too. Case ending ignored."""
+    In fully vowelled text a missing shadda is evidence too. Case ending ignored,
+    also when it sits before a pronoun suffix of enc_len letters (يَلْزَمُهُ)."""
     w, a = split(norm(written)), split(norm(analysis))
     if [c for c, _ in w] != [c for c, _ in a]:
         return False
     for i, ((_, wm), (_, am)) in enumerate(zip(w, a)):
-        if i == len(w) - 1:
+        if i == len(w) - 1 or i == len(w) - 1 - enc_len:
             wm, am = wm - CASE, am - CASE
         if not wm <= am - {DAGGER}:
             return False

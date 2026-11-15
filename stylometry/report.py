@@ -172,12 +172,14 @@ def fig_impostors(ver, out):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("data_dir")
+    ap.add_argument("--sample", default="sample.tsv",
+                    help="chunk list in DATA_DIR (e.g. sample12.tsv, sample40.tsv)")
     ap.add_argument("--out", default="reports/layer3")
     a = ap.parse_args()
     out = Path(a.out)
     ev = json.load(open(out / "evaluation.json", encoding="utf-8"))
     ver = json.load(open(out / "verification.json", encoding="utf-8"))
-    metas, feats = load_sample(a.data_dir)
+    metas, feats = load_sample(a.data_dir, manifest=a.sample)
     fams = Families(feats)
     fig_accuracy(ev, out)
     order = fig_dendrogram(metas, fams, out)
