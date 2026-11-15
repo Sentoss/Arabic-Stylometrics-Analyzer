@@ -108,10 +108,10 @@ which versions and chunks were used.
 | | |
 |---|---|
 | Authors | 26 (d. 255–429 AH), 19 with two or more secure books |
-| Books | 81: 70 secure, 4 disputed, 7 single-work authors (impostor pool) |
-| Prose | 9.8M words in 4,782 chunks of ~2,000 words |
+| Books | 78 used: 67 secure, 4 disputed, 7 single-work authors (impostor pool); 3 excluded as uncorrected OCR |
+| Prose | 9.5M words in 4,638 chunks of ~2,000 words |
 | Poetry | 1.4M words, separated from prose and excluded from chunks |
-| Genres (chunks) | history 2,167 · adab 2,015 · criticism 333 · ethics 148 · law 60 · zuhd 59 |
+| Genres (chunks) | history 2,140 · adab 1,951 · criticism 332 · ethics 96 · law 60 · zuhd 59 |
 
 **Disputed test cases:** al-Jāḥiẓ, *al-Maḥāsin wa-l-aḍdād* and *al-Tāj*;
 Ibn Qutayba, *al-Imāma wa-l-siyāsa*; Abū l-Faraj al-Iṣfahānī, *Adab al-ghurabāʾ*.
@@ -122,6 +122,29 @@ Rabbih's *al-ʿIqd al-farīd*.
 editorial tags are removed. Verses are split out of prose in all three notations
 found (`%~%`, `( a % b )`, `a ... b`). Very long paragraphs are split at sentence
 punctuation.
+
+**Editorial insertions** (`corpus/editorial.py`, counts per book in
+`corpus/editorial.tsv`). Brackets and quotation marks come from modern editors,
+and each edition uses its own system, so the cleaner removes what editors *added*
+and keeps what they only *marked*:
+- **Removed** (~13,500 items): metre labels such as `[من الخفيف]`; Qur'an
+  references such as `[النساء: 163]`; bare numbers; manuscript sigla such as
+  `«خ»`; editors' glosses of the form `(headword: explanation)`; item numbering.
+  Glosses introduced by أي, يعني or قال are kept, as they are usually the
+  author's own voice.
+- **Kept, re-marked:** Qur'an in `{ }` or `' '` becomes `﴿ ﴾` (a Qur'an hint);
+  text in `« » " " ( )` becomes `« »` (a quotation hint: proverb, ḥadīth, speech,
+  name or title, to be decided by reference matching); words restored by editors
+  in `[ ]` keep their text without the brackets. About 109,000 hint spans.
+- **Excluded books:** three versions are uncorrected OCR with the editor's
+  introduction, apparatus and indexes mixed into the text, and OpenITI has no
+  clean alternative: al-Ṣūlī's *Khilāfat al-Wāthiq*, Ḥamza al-Iṣfahānī's
+  *al-Durra al-fākhira*, Miskawayh's *al-Ḥikma al-khālida*. After exclusion,
+  paragraphs with editorial markers (في نسخة, page references, etc.) are a few
+  hundred words, some of them authorial (al-Masʿūdī's own "ووجدت في نسخة").
+
+After cleaning: 78 books, 4,638 chunks, 9.5M prose words; 19 authors still
+have two or more secure books.
 
 **Known limits:**
 - **Unmarked verse.** 17 books (flag `verse_marked = no` in `books.tsv`) have
@@ -174,7 +197,7 @@ samples/             test passages from al-Maktaba al-Shāmila
 ## Roadmap
 1. ~~Layer 1: spelling restoration~~
 2. Layer 3: stylometry on lemma/pattern/POS features (next), using the MSA model as a stand-in.
-3. Layer 2: Classical disambiguator. CAMeLBERT-CA fine-tuned on labels derived from Tashkeela's vowels; a first probe gives a unique label for ~69% of words (see `layer2/probe_labels.py`).
+3. Layer 2: Classical disambiguator. CAMeLBERT-CA fine-tuned on labels derived from Tashkeela's vowels; a first probe gives a unique label for ~74% of words after reconciling vowel-writing conventions between Tashkeela and CAMeL (sun-letter shadda, tanwīn placement, dagger alif); 19% stay ambiguous because vowels cannot decide, 5% are dictionary gaps (passives, Classical forms) (see `layer2/probe_labels.py`).
 4. Layers 4–5: rule-based rhetoric, metre and rhyme.
 5. Layer 6 and lexicon extension from Qabas.
 
