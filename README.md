@@ -130,21 +130,23 @@ restore_cli.py       command-line interface
 evaluate.py          synthetic corruption test
 run_samples.py       runs the Shamela samples
 resources/           Classical form frequencies (from Tashkeela)
+layer2/              layer 2 experiments (probe_labels.py: labels from Tashkeela vowels)
 samples/             test passages from al-Maktaba al-Shāmila
 ```
 
 ## Roadmap
 1. ~~Layer 1: spelling restoration~~
-2. Layer 2 proof of concept: Classical disambiguator trained on Tashkeela-derived data, measured against layer 1's 95.4%.
-3. Layer 3: stylometry on lemma/pattern/POS features.
+2. Layer 3: stylometry on lemma/pattern/POS features (next), using the MSA model as a stand-in.
+3. Layer 2: Classical disambiguator. CAMeLBERT-CA fine-tuned on labels derived from Tashkeela's vowels; a first probe gives a unique label for ~69% of words (see `layer2/probe_labels.py`).
 4. Layers 4–5: rule-based rhetoric, metre and rhyme.
 5. Layer 6 and lexicon extension from Qabas.
 
 ## Data and licensing notes
 - `resources/form_freq_tashkeela.tsv` was built from
-  [AliOsm/arabic-text-diacritization](https://github.com/AliOsm/arabic-text-diacritization)
-  (MIT), a split of the Tashkeela corpus. Check the original Tashkeela license
-  before redistributing.
+  [AliOsm/arabic-text-diacritization](https://github.com/AliOsm/arabic-text-diacritization),
+  a split of the [Tashkeela corpus](https://sourceforge.net/projects/tashkeela/)
+  (Zerrouki & Balla 2017). Tashkeela is licensed **GPL v2**, so this derived
+  frequency list should be treated as GPL v2 as well.
 - CAMeL Tools data packages carry their own licenses (the MSA morphology
   database is GPL v2).
 - Sample passages are short excerpts from al-Maktaba al-Shāmila, used for testing.
