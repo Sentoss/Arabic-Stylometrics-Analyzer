@@ -1,0 +1,68 @@
+{
+ "authors": [
+  "0255Jahiz",
+  "0276IbnQutaybaDinawari",
+  "0429AbuMansurThacalibi",
+  "0395AbuHilalCaskari",
+  "0414AbuHayyanTawhidi",
+  "0281IbnAbiDunya",
+  "0335Suli",
+  "0362AbuFarajIsbahani"
+ ],
+ "loadings": {
+  "PC1": {
+   "negative": [
+    "pos|noun_prop_verb",
+    "pos|noun_prop",
+    "pos|verb_noun_prop",
+    "pos|noun_noun_prop",
+    "pos|noun_prop_noun_prop_verb",
+    "pos|noun_prop_noun_verb",
+    "pos|prep_noun_prop",
+    "pos|verb_prep_noun_prop",
+    "pos|verb_noun_prop_noun_prop",
+    "pos|verb_noun_noun_prop"
+   ],
+   "positive": [
+    "pos|noun",
+    "pos|noun_noun",
+    "pos|noun_noun_noun",
+    "pos|prep_noun_noun",
+    "pos|noun_prep_noun",
+    "pos|noun_noun_prep",
+    "pos|noun_noun_pron_rel",
+    "function|PRC:ال",
+    "pos|noun_pron_rel",
+    "pos|noun_adj"
+   ],
+   "variance": 0.08669094569870507
+  },
+  "PC2": {
+   "negative": [
+    "pos|verb_conj_sub",
+    "pos|conj_sub",
+    "pos|part_neg",
+    "pos|part_neg_verb",
+    "lemma|على",
+    "pos|conj_sub_verb",
+    "pos|verb_conj_sub_verb",
+    "function|W:أن",
+    "lemma|أن",
+    "pos|verb_pron_rel"
+   ],
+   "positive": [
+    "pos|UNK",
+    "pos|UNK_noun",
+    "pos|noun_UNK",
+    "pos|UNK_noun_noun",
+    "function|W:هو",
+    "lemma|هو",
+    "pos|UNK_UNK",
+    "pos|noun_pron_noun",
+    "pos|noun_UNK_noun",
+    "pos|noun_noun_UNK"
+   ],
+   "variance": 0.05045113771052605
+  }
+ }
+}

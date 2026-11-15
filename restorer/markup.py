@@ -62,7 +62,7 @@ def clean(raw: str) -> str:
 _SENT_END = set(".!?؟:؛\n")
 
 
-def tokenize(text: str, max_len: int = 60):
+def tokenize(text: str, max_len: int = 60, min_len: int = 20):
     """Tokenize cleaned text; assign sentence ids (split on punctuation,
     newlines, hemistich separators, and every max_len words for BERT)."""
     tokens, sent, n_in_sent = [], 0, 0
@@ -72,9 +72,12 @@ def tokenize(text: str, max_len: int = 60):
         tokens.append(tok)
         if kind == "ar":
             n_in_sent += 1
-        # newline between this token and the next counts as a sentence end
+        # Segments for the context model: break at sentence punctuation or a
+        # newline once the segment has min_len words, and always at max_len.
+        # (Breaking at every colon gave many tiny segments: 5x slower, less context.)
         nxt = text[m.end(): m.end() + 2]
-        if (kind == "other" and tok.text in _SENT_END) or "\n" in nxt or n_in_sent >= max_len:
+        at_end = (kind == "other" and tok.text in _SENT_END) or "\n" in nxt
+        if (at_end and n_in_sent >= min_len) or n_in_sent >= max_len:
             sent += 1
             n_in_sent = 0
     _flag_quran(text, tokens)

@@ -6,9 +6,12 @@ counting surface words: features are computed over morphology (lemmas, roots,
 patterns, part of speech), and the analysis extends to the rhetorical devices of
 the Arabic tradition (بلاغة) and to metre and rhyme in poetry.
 
-> **Status (November 2026):** Layer 1 (spelling restoration) works and is
-> evaluated. Layers 2–6 are planned. Scope is Classical Arabic and MSA;
-> dialects are deliberately out of scope.
+> **Status (November 2026):** Layer 1 (spelling restoration) and layer 3
+> (stylometry: attribution, verification, clustering, PCA, on a cleaned
+> 26-author benchmark) work and are evaluated. See
+> [`reports/layer3/`](reports/layer3/README.md) for results. Layer 2 (Classical
+> morphology) is next; layers 4–6 are planned. Scope is Classical Arabic and
+> MSA; dialects are deliberately out of scope.
 
 ## Why this project
 
@@ -28,7 +31,7 @@ the Arabic tradition (بلاغة) and to metre and rhyme in poetry.
 |---|---|---|
 | 1. Spelling restoration | Undoes each edition's printing conventions (dropped hamza, ى for ي, ه for ة) while keeping real distinctions; strips apparatus; flags Qur'an quotations | ✅ working |
 | 2. Classical morphology | A Classical disambiguator on top of the CAMeL analyzer, trained on data derived from diacritized text (Tashkeela); later, Classical lemmas from Qabas | ⏳ next |
-| 3. Stylometry | Delta, clustering and classifiers over lemmas, patterns, POS sequences and function words | planned |
+| 3. Stylometry | Delta, clustering and classifiers over lemmas, patterns, POS sequences and function words; Impostors verification | ✅ working (first results) |
 | 4. Surface rhetoric | Rule-based سجع, جناس, طباق, repetition, parallelism | planned |
 | 5. Poetry | Metre (عروض) and rhyme (قافية); metre also constrains vowels for layer 2 | planned |
 | 6. Deep rhetoric | استعارة, كناية, تقديم وتأخير, حذف; LLM-assisted with human review | planned |
@@ -190,6 +193,48 @@ in prose (unmarked editions) is not yet handled.
   al-ashrāf* contribute 400–700 chunks each, so analyses should cap chunks per
   book.
 
+## Layer 3: stylometry
+
+Full results, figures and caveats: [`reports/layer3/README.md`](reports/layer3/README.md).
+
+**Pipeline.** The authorial chunks go through layer 1 (`stylometry/analyze_chunks.py`).
+Features are counted per chunk (`stylometry/features.py`): restored word forms,
+lemmas, function words and clitics, POS 1–3-grams, morphological patterns,
+character 3–4-grams and quoting rates. Methods (`stylometry/methods.py`):
+Burrows's and Cosine Delta, logistic regression and linear SVM, General
+Impostors verification, Zeta, bootstrap consensus clustering and PCA.
+Evaluation holds out whole books (`stylometry/evaluate.py`), and verification
+is calibrated on books of known authorship (`stylometry/verify.py`).
+
+**First results** (922 samples, 12 per book; 19 candidate authors; 67 held-out books):
+- **Attribution:** the best feature sets attribute 54% of held-out books
+  correctly (chance 5%). That is 62–65% for books whose genre the author also
+  wrote in, and almost none of the 12 books that are an author's only work in
+  their genre: genre is the main obstacle. Distinctive stylists are always
+  recognized (al-Jāḥiẓ 7/7, al-Tawḥīdī 5/5, Ibn Abī l-Dunyā 4/4); compilers
+  mostly are not.
+- **Verification:** AUC 0.83. At the calibrated threshold, 84% of true authors
+  pass on same-genre books and 15% of false candidates pass.
+- **Disputed works:** none is stylistically consistent with its traditional
+  author. *al-Maḥāsin wa-l-aḍdād* is closest to al-Bayhaqī (*al-Maḥāsin
+  wa-l-masāwī*), with which it also shares 10.9% of its text, and the
+  resemblance survives removing all shared passages. *al-Imāma wa-l-siyāsa*
+  sits among the historians, far from Ibn Qutayba. *al-Tāj* is closest to a
+  secretarial *adab* author. *Adab al-ghurabāʾ* is too short to judge.
+
+**Analysing your own text** (plain text, Shamela copy, or an OpenITI file):
+
+```bash
+python analyze.py mytext.txt --data DATA_DIR --refs REFS_DIR [--candidate 0255Jahiz]
+```
+
+The command removes editorial insertions, quotations and isnāds, runs layer 1,
+ranks the benchmark authors by stylistic distance, and, with `--candidate`,
+gives the calibrated Impostors verdict with the features and Zeta words that
+separate the text from that author. Output goes to `out/<name>/report.md`.
+Candidate IDs are the OpenITI author IDs in `corpus/books.tsv`. Verdicts on
+fewer than three ~2,000-word chunks are weak.
+
 ## Installation
 
 ```bash
@@ -223,6 +268,9 @@ evaluate.py          synthetic corruption test
 run_samples.py       runs the Shamela samples
 resources/           Classical form frequencies (from Tashkeela)
 layer2/              layer 2 experiments (probe_labels.py: labels from Tashkeela vowels)
+stylometry/          layer 3: chunk analysis, features, methods, evaluation, verification, figures
+analyze.py           analyse an outside text against the benchmark
+reports/layer3/      results report, figures, evaluation and verification data
 corpus/              benchmark selection, OpenITI download/cleaning, editorial cleanup,
                      quotation and isnad handling, chunking, manifests
 samples/             test passages from al-Maktaba al-Shāmila
@@ -230,8 +278,8 @@ samples/             test passages from al-Maktaba al-Shāmila
 
 ## Roadmap
 1. ~~Layer 1: spelling restoration~~
-2. Layer 3: stylometry on lemma/pattern/POS features (next), using the MSA model as a stand-in.
-3. Layer 2: Classical disambiguator. CAMeLBERT-CA fine-tuned on labels derived from Tashkeela's vowels; a first probe gives a unique label for ~74% of words after reconciling vowel-writing conventions between Tashkeela and CAMeL (sun-letter shadda, tanwīn placement, dagger alif); 19% stay ambiguous because vowels cannot decide, 5% are dictionary gaps (passives, Classical forms) (see `layer2/probe_labels.py`).
+2. ~~Layer 3: stylometry~~ (first results; next: process all 4,378 chunks, more genre-robust features)
+3. Layer 2 (next): Classical disambiguator. CAMeLBERT-CA fine-tuned on labels derived from Tashkeela's vowels; a first probe gives a unique label for ~74% of words after reconciling vowel-writing conventions between Tashkeela and CAMeL (sun-letter shadda, tanwīn placement, dagger alif); 19% stay ambiguous because vowels cannot decide, 5% are dictionary gaps (passives, Classical forms) (see `layer2/probe_labels.py`).
 4. Layers 4–5: rule-based rhetoric, metre and rhyme.
 5. Layer 6 and lexicon extension from Qabas.
 
