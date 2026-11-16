@@ -31,13 +31,12 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).parent))
 from probe_labels import MARK, WORD, compatible  # noqa: E402
 
-from camel_tools.morphology.analyzer import Analyzer
-from camel_tools.morphology.database import MorphologyDB
+from supplement import ClassicalAnalyzer  # noqa: E402
 
 FEATS = ["prc3", "prc2", "prc1", "prc0", "per", "asp", "vox", "mod",
          "gen", "num", "stt", "cas", "enc0"]
 LEXICAL = ("lex", "pos")
-KEEP = FEATS + ["pos", "lex", "diac", "d3tok", "pos_lex_logprob"]
+KEEP = FEATS + ["pos", "lex", "diac", "d3tok", "pos_lex_logprob", "source"]
 
 
 def feats(a):
@@ -85,8 +84,14 @@ def main():
     ap.add_argument("src")
     ap.add_argument("out")
     ap.add_argument("--limit", type=int, default=0)
+    ap.add_argument("--no-passives", action="store_true", help="MSA analyzer without generated passives")
+    ap.add_argument("--variants", default=None,
+                    help="harvested variants TSV ('none' to disable; default: resources/classical_variants.tsv)")
     a = ap.parse_args()
-    an = Analyzer(MorphologyDB.builtin_db())
+    from supplement import VARIANTS
+    an = ClassicalAnalyzer(passives=not a.no_passives,
+                           variants=None if a.variants == "none" else (a.variants or VARIANTS))
+    src = Counter()
     cache_r, cache_l = {}, {}
     stats, n, t0 = Counter(), 0, time.time()
     lines = open(a.src, encoding="utf-8").read().split("\n")
@@ -104,8 +109,7 @@ def main():
                 if bare not in cache_r:
                     forms = [bare] + ([bare[:-1] + "ي"] if bare.endswith("ى") else [])
                     cache_r[bare] = [{k: r.get(k) for k in KEEP} for f in forms
-                                     for r in an.analyze(f)
-                                     if r.get("source") != "backoff" and r["pos"] != "abbrev"]
+                                     for r in an.analyze(f) if r["pos"] != "abbrev"]
                 readings = cache_r[bare]
                 if not readings:
                     status, best, k, opts = "oov", None, 0, ""
@@ -114,6 +118,8 @@ def main():
                         cache_l[w] = label(w, readings)
                     status, best, k, opts = cache_l[w]
                 stats[status] += 1
+                if best and str(best.get("source", "")).startswith("classical"):
+                    src[best["source"]] += 1
                 n += 1
                 row = [s, i, w, bare, status, len(readings), k]
                 row += ([best["lex"], best["pos"], feats(best), best["diac"]]
@@ -125,6 +131,8 @@ def main():
     print(f"words: {n}")
     for k in ["unique", "case_tie", "tie", "no_match", "oov"]:
         print(f"  {k:9} {stats[k]:7}  {stats[k] / n:.1%}")
+    for k, v in src.items():
+        print(f"  label from {k}: {v} ({v / n:.1%})")
 
 
 if __name__ == "__main__":

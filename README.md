@@ -30,7 +30,7 @@ the Arabic tradition (بلاغة) and to metre and rhyme in poetry.
 | Layer | What it does | Status |
 |---|---|---|
 | 1. Spelling restoration | Undoes each edition's printing conventions (dropped hamza, ى for ي, ه for ة) while keeping real distinctions; strips apparatus; flags Qur'an quotations | ✅ working |
-| 2. Classical morphology | A Classical disambiguator on top of the CAMeL analyzer, trained on data derived from diacritized text (Tashkeela); later, Classical lemmas from Qabas | ⏳ in progress (training labels built) |
+| 2. Classical morphology | A Classical disambiguator on top of the CAMeL analyzer, trained on data derived from diacritized text (Tashkeela); later, Classical lemmas from Qabas | ⏳ in progress (Classical supplement + training labels built) |
 | 3. Stylometry | Delta, clustering and classifiers over lemmas, patterns, POS sequences and function words; Impostors verification | ✅ working (first results) |
 | 4. Surface rhetoric | Rule-based سجع, جناس, طباق, repetition, parallelism | planned |
 | 5. Poetry | Metre (عروض) and rhyme (قافية); metre also constrains vowels for layer 2 | planned (on hold for al-Farāhīdī's MCP) |
@@ -291,7 +291,7 @@ samples/             test passages from al-Maktaba al-Shāmila
 ## Roadmap
 1. ~~Layer 1: spelling restoration~~
 2. ~~Layer 3: stylometry~~ (re-run with 40 chunks per book; feature profiles by author/genre/book; next: syntactic features such as clause types, masking of content words, and a larger corpus with authors spanning several genres)
-3. Layer 2 (in progress): Classical disambiguator. Step 1 done: training labels for 2.1 M Tashkeela words (`layer2/build_labels.py`): 78% settled (64% fully, 14% up to an unmarked feature), 16% ties kept as option sets, 4% dictionary gaps (passives, isnād verbs, Classical vowelings, names), 2% unknown. Next: a Classical supplement to the dictionary, then fine-tuning CAMeLBERT-CA. See [`layer2/README.md`](layer2/README.md).
+3. Layer 2 (in progress): Classical disambiguator. Done: a Classical supplement to CAMeL's analyzer (passives by rule for all verb forms; 464 Classical vowelings, Form II verbs such as حَدَّثَ and name forms harvested from Tashkeela) and training labels for 2.1 M Tashkeela words: 79.6% settled, 16.9% ties kept as option sets, 1.3% unmatched (was 4.0%), 2.2% unknown. Next: training-format conversion, then fine-tuning CAMeLBERT-CA. See [`layer2/README.md`](layer2/README.md).
 4. Layers 4–5: rule-based rhetoric; metre and rhyme (layer 5 on hold until al-Farāhīdī's MCP server is available).
 5. Layer 6: semantics. Start with distributional usage profiles (how an author uses a word, compared with others) and semantic fields from *al-Mukhaṣṣaṣ*; then word senses. Semantic features follow topic closely, so they serve stylistic description more than attribution, and are compared within a genre.
 6. Layer 7 (deep rhetoric) and lexicon extension from Qabas.
