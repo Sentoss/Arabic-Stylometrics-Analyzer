@@ -99,3 +99,38 @@ POS features. Caveat: random errors are not the same as systematic ones. The
 one thing this test cannot measure is categories the MSA dictionary lacks
 entirely (e.g. passives, read as actives everywhere), which may carry real
 authorial signal. For layer 3, the bottleneck is genre, not morphology.
+
+## Re-run with the Classical supplement in layer 1
+
+All 1,969 chunks were re-analysed with the layer 2 supplement plugged into
+layer 1 (`analyze_chunks --out analyzed_l2`; results in
+[`../layer3_l2`](../layer3_l2/evaluation.json)). The disambiguator is still
+CAMeL's MSA model; only the readings it may choose from changed.
+
+**What changed in the analyses: 0.6% of words.**
+
+| change | share of words | examples |
+|---|---|---|
+| lemma of رأى corrected (was راوَنْد) | 0.30% | رأيت، يرى، رآه، ترى |
+| passive chosen instead of active | 0.14% | ذُكِرَ، نُسِبَ، يُسْتَعْمَلُ، جُعِلَ، قُبِضَ |
+| other lemma or POS | 0.08% | رُوِيَ (was the noun رَوِيّ), سُمِّيَ (was سَمِيّ), حُكِيَ, يُرْوَى, بُنِيَ |
+| reading for a word unknown before | 0.08% | أُتِيَ، اُقْتُلُوا، فَافْعَلُوا، وَأَطِيعُوا، صِلْ |
+
+In unvowelled text only passives, harvested variants, كَأَنْ and the رأى lemma
+are used freely; imperatives only for words with no other reading; the
+interrogative أَ not at all, because the MSA model cannot be trusted with it
+(it read the name أهرمن as أَ + هَرَّمَ). That waits for the Classical model.
+
+**Attribution: unchanged, as the ablation predicted** (logistic regression,
+chunks / books):
+
+| features | MSA dictionary | + Classical supplement |
+|---|---|---|
+| lemmas | 39.2% / 52% | 39.5% / 52% |
+| POS 1-3-grams | 34.0% / 48% | 34.2% / 48% |
+| patterns | 30.0% / 45% | 30.2% / 48% |
+| combined | 43.5% / 60% | 44.0% / 58% |
+
+Chunk accuracy rises by 0.2–0.5 points; book accuracy moves by one book either
+way. The supplement makes the analyses more correct, which matters for
+syntax, rhetoric and semantics; it does not move attribution.
