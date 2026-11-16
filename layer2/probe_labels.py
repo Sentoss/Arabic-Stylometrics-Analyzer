@@ -31,6 +31,10 @@ def norm(d):
     d = d.replace(SUKUN, "").replace("ٱ", "ا")
     # Tashkeela vowels the connecting alif (وَاَللَّهُ, اُنْظُرْ); CAMeL does not
     d = re.sub("ا[َُِ]", "ا", d)
+    # Tashkeela: kasra on the article's lām before a connecting alif (الِابْن)
+    d = d.replace("لِا", "لا")
+    # mood vowel on a final ي after kasra (يُصَلِّيَ, يُعْطِيَهُ): ignored like case
+    d = d.replace(KASRA + "ي" + FATHA, KASRA + "ي")
     d = d.replace(DAGGER, FATHA)
     d = re.sub(TANWIN_FATH + "([اى])", r"\1" + TANWIN_FATH, d)
     d = re.sub(FATHA + "(?=[اى])", "", d)
@@ -51,7 +55,7 @@ def split(d):
     # Tashkeela writes it (الثَّلَاث). Drop it on both sides.
     for i in range(2, len(out)):
         if out[i][0] in SUN and out[i - 1][0] == "ل" and not out[i - 1][1] \
-                and out[i - 2][0] == "ا":
+                and (out[i - 2][0] == "ا" or out[i - 2][0] == "ل"):   # ال / لِلْ
             out[i][1].discard(SHADDA)
     return out
 
