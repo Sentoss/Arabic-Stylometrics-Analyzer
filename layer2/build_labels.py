@@ -37,6 +37,7 @@ FEATS = ["prc3", "prc2", "prc1", "prc0", "per", "asp", "vox", "mod",
          "gen", "num", "stt", "cas", "enc0"]
 LEXICAL = ("lex", "pos")
 KEEP = FEATS + ["pos", "lex", "diac", "d3tok", "pos_lex_logprob", "source"]
+SECONDARY = ("classical_question", "classical_imperative")
 
 
 def feats(a):
@@ -65,10 +66,19 @@ def label(written, readings):
     full = len(MARK.findall(written)) >= len(bare) - 1
     # final ى may stand for ي (أَبِى); try the text both ways
     spellings = [written] + ([re.sub("ى(?=[ً-ْ]*$)", "ي", written)] if bare.endswith("ى") else [])
-    kept = [a for a in readings if any(strict(w, a, full) for w in spellings)]
+    strict_k = [a for a in readings if any(strict(w, a, full) for w in spellings)]
+    loose_k = [a for a in readings
+               if any(compatible(w, a["diac"], full, enc_len(a)) for w in spellings)]
+    # ordinary readings first (strict, then loose); the supplement's rare
+    # constructions (interrogative أَ, imperatives) only when nothing else fits:
+    # أَرَادَ stays the verb أَراد, not أَ + رادَ; ابْنِ stays "son of", not "build!"
+    kept = []
+    for group in (strict_k, loose_k):
+        kept = [k for k in group if k.get("source") not in SECONDARY]
+        if kept:
+            break
     if not kept:
-        kept = [a for a in readings
-                if any(compatible(w, a["diac"], full, enc_len(a)) for w in spellings)]
+        kept = strict_k or loose_k
     if not kept:
         return "no_match", None, 0, ""
     best = max(kept, key=lambda a: a.get("pos_lex_logprob", -99))
