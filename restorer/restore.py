@@ -107,12 +107,20 @@ class Restorer:
     """window: forms whose context score is within `window` of the best are
     treated as a tie and decided by Classical frequency (if a prior is given)."""
 
-    def __init__(self, disambiguator=None, prior="default", window=0.15):
+    def __init__(self, disambiguator=None, prior="default", window=0.15, classical=True):
+        """classical: give the disambiguator the layer 2 Classical supplement
+        (passives, imperatives, interrogative أَ, Classical vowelings, Form II
+        verbs such as حَدَّثَ, the lightened كَأَنْ, the lemma of رَأَى)."""
         if disambiguator is None:
             from camel_tools.disambig.bert import BERTUnfactoredDisambiguator
             # MSA model only: dialect models are deliberately not used.
             disambiguator = BERTUnfactoredDisambiguator.pretrained(
                 "msa", top=1000, use_gpu=False)
+        if classical:
+            from layer2.supplement import ClassicalAnalyzer
+            if not isinstance(disambiguator._analyzer, ClassicalAnalyzer):
+                disambiguator._analyzer = ClassicalAnalyzer(analyzer=disambiguator._analyzer,
+                                                            keep_backoff=True, mode="text")
         self.dis = disambiguator
         if prior == "default":
             prior = FormPrior.load(DEFAULT_PRIOR) if DEFAULT_PRIOR.exists() else None

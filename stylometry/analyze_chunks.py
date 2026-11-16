@@ -35,6 +35,11 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("data_dir")
     ap.add_argument("--per-book", type=int, default=12)
+    ap.add_argument("--out", default="analyzed", help="output folder inside DATA_DIR")
+    ap.add_argument("--msa-only", action="store_true",
+                    help="layer 1 without the layer 2 Classical supplement (the original setup)")
+    ap.add_argument("--max-chunks", type=int, default=0,
+                    help="stop after N chunks (rerun to resume; keeps memory in check)")
     ap.add_argument("--worker", default="0/1",
                     help="k/n: process every n-th chunk starting at k (parallel runs)")
     a = ap.parse_args()
@@ -42,7 +47,7 @@ def main():
     manifest = list(csv.DictReader(open(root / "manifest_authorial.tsv", encoding="utf-8"),
                                    delimiter="\t"))
     todo = sample_chunks(manifest, a.per_book)
-    outdir = root / "analyzed"
+    outdir = root / a.out
     outdir.mkdir(exist_ok=True)
     with open(root / "sample.tsv", "w", encoding="utf-8") as f:
         f.write("\t".join(manifest[0].keys()) + "\n")
@@ -58,10 +63,12 @@ def main():
     k, n = map(int, a.worker.split("/"))
     todo = todo[k::n]
     print(f"{len(todo)} chunks to analyze", flush=True)
+    if a.max_chunks:
+        todo = todo[:a.max_chunks]
     if not todo:
         return
     from restorer import Restorer
-    R = Restorer()
+    R = Restorer(classical=not a.msa_only)
     t0, words = time.time(), 0
     for i, r in enumerate(todo, 1):
         text = (root / r["path"]).read_text(encoding="utf-8")
