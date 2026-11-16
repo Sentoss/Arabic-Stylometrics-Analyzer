@@ -30,11 +30,12 @@ the Arabic tradition (بلاغة) and to metre and rhyme in poetry.
 | Layer | What it does | Status |
 |---|---|---|
 | 1. Spelling restoration | Undoes each edition's printing conventions (dropped hamza, ى for ي, ه for ة) while keeping real distinctions; strips apparatus; flags Qur'an quotations | ✅ working |
-| 2. Classical morphology | A Classical disambiguator on top of the CAMeL analyzer, trained on data derived from diacritized text (Tashkeela); later, Classical lemmas from Qabas | ⏳ next |
+| 2. Classical morphology | A Classical disambiguator on top of the CAMeL analyzer, trained on data derived from diacritized text (Tashkeela); later, Classical lemmas from Qabas | ⏳ in progress (training labels built) |
 | 3. Stylometry | Delta, clustering and classifiers over lemmas, patterns, POS sequences and function words; Impostors verification | ✅ working (first results) |
 | 4. Surface rhetoric | Rule-based سجع, جناس, طباق, repetition, parallelism | planned |
-| 5. Poetry | Metre (عروض) and rhyme (قافية); metre also constrains vowels for layer 2 | planned |
-| 6. Deep rhetoric | استعارة, كناية, تقديم وتأخير, حذف; LLM-assisted with human review | planned |
+| 5. Poetry | Metre (عروض) and rhyme (قافية); metre also constrains vowels for layer 2 | planned (on hold for al-Farāhīdī's MCP) |
+| 6. Semantics | How words are used: word senses (عين = eye / spring / notable), each author's usage of a word learned from its contexts across OpenITI, semantic fields drawn from Classical onomasiological works (Ibn Sīda's *al-Mukhaṣṣaṣ*, al-Thaʿālibī's *Fiqh al-lugha*), collocations; the basis for telling literal from figurative use in layer 7 | planned |
+| 7. Deep rhetoric | استعارة, كناية, تقديم وتأخير, حذف; literal vs figurative use built on layer 6; LLM-assisted with human review | planned |
 
 ### Data sources
 - **Qur'an:** Arabic Wikisource, الرسم الإملائي edition (Ḥafṣ). Standard spelling, so no Uthmānī conversion is needed.
@@ -292,8 +293,9 @@ samples/             test passages from al-Maktaba al-Shāmila
 2. ~~Layer 3: stylometry~~ (re-run with 40 chunks per book; feature profiles by author/genre/book; next: syntactic features such as clause types, masking of content words, and a larger corpus with authors spanning several genres)
 3. Layer 2 (in progress): Classical disambiguator. Step 1 done: training labels for 2.1 M Tashkeela words (`layer2/build_labels.py`): 78% settled (64% fully, 14% up to an unmarked feature), 16% ties kept as option sets, 4% dictionary gaps (passives, isnād verbs, Classical vowelings, names), 2% unknown. Next: a Classical supplement to the dictionary, then fine-tuning CAMeLBERT-CA. See [`layer2/README.md`](layer2/README.md).
 4. Layers 4–5: rule-based rhetoric; metre and rhyme (layer 5 on hold until al-Farāhīdī's MCP server is available).
-5. Layer 6 and lexicon extension from Qabas.
-6. Graphical interface: load a text, see its restored spelling and morphology,
+5. Layer 6: semantics. Start with distributional usage profiles (how an author uses a word, compared with others) and semantic fields from *al-Mukhaṣṣaṣ*; then word senses. Semantic features follow topic closely, so they serve stylistic description more than attribution, and are compared within a genre.
+6. Layer 7 (deep rhetoric) and lexicon extension from Qabas.
+7. Graphical interface: load a text, see its restored spelling and morphology,
    its feature profile against the corpus, the closest authors and the
    verification against a chosen candidate, without using the command line.
 
