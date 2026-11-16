@@ -15,7 +15,20 @@ Two kinds of extra readings are added to what the analyzer returns:
    from the Form I entry by doubling the middle radical (حَدَثَ → حَدَّثَ, so
    حَدَّثَنا gets a reading, with its own lemma).
 
-Supplemented readings carry source="classical_passive" or "classical_variant".
+3. Imperatives, derived from the 2nd-person jussive (the MSA database has
+   almost none): تَكْتُبْ → اُكْتُبْ, تَعْلَمْ → اِعْلَمْ, تُكْرِمْ → أَكْرِمْ,
+   تُعَلِّمْ → عَلِّمْ, تَسْتَغْفِرْ → اِسْتَغْفِرْ, تَقُلْ → قُلْ, تَرْمِ → اِرْمِ,
+   تَمُدَّ → مُدَّ, تَكْتُبُوا → اُكْتُبُوا; also after وَ/فَ (وَاعْلَمْ, فَانْظُرْ),
+   and the irregular خُذْ, كُلْ, مُرْ.
+
+4. The interrogative hamza on any word (the database allows it only on a few,
+   e.g. أَكانَ, أَلَيْسَ): أَرَأَيْتَ, أَتَعْرِفُ, أَهٰذا, أَفَلا, أَوَلَمْ.
+
+5. Fixes: the lightened كَأَنْ (lemma كَأَنَّ), and the lemma of the verb رَأَى,
+   which the database gives as راوَنْد ("rhubarb").
+
+Supplemented readings carry source="classical_passive", "classical_variant",
+"classical_imperative", "classical_question" or "classical_manual".
 """
 import csv
 import re
@@ -161,6 +174,59 @@ def set_prefix(pre):
     return join(u)
 
 
+def bare_letters(s):
+    return MARKS.sub("", s).replace("ٱ", "ا")
+
+
+def make_imperative(a, kind, final_vowel=None):
+    """Imperative from a 2nd-person jussive/imperfect reading (prefix تَ / تُ removed).
+    final_vowel: for defective verbs, the vowel before the dropped long vowel
+    (يَرْمِي → kasra, يَدْعُو → damma, يَرْضَى → fatha)."""
+    d = a["diac"]
+    m = re.match("ت([\u064e\u064f])", d)
+    if not m:
+        return None
+    damma_prefix = m.group(1) == DAMMA
+    body = d[2:]
+    if kind == "hamza":            # خُذْ، كُلْ، مُرْ
+        if a.get("lex") not in ("أَخَذ", "أَكَل", "أَمَر") or not body.startswith("أ"):
+            return None
+        body = re.sub("^أ\u0652?", "", body)
+    u = units(body)
+    if not u:
+        return None
+    two_ms = a.get("num") == "s" and a.get("gen") == "m"
+    if two_ms:
+        last = len(u) - 1
+        if u[last][0] in "يوى" and not u[last][1] and last >= 1:
+            u = u[:-1]                                  # تَرْمِي → (اِ)رْمِ، تُعَنِّي → عَنِّ
+            u[-1][1] = set_vowel(u[-1][1], final_vowel or KASRA) if not has_vowel(u[-1][1]) or final_vowel \
+                else u[-1][1]
+        elif last >= 1 and u[last - 1][0] in "اوي" and not u[last - 1][1] and not has_vowel(u[last][1]):
+            del u[last - 1]                             # تَقُولُ → قُلْ
+            u[-1][1] = SUKUN
+        elif SHADDA in u[last][1]:
+            u[last][1] = SHADDA + FATHA                 # تَمُدُّ → مُدَّ
+        elif not has_vowel(u[last][1]) and SUKUN not in u[last][1]:
+            if final_vowel:                             # shortened defective stem تَرْم
+                u[last][1] = final_vowel
+            else:
+                u[last][1] = SUKUN
+    lex = a.get("lex", "")
+    if kind == "hamza":
+        head = ""
+    elif damma_prefix and lex.startswith(("أ", "آ")):
+        head = "أَ"                                     # Form IV: تُكْرِمْ → أَكْرِمْ، تُقِلْ → أَقِلْ
+    elif SUKUN in u[0][1] or (kind == "alif" and SHADDA in u[0][1]):
+        # consonant cluster (اُكْتُبْ، اِذْهَبْ، اُدْعُ) or doubled first letter
+        # of Form VIII from a weak root (تَتَّقِي → اِتَّقِ)
+        first = next((mm for _, mm in u[1:] if has_vowel(mm)), "") if SUKUN in u[0][1] else ""
+        head = "اُ" if DAMMA in first else "اِ"
+    else:
+        head = ""                                       # عَلِّمْ، قاتِلْ، تَعَلَّمْ، قُلْ
+    return head + join(u)
+
+
 class ClassicalAnalyzer:
     """CAMeL's analyzer plus Classical passives and harvested variants."""
 
@@ -172,8 +238,88 @@ class ClassicalAnalyzer:
             for r in csv.DictReader(open(variants, encoding="utf-8"), delimiter="\t"):
                 self.variants.setdefault((r["lex"], r["pos"], r["stem"]), []).append(r)
 
+    def _base(self, word):
+        return [a for a in self.an.analyze(word) if a.get("source") != "backoff"]
+
+    def imperatives(self, word):
+        """Imperatives of `word` derived from 2nd-person jussive readings."""
+        out = []
+        if len(word) < 2:
+            return out          # single letters are abbreviations (ه، ع، ش), not قِ / عِ
+        procl = [("", {}, word)]
+        if len(word) > 2 and word[0] in "وف":
+            procl.append(("وَ" if word[0] == "و" else "فَ",
+                          {"prc2": "wa_conj" if word[0] == "و" else "fa_conj"}, word[1:]))
+        for pdiac, pfeat, rest in procl:
+            cands = []
+            stems = [rest[1:]] if rest[:1] in "اأإ" else [rest]
+            kind0 = "alif" if rest[:1] in "اأإ" else "none"
+            for st in stems:
+                cands.append((kind0, "ت" + st))
+                for lv in "يوى":                             # defective: تَرْمِي، تَدْعُو، تَرْضَى
+                    cands.append((kind0, "ت" + st + lv))
+                if len(st) == 2:                              # hollow: تَقُولُ → قُلْ
+                    for lv in "وي":
+                        cands.append((kind0, "ت" + st[0] + lv + st[1]))
+            if rest[:1] in "خكم" and len(rest) >= 2:
+                cands.append(("hamza", "تأ" + rest))           # خُذْ، كُلْ، مُرْ
+            for kind, imperf in cands:
+                for a in self._base(imperf):
+                    if a.get("pos") != "verb" or a.get("asp") != "i" or a.get("per") != "2" \
+                            or a.get("vox") != "a" or any(str(a.get(f, "0")) not in ("0", "na")
+                                                          for f in ("prc0", "prc1", "prc2", "prc3")):
+                        continue
+                    fv = None
+                    if imperf.endswith(("ي", "و", "ى")) and a.get("num") == "s" and a.get("gen") == "m":
+                        dd = a["diac"]
+                        mm = re.search("([\u064e\u064f\u0650])[يوى]$", dd)
+                        fv = mm.group(1) if mm else (FATHA if dd.endswith("ى") else None)
+                    elif str(a.get("root", "")).endswith("#") and a.get("num") == "s" and a.get("gen") == "m":
+                        for lv in "يوى":                         # shortened stem: get the vowel
+                            for f in self._base(imperf + lv):
+                                if f.get("lex") == a.get("lex") and f.get("per") == "2":
+                                    mm = re.search("([\u064e\u064f\u0650])[يوى]$", f["diac"])
+                                    fv = fv or (mm.group(1) if mm else (FATHA if lv == "ى" else None))
+                    imp = make_imperative(a, kind, fv)
+                    if not imp or bare_letters(imp).lstrip("اأإ") != bare_letters(rest).lstrip("اأإ") \
+                            or (kind == "alif") != (bare_letters(imp)[:1] in "اأإ"):
+                        continue
+                    b = dict(a)
+                    b.update(pfeat)
+                    b.update(diac=pdiac + imp, asp="c", mod="i", source="classical_imperative",
+                             bw=re.sub(r"^[^+]*/IV2\w*\+", "", a["bw"]).replace("/IV", "/CV", 1),
+                             pos_lex_logprob=a.get("pos_lex_logprob", -99) - 1.0)
+                    out.append(b)
+        return out
+
+    def question(self, word):
+        """Readings with the interrogative hamza: أَ + the rest of the word."""
+        if len(word) < 3 or word[0] != "أ":
+            return []
+        out = []
+        for a in self._core(word[1:], question=False):
+            if str(a.get("prc3", "0")) not in ("0", "na") or bare_letters(a["diac"]) != word[1:]:
+                continue
+            # verbs, pronouns, demonstratives, particles: أَرَأَيْتَ، أَهُوَ، أَهٰذا، أَلَيْسَ.
+            # Not bare nouns/adjectives: there the hamza is usually an elative the
+            # dictionary lacks (أَعَمُّ، أَوْرَعُ), not a question.
+            if not str(a.get("pos", "")).startswith(("verb", "pron", "part", "conj", "adv")):
+                continue
+            b = dict(a)
+            b.update(diac="أَ" + a["diac"], prc3=">a_ques", source="classical_question",
+                     bw="أَ/INTERROG_PART+" + a.get("bw", ""),
+                     pos_lex_logprob=a.get("pos_lex_logprob", -99) - 1.5)
+            out.append(b)
+        return out
+
     def analyze(self, word):
-        base = [a for a in self.an.analyze(word) if a.get("source") != "backoff"]
+        return self._core(word, question=True)
+
+    def _core(self, word, question=True):
+        base = self._base(word)
+        for a in base:     # database error: the verb رَأَى carries the lemma راوَنْد
+            if a.get("lex") == "راوَنْد" and a.get("pos") == "verb":
+                a["lex"] = "رَأَى"
         out = list(base)
         seen = {(a["diac"], a["lex"], a["pos"]) for a in base}
 
@@ -201,4 +347,19 @@ class ClassicalAnalyzer:
                 p = make_passive(a)
                 if p:
                     add(p)
+        for b in self.imperatives(word):
+            if b.get("lex") == "راوَنْد":
+                b["lex"] = "رَأَى"
+            add(b)
+        # the lightened كَأَنْ (كَأَنْ لَمْ تَغْنَ بِالأَمْسِ): same particle, lemma كَأَنَّ
+        for a in base:
+            if bare_letters(a.get("lex", "")) == "كأن" and str(a.get("enc0", "0")) in ("0", "na") \
+                    and re.search("كَأَن[\u064e\u0651]+$", a["diac"]):
+                b = dict(a)
+                b.update(diac=re.sub("كَأَن[\u064e\u0651]+$", "كَأَنْ", a["diac"]), source="classical_manual",
+                         pos_lex_logprob=a.get("pos_lex_logprob", -99) - 0.5)
+                add(b)
+        if question:
+            for b in self.question(word):
+                add(b)
         return out

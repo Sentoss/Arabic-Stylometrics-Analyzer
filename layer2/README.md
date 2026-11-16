@@ -31,13 +31,13 @@ suffix (يَلْزَمُهُ).
 
 | status | MSA dictionary only | with the Classical supplement | meaning |
 |---|---|---|---|
-| unique | 63.8% | 65.1% | one reading survives |
+| unique | 63.8% | 65.4% | one reading survives |
 | case_tie | 14.4% | 14.5% | lemma and POS settled; a feature the text leaves unmarked stays open |
 | tie | 15.6% | 16.9% | readings with different lemma/POS survive; all are stored in `options` |
-| no_match | 4.0% | **1.3%** | vowels contradict every reading in the dictionary |
-| oov | 2.2% | 2.2% | dictionary has no reading |
+| no_match | 4.0% | **1.1%** | vowels contradict every reading in the dictionary |
+| oov | 2.2% | 2.1% | dictionary has no reading |
 
-Validation and test splits give the same figures (no_match 1.3%), although the
+Validation and test splits give the same figures (no_match 1.1%), although the
 variants were harvested from the training split only.
 
 Ties are kept as sets (`options`), so training can count any of them as right
@@ -82,14 +82,34 @@ dictionary lacks. Precision first:
   يُونُس, عِكْرِمَة, مُعاذ, بُكَيْر), and words like قَبُول, رِدَّة;
 - broken plurals are skipped (the name الخَطّاب must not become خُطّاب "suitors").
 
-**3. More writing conventions reconciled** (`probe_labels.norm`): the sun-letter
+**3. Imperatives** (`make_imperative`). The MSA database has almost none (only a
+few such as قُلْ, خُذْ, أُنْظُرْ, the last with a hamza for the connecting alif).
+They are derived from the 2nd-person jussive: تَكْتُبْ → اُكْتُبْ, تَعْلَمْ →
+اِعْلَمْ, تُكْرِمْ → أَكْرِمْ, تُقِيمْ → أَقِمْ, تُعَلِّمْ → عَلِّمْ, تُقاتِلْ → قاتِلْ,
+تَسْتَغْفِرْ → اِسْتَغْفِرْ, تَتَّقِي → اِتَّقِ, تَرْمِي → اِرْمِ, تَدْعُو → اُدْعُ,
+تَكْتُبُوا → اُكْتُبُوا; also after وَ/فَ (وَاعْلَمْ, فَانْظُرْ, فَاقْتُلْهُ).
+
+**4. The interrogative hamza.** The database allows it only on a few words
+(أَكانَ, أَلَيْسَ). The supplement adds أَ + any verb, pronoun, demonstrative or
+particle: أَرَأَيْتَ, أَفَرَأَيْتُمْ, أَيَكُونُ, أَتَجْعَلُهُ, أَهُوَ, أَهٰذا. Not on bare
+nouns: there a word-initial hamza is usually an elative (أَعَمُّ, أَوْرَعُ).
+
+Imperatives and question readings are *secondary*: they count only when no
+ordinary reading fits the vowels, so أَرَادَ stays the Form IV verb (not أَ + رادَ)
+and ابْنِ stays "son of" (not "build!"). Remaining errors are rare collisions
+such as أَعَمُّ (elative) read as أَ + عَمَّ.
+
+**5. Fixes.** The lightened كَأَنْ (كَأَنْ لَمْ تَغْنَ بِالأَمْسِ; lemma كَأَنَّ), and
+the lemma of the verb رَأَى, which the database gives as راوَنْد ("rhubarb") in
+every form (رَأَى, يَرَى, رَأَيْتُ…).
+
+**6. More writing conventions reconciled** (`probe_labels.norm`): the sun-letter
 shadda after لِلْـ (لِلصَّلاة), the kasra on the article before a connecting
 alif (الِابْن), and the mood vowel on a final ي (يُصَلِّيَ, يُعْطِيَهُ).
 
-**Still unmatched (1.3%):** names the dictionary lacks or misvowels (عَمْرٍو,
+**Still unmatched (1.1%):** names the dictionary lacks or misvowels (عَمْرٍو,
 قَتادَة, أُمَيَّة, مَسْلَمَة); ambiguous variants (عَجَزَ, يَقْدِرُ); passives whose
-hamza seat changes (يُؤْخَذُ from يَأْخُذُ); lightened كَأَنْ; the interrogative
-أَ + verb (أَرَأَيْتَ); imperatives (اُنْظُرْ, اِعْلَمْ).
+hamza seat changes (يُؤْخَذُ from يَأْخُذُ); elatives missing from the dictionary.
 
 ```
 python layer2/build_labels.py ... --variants none      # labels without variants
