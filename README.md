@@ -298,6 +298,10 @@ samples/             test passages from al-Maktaba al-Shāmila
 7. Graphical interface: load a text, see its restored spelling and morphology,
    its feature profile against the corpus, the closest authors and the
    verification against a chosen candidate, without using the command line.
+8. Standalone offline package (target 250–500 MB, no GPU needed): the trained
+   disambiguator and the parser compressed by 8-bit quantization and run with
+   a light runtime (ONNX Runtime) instead of PyTorch; author profiles shipped
+   instead of the corpus; accuracy re-measured after compression.
 
 ## Data and licensing notes
 - `resources/form_freq_tashkeela.tsv` was built from
