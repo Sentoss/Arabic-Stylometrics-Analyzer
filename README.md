@@ -235,6 +235,17 @@ separate the text from that author. Output goes to `out/<name>/report.md`.
 Candidate IDs are the OpenITI author IDs in `corpus/books.tsv`. Verdicts on
 fewer than three ~2,000-word chunks are weak.
 
+
+### Feature profiles
+
+Which features characterise an author, a genre or a book, compared with the rest of the corpus:
+
+```
+python -m stylometry.profile DATA_DIR --by author        # or genre, book; --only 0255Jahiz
+```
+
+Writes `reports/profiles/profiles_<by>.md` (the most over- and under-used function words and clitics, lemmas, POS sequences and patterns, written as فَعَلَ / فاعِل, with how steady each habit is across the group's books) and a full `.tsv`. `analyze.py` now also writes `features.tsv` for any text and lists its most distinctive features in `report.md`.
+
 ## Installation
 
 ```bash

@@ -16,7 +16,10 @@ Steps
          threshold from reports/layer3/verification.json, and the features
          that most separate the text from the candidate (plus Zeta words)
 
-Outputs (in --out): authorial.txt, chunks/, tokens/, report.md
+  6. the text's own feature profile: every feature's rate against the corpus
+     (features.tsv), and the most over- and under-used ones in report.md
+
+Outputs (in --out): authorial.txt, chunks/, tokens/, features.tsv, report.md
 Candidate names are OpenITI author IDs as listed in corpus/books.tsv
 (e.g. 0255Jahiz, 0276IbnQutaybaDinawari).
 """
@@ -127,6 +130,23 @@ def main():
              "## Closest benchmark authors (Cosine Delta, lower = closer)", "",
              "| rank | author | distance |", "|---|---|---|"]
     lines += [f"| {r} | {k} | {d:.3f} |" for r, (d, k) in enumerate(ranking[:8], 1)]
+
+    # the text's own feature profile, against the whole benchmark corpus
+    from stylometry.profile import FAMILIES, LABEL, feature_matrix, profile_group, top_lines
+    with open(out / "features.tsv", "w", encoding="utf-8") as f:
+        f.write("family\tfeature\traw\tper_1000_text\tper_1000_corpus\tz\tused_in_chunks\n")
+        prof_lines = ["", "## Most distinctive features of this text", "",
+                      "Compared with all benchmark chunks. z = how far the text's average is "
+                      "from the corpus average, in units of the usual chunk-to-chunk spread "
+                      "(|z| above 0.5 is a clear tendency, above 1 strong). Full table: features.tsv.", ""]
+        for fam, n in FAMILIES.items():
+            Xf, nf = feature_matrix(fams, fam, n, known)
+            rows = profile_group(Xf, nf, fam, te, known)
+            for r in sorted(rows, key=lambda r: -r["z"]):
+                f.write(f"{fam}\t{r['feature']}\t{r['raw']}\t{r['rate']:.3f}\t"
+                        f"{r['rest_rate']:.3f}\t{r['z']:.3f}\t{r['used_in']:.3f}\n")
+            prof_lines += top_lines(rows, 8, LABEL[fam])
+    lines += prof_lines
 
     if a.candidate:
         if a.candidate not in prof:

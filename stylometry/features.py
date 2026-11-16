@@ -103,7 +103,7 @@ def chunk_features(tokens, chunk_text=""):
                 f["char"][padded[i:i + n]] += 1
     for n in (1, 2, 3):
         for i in range(len(pos_seq) - n + 1):
-            f["pos"]["_".join(pos_seq[i:i + n])] += 1
+            f["pos"][" ".join(pos_seq[i:i + n])] += 1
     for m in PLACEHOLDERS.finditer(chunk_text):
         f["quoting"][m.group(1)] += 1
     f["quoting"]["_words"] = sum(f["surface"].values())

@@ -92,7 +92,7 @@ def features(tokens, text):
         f["pos"] = Counter()
         for n in (1, 2, 3):
             for i in range(len(seq) - n + 1):
-                f["pos"]["_".join(seq[i:i + n])] += 1
+                f["pos"][" ".join(seq[i:i + n])] += 1
     f["surface"] = chunk_features(tokens, "")["surface"]  # control is unaffected
     return f
 
