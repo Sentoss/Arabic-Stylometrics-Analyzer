@@ -103,6 +103,8 @@ def best_threshold(pos, neg):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("data_dir")
+    ap.add_argument("--analyzed", default="analyzed",
+                    help="folder of analysed chunks in DATA_DIR (analyzed_l2: with the Classical supplement)")
     ap.add_argument("--sample", default="sample.tsv",
                     help="chunk list in DATA_DIR (e.g. sample12.tsv, sample40.tsv)")
     ap.add_argument("--out", default="reports/layer3")
@@ -112,7 +114,7 @@ def main():
     a = ap.parse_args()
     out = Path(a.out)
     out.mkdir(parents=True, exist_ok=True)
-    metas, feats = load_sample(a.data_dir, manifest=a.sample)
+    metas, feats = load_sample(a.data_dir, analyzed=a.analyzed, manifest=a.sample)
     fams = Families(feats)
     known = [i for i, m in enumerate(metas) if m["status"] in ("secure", "single")]
     books = defaultdict(set)

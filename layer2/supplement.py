@@ -230,9 +230,20 @@ def make_imperative(a, kind, final_vowel=None):
 class ClassicalAnalyzer:
     """CAMeL's analyzer plus Classical passives and harvested variants."""
 
-    def __init__(self, analyzer=None, variants=VARIANTS, passives=True):
+    def __init__(self, analyzer=None, variants=VARIANTS, passives=True, keep_backoff=False,
+                 cache_size=200000, mode="labels"):
+        """keep_backoff: also return the analyzer's backoff guesses (proper
+        nouns), as layer 1 needs; the label builder leaves them out.
+        mode="labels": every supplement reading (the printed vowels decide).
+        mode="text": for unvowelled text, where only a context model decides:
+        no interrogative readings, and imperatives only for words with no other
+        reading (the MSA model cannot be trusted with them: it read the name
+        أهرمن as أَ + هَرَّمَ). Revisit once the Classical model is trained."""
+        self.mode = mode
         self.an = analyzer or Analyzer(MorphologyDB.builtin_db())
         self.passives = passives
+        self.keep_backoff = keep_backoff
+        self._cache, self._cache_size = {}, cache_size
         self.variants = {}
         if variants and Path(variants).exists():
             for r in csv.DictReader(open(variants, encoding="utf-8"), delimiter="\t"):
@@ -280,6 +291,10 @@ class ClassicalAnalyzer:
                                 if f.get("lex") == a.get("lex") and f.get("per") == "2":
                                     mm = re.search("([\u064e\u064f\u0650])[يوى]$", f["diac"])
                                     fv = fv or (mm.group(1) if mm else (FATHA if lv == "ى" else None))
+                    two_fp = a.get("gen") == "f" and a.get("num") == "p"
+                    two_ms = a.get("gen") == "m" and a.get("num") == "s"
+                    if not (two_ms or two_fp) and bare_letters(a["diac"]).endswith("ن"):
+                        continue        # indicative تُوَرِّدانِ / تَكْتُبُونَ / تَكْتُبِينَ: no imperative
                     imp = make_imperative(a, kind, fv)
                     if not imp or bare_letters(imp).lstrip("اأإ") != bare_letters(rest).lstrip("اأإ") \
                             or (kind == "alif") != (bare_letters(imp)[:1] in "اأإ"):
@@ -312,8 +327,19 @@ class ClassicalAnalyzer:
             out.append(b)
         return out
 
+    def __getattr__(self, name):          # all_feats(), tok_feats() … of the wrapped analyzer
+        return getattr(self.__dict__["an"], name)
+
     def analyze(self, word):
-        return self._core(word, question=True)
+        hit = self._cache.get(word)
+        if hit is None:
+            hit = self._core(word, question=True)
+            if self.keep_backoff:
+                hit = hit + [a for a in self.an.analyze(word) if a.get("source") == "backoff"]
+            if len(self._cache) >= self._cache_size:
+                self._cache.clear()
+            self._cache[word] = hit
+        return [dict(a) for a in hit]
 
     def _core(self, word, question=True):
         base = self._base(word)
@@ -347,10 +373,11 @@ class ClassicalAnalyzer:
                 p = make_passive(a)
                 if p:
                     add(p)
-        for b in self.imperatives(word):
-            if b.get("lex") == "راوَنْد":
-                b["lex"] = "رَأَى"
-            add(b)
+        if self.mode == "labels" or not out:
+            for b in self.imperatives(word):
+                if b.get("lex") == "راوَنْد":
+                    b["lex"] = "رَأَى"
+                add(b)
         # the lightened كَأَنْ (كَأَنْ لَمْ تَغْنَ بِالأَمْسِ): same particle, lemma كَأَنَّ
         for a in base:
             if bare_letters(a.get("lex", "")) == "كأن" and str(a.get("enc0", "0")) in ("0", "na") \
@@ -359,7 +386,7 @@ class ClassicalAnalyzer:
                 b.update(diac=re.sub("كَأَن[\u064e\u0651]+$", "كَأَنْ", a["diac"]), source="classical_manual",
                          pos_lex_logprob=a.get("pos_lex_logprob", -99) - 0.5)
                 add(b)
-        if question:
+        if question and self.mode == "labels":
             for b in self.question(word):
                 add(b)
         return out
