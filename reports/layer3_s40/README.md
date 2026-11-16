@@ -69,3 +69,33 @@ attribution within a genre, does not help across genres, and does not change
 any verdict. The full corpus (4,378 chunks) is not expected to change the
 picture; the next gains must come from better analysis (layer 2) and from
 genre-robust features.
+
+## Does better morphology matter? An ablation (before building layer 2)
+
+`python -m stylometry.ablation DATA` re-runs the attribution (logistic
+regression, 40 chunks/book) on versions of the corpus that differ only in
+their morphological analysis. 65% of word tokens are ambiguous (the analyzer
+offers more than one lemma + POS, so the MSA model had to choose); 4% are
+unknown to it. Chunk accuracy (book accuracy in brackets):
+
+| features | base | unknown words dropped | +10% wrong readings | +25% | +50% |
+|---|---|---|---|---|---|
+| lemmas | 39.2% (52%) | 39.3% (52%) | 39.0% (52%) | 38.4% (49%) | 39.8% (54%) |
+| function words + clitics | 33.1% (45%) | 33.1% (45%) | 32.9% (46%) | 32.0% (42%) | 33.2% (45%) |
+| POS 1-3-grams | 34.0% (48%) | 34.0% (48%) | 32.8% (48%) | 32.0% (49%) | 27.2% (45%) |
+| patterns | 30.0% (45%) | 30.0% (45%) | 29.6% (46%) | 27.8% (42%) | 29.3% (45%) |
+| combined | 43.5% (60%) | 43.6% (60%) | 41.8% (58%) | 41.3% (55%) | 40.1% (54%) |
+
+"+50%" gives a wrong reading to half of the ambiguous words, about a third of
+all words, and the combined set loses only 3.4 points; lemmas and function
+words lose nothing. Only POS sequences are clearly sensitive (−7 points).
+Keeping only unambiguous words (not shown in the table: combined 36.9%) hurts
+because it throws away 65% of the text, including most function words, so it
+says nothing about analysis quality.
+
+**Reading:** the attribution is very robust to analysis errors. Fixing the
+current errors with layer 2 should gain at most a point or two, a few more for
+POS features. Caveat: random errors are not the same as systematic ones. The
+one thing this test cannot measure is categories the MSA dictionary lacks
+entirely (e.g. passives, read as actives everywhere), which may carry real
+authorial signal. For layer 3, the bottleneck is genre, not morphology.

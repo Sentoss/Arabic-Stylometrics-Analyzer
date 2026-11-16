@@ -56,10 +56,10 @@ def genre_center(Z, metas, train):
     return Z
 
 
-def run(metas, fams, spec, cands, center=False):
+def run(metas, fams, spec, cands, center=False, methods=METHODS):
     idx = [i for i, m in enumerate(metas) if m["status"] == "secure" and m["author"] in cands]
     test_books = sorted({metas[i]["book"] for i in idx})
-    res = {meth: {"chunk": [], "book": {}} for meth in METHODS}
+    res = {meth: {"chunk": [], "book": {}} for meth in methods}
     for tb in test_books:
         te = [i for i in idx if metas[i]["book"] == tb]
         tr = [i for i in idx if metas[i]["book"] != tb]
@@ -73,12 +73,14 @@ def run(metas, fams, spec, cands, center=False):
         ytr = [metas[i]["author"] for i in tr]
         truth = metas[te[0]]["author"]
         C = centroids(Z[tr], ytr, cands)
-        preds = {
-            "delta": [cands[j] for j in burrows_delta(Z[te], C).argmin(1)],
-            "cosine": [cands[j] for j in cosine_delta(Z[te], C).argmin(1)],
-            "logreg": list(fit_predict("logreg", Z[tr], ytr, Z[te])[0]),
-            "svm": list(fit_predict("svm", Z[tr], ytr, Z[te])[0]),
-        }
+        preds = {}
+        if "delta" in methods:
+            preds["delta"] = [cands[j] for j in burrows_delta(Z[te], C).argmin(1)]
+        if "cosine" in methods:
+            preds["cosine"] = [cands[j] for j in cosine_delta(Z[te], C).argmin(1)]
+        for meth in ("logreg", "svm"):
+            if meth in methods:
+                preds[meth] = list(fit_predict(meth, Z[tr], ytr, Z[te])[0])
         for meth, p in preds.items():
             res[meth]["chunk"] += [x == truth for x in p]
             vote = Counter(p).most_common(1)[0][0]
