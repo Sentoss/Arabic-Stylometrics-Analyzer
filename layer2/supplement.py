@@ -257,6 +257,8 @@ class ClassicalAnalyzer:
         out = []
         if len(word) < 2:
             return out          # single letters are abbreviations (ه، ع، ش), not قِ / عِ
+        if self.mode == "text" and word.startswith("ال") and word.endswith("ي"):
+            return out          # unknown nisba names (الكناني، القيني), not اِلْ…نِي
         procl = [("", {}, word)]
         if len(word) > 2 and word[0] in "وف":
             procl.append(("وَ" if word[0] == "و" else "فَ",
