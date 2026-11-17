@@ -327,7 +327,7 @@ move to GPL v3 if a future data source requires it.
 | [OpenITI](https://openiti.org) | benchmark texts, downloaded at build time | OpenITI's own terms | texts are not redistributed here |
 | al-Maktaba al-Shāmila | short sample passages for testing | excerpts | — |
 | [al-Farāhīdī](https://www.faraheedy.com) (planned, layer 5) | metre content | CC BY-NC-SA | kept separate from GPL material, or used through its service only |
-| [MASAQ](https://data.mendeley.com/datasets/9yvrzxktmr) (planned, i'rāb parser) | traditional-grammar treebank of the whole Qur'an | CC BY-NC 3.0 (Mendeley Data, version 6; earlier versions said CC BY 3.0) | research use and training fine; not GPL-compatible, so a model trained on it is kept as a separate non-commercial component unless the authors permit otherwise |
+| [MASAQ](https://data.mendeley.com/datasets/9yvrzxktmr) (planned, i'rāb parser) | traditional-grammar treebank of the whole Qur'an | **version 5 (11 Nov 2024): CC BY 4.0**, used here (MASAQ.csv, sha256 777d0cc8…aca900); version 6 changed to CC BY-NC 3.0 | attribution required; a model trained on it ships as a separate file under CC BY 4.0 |
 | Quranic Arabic Corpus (possible i'rāb source) | traditional-grammar treebank (partial) | GPL (version to be checked) | check compatibility with GPL v2 before use |
 | Shamela i'rāb books (الجدول، الدعاس، دار الصحابة; possible) | i'rāb as training/checking data | modern works under copyright | internal use only; extracted data not redistributed |
 
