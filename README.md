@@ -303,14 +303,29 @@ samples/             test passages from al-Maktaba al-Shāmila
    a light runtime (ONNX Runtime) instead of PyTorch; author profiles shipped
    instead of the corpus; accuracy re-measured after compression.
 
+## License
+
+Copyright (C) 2026 the Arabic Stylometrics contributors.
+
+This program is free software: you can redistribute it and/or modify it under
+the terms of the GNU General Public License as published by the Free Software
+Foundation, **either version 2 of the License, or (at your option) any later
+version**. It is distributed in the hope that it will be useful, but WITHOUT ANY
+WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR A
+PARTICULAR PURPOSE. See [`LICENSE`](LICENSE) (the GPL v2 text) for details.
+
+"Or later" keeps the code compatible with Tashkeela (GPL v2) today and allows a
+move to GPL v3 if a future data source requires it.
+
 ## Data and licensing notes
-- `resources/form_freq_tashkeela.tsv` was built from
-  [AliOsm/arabic-text-diacritization](https://github.com/AliOsm/arabic-text-diacritization),
-  a split of the [Tashkeela corpus](https://sourceforge.net/projects/tashkeela/)
-  (Zerrouki & Balla 2017). Tashkeela is licensed **GPL v2**, so this derived
-  frequency list should be treated as GPL v2 as well.
-- CAMeL Tools data packages carry their own licenses (the MSA morphology
-  database is GPL v2).
-- Sample passages are short excerpts from al-Maktaba al-Shāmila, used for testing.
-- Benchmark texts come from OpenITI and are downloaded at build time rather than
-  redistributed here; OpenITI's own license terms apply to them.
+
+| source | used for | license | consequence |
+|---|---|---|---|
+| [Tashkeela](https://sourceforge.net/projects/tashkeela/) (Zerrouki & Balla 2017), via the [AliOsm split](https://github.com/AliOsm/arabic-text-diacritization) (code MIT) | frequency prior (`resources/form_freq_tashkeela.tsv`), layer 2 labels, Classical variants (`layer2/resources/classical_variants.tsv`), the future layer 2 model | GPL v2 (listed as "v2 only" by some redistributors) | derived files and models are distributed under GPL v2; they cannot be combined with GPL-v3-only material unless the author permits "v2 or later" |
+| [CAMeL Tools](https://github.com/CAMeL-Lab/camel_tools) | analyzer, MSA disambiguator | code MIT; MSA morphology database GPL v2 | as above |
+| [CamelParser](https://github.com/CAMeL-Lab/camel_parser) and its CATiB model | dependency parses (syntax experiments) | see its repository; not redistributed here | parses are produced locally |
+| [OpenITI](https://openiti.org) | benchmark texts, downloaded at build time | OpenITI's own terms | texts are not redistributed here |
+| al-Maktaba al-Shāmila | short sample passages for testing | excerpts | — |
+| [al-Farāhīdī](https://www.faraheedy.com) (planned, layer 5) | metre content | CC BY-NC-SA | kept separate from GPL material, or used through its service only |
+| Quranic Arabic Corpus, MASAQ (planned, i'rāb parser) | traditional-grammar treebanks | QAC: GPL (version to be checked); MASAQ: to be checked | check compatibility with GPL v2 before use |
+
