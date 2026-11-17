@@ -53,7 +53,6 @@ def main():
         f.write("\t".join(manifest[0].keys()) + "\n")
         for r in todo:
             f.write("\t".join(r.values()) + "\n")
-    todo = [r for r in todo if not (outdir / f"{r['chunk_id']}.tsv").exists()]
     # round-robin over books, so partial results already cover every author
     by = defaultdict(list)
     for r in todo:
@@ -61,7 +60,8 @@ def main():
     todo = [r for i in range(max(map(len, by.values()), default=0))
             for rows in by.values() if i < len(rows) for r in [rows[i]]]
     k, n = map(int, a.worker.split("/"))
-    todo = todo[k::n]
+    # slice first, then drop finished chunks: restarted workers never overlap
+    todo = [r for r in todo[k::n] if not (outdir / f"{r['chunk_id']}.tsv").exists()]
     print(f"{len(todo)} chunks to analyze", flush=True)
     if a.max_chunks:
         todo = todo[:a.max_chunks]

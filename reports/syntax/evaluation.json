@@ -1,0 +1,5368 @@
+{
+ "noise0": {
+  "surface words (300)": {
+   "chunk": 0.3841698841698842,
+   "book": 0.417910447761194,
+   "same": [
+    27,
+    55
+   ],
+   "cross": [
+    1,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0360HamzaIsfahani"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0279Baladhuri"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0337QudamaIbnJacfar"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0285IbnYazidMubarrad"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0285IbnYazidMubarrad"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0360HamzaIsfahani"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0395AbuHilalCaskari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0335Suli"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0384MuhassinTanukhi"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0384IbnCimranMarzubani"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0421Miskawayh"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0384MuhassinTanukhi"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0279Baladhuri"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0395AbuHilalCaskari"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0292Yacqubi"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0292Yacqubi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0310Tabari"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0310Tabari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0395AbuHilalCaskari"
+    ]
+   }
+  },
+  "function words + clitics (150)": {
+   "chunk": 0.31467181467181465,
+   "book": 0.3880597014925373,
+   "same": [
+    25,
+    55
+   ],
+   "cross": [
+    1,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0395AbuHilalCaskari"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0292Yacqubi"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0395AbuHilalCaskari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0292Yacqubi"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0285IbnYazidMubarrad"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0285IbnYazidMubarrad"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0395AbuHilalCaskari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0360HamzaIsfahani"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0421Miskawayh"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0310Tabari"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0335Suli"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0384MuhassinTanukhi"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0421Miskawayh"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0421Miskawayh"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0255Jahiz"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0360HamzaIsfahani"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0335Suli"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0395AbuHilalCaskari"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0335Suli"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0335Suli"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0335Suli"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0335Suli"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0421Miskawayh"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0421Miskawayh"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0362AbuFarajIsbahani"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ]
+   }
+  },
+  "POS 1-3-grams (300)": {
+   "chunk": 0.33976833976833976,
+   "book": 0.3880597014925373,
+   "same": [
+    26,
+    55
+   ],
+   "cross": [
+    0,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0360HamzaIsfahani"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0285IbnYazidMubarrad"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0285IbnYazidMubarrad"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0255Jahiz"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0335Suli"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0360HamzaIsfahani"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0337QudamaIbnJacfar"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0279Baladhuri"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0310Tabari"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0362AbuFarajIsbahani"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0279Baladhuri"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0255Jahiz"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0335Suli"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0337QudamaIbnJacfar"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0337QudamaIbnJacfar"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0310Tabari"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0255Jahiz"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0395AbuHilalCaskari"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0395AbuHilalCaskari"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0310Tabari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ]
+   }
+  },
+  "lemma+function+POS+pattern": {
+   "chunk": 0.4034749034749035,
+   "book": 0.4626865671641791,
+   "same": [
+    30,
+    55
+   ],
+   "cross": [
+    1,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0279Baladhuri"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0337QudamaIbnJacfar"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0285IbnYazidMubarrad"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0346Mascudi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0310Tabari"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0421Miskawayh"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0395AbuHilalCaskari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0296IbnMuctazz"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0421Miskawayh"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0362AbuFarajIsbahani"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0279Baladhuri"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0395AbuHilalCaskari"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0346Mascudi"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0292Yacqubi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0335Suli"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0285IbnYazidMubarrad"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0310Tabari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ]
+   }
+  },
+  "syntax: dependencies (200)": {
+   "chunk": 0.2953667953667954,
+   "book": 0.43283582089552236,
+   "same": [
+    29,
+    55
+   ],
+   "cross": [
+    0,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0360HamzaIsfahani"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0362AbuFarajIsbahani"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0279Baladhuri"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0255Jahiz"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0346Mascudi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0255Jahiz"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0395AbuHilalCaskari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0421Miskawayh"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0335Suli"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0360HamzaIsfahani"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0421Miskawayh"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0360HamzaIsfahani"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0360HamzaIsfahani"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0335Suli"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0335Suli"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0421Miskawayh"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0335Suli"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ]
+   }
+  },
+  "syntax: clause frames (150)": {
+   "chunk": 0.21621621621621623,
+   "book": 0.26865671641791045,
+   "same": [
+    18,
+    55
+   ],
+   "cross": [
+    0,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0395AbuHilalCaskari"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0346Mascudi"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0395AbuHilalCaskari"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0362AbuFarajIsbahani"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0384IbnCimranMarzubani"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0310Tabari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0285IbnYazidMubarrad"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0281IbnAbiDunya"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0310Tabari"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0395AbuHilalCaskari"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0395AbuHilalCaskari"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0255Jahiz"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0255Jahiz"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0335Suli"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0335Suli"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0279Baladhuri"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0285IbnYazidMubarrad"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0255Jahiz"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0395AbuHilalCaskari"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ]
+   }
+  },
+  "syntax: distances (60)": {
+   "chunk": 0.23938223938223938,
+   "book": 0.31343283582089554,
+   "same": [
+    20,
+    55
+   ],
+   "cross": [
+    1,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0395AbuHilalCaskari"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0285IbnYazidMubarrad"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0255Jahiz"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0255Jahiz"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0335Suli"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0279Baladhuri"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0255Jahiz"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0255Jahiz"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0255Jahiz"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0395AbuHilalCaskari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0384MuhassinTanukhi"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0292Yacqubi"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0285IbnYazidMubarrad"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0335Suli"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0255Jahiz"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0310Tabari"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0279Baladhuri"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0255Jahiz"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0281IbnAbiDunya"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0360HamzaIsfahani"
+    ]
+   }
+  },
+  "syntax: all three": {
+   "chunk": 0.28378378378378377,
+   "book": 0.3582089552238806,
+   "same": [
+    23,
+    55
+   ],
+   "cross": [
+    1,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0335Suli"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0362AbuFarajIsbahani"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0335Suli"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0285IbnYazidMubarrad"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0421Miskawayh"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0335Suli"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0421Miskawayh"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0360HamzaIsfahani"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0335Suli"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0255Jahiz"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0292Yacqubi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0335Suli"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0335Suli"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0421Miskawayh"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0395AbuHilalCaskari"
+    ]
+   }
+  },
+  "function words + syntax": {
+   "chunk": 0.35714285714285715,
+   "book": 0.4626865671641791,
+   "same": [
+    30,
+    55
+   ],
+   "cross": [
+    1,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0384MuhassinTanukhi"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0362AbuFarajIsbahani"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0279Baladhuri"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0281IbnAbiDunya"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0285IbnYazidMubarrad"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0255Jahiz"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0310Tabari"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0296IbnMuctazz"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0421Miskawayh"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0335Suli"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0279Baladhuri"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0421Miskawayh"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0360HamzaIsfahani"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0335Suli"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0292Yacqubi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0279Baladhuri"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0335Suli"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0335Suli"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0421Miskawayh"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ]
+   }
+  },
+  "combined + syntax": {
+   "chunk": 0.4034749034749035,
+   "book": 0.5074626865671642,
+   "same": [
+    34,
+    55
+   ],
+   "cross": [
+    0,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0279Baladhuri"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0362AbuFarajIsbahani"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0337QudamaIbnJacfar"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0285IbnYazidMubarrad"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0285IbnYazidMubarrad"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0346Mascudi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0255Jahiz"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0310Tabari"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0395AbuHilalCaskari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0296IbnMuctazz"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0421Miskawayh"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0335Suli"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0279Baladhuri"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0421Miskawayh"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0255Jahiz"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0395AbuHilalCaskari"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0310Tabari"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0335Suli"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0421Miskawayh"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0395AbuHilalCaskari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ]
+   }
+  }
+ },
+ "noise10": {
+  "syntax: dependencies (200)": {
+   "chunk": 0.24517374517374518,
+   "book": 0.3582089552238806,
+   "same": [
+    24,
+    55
+   ],
+   "cross": [
+    0,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0346Mascudi"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0362AbuFarajIsbahani"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0255Jahiz"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0362AbuFarajIsbahani"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0292Yacqubi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0310Tabari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0285IbnYazidMubarrad"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0362AbuFarajIsbahani"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0255Jahiz"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0255Jahiz"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0421Miskawayh"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0384IbnCimranMarzubani"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0292Yacqubi"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0421Miskawayh"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0360HamzaIsfahani"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0292Yacqubi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0255Jahiz"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0255Jahiz"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0335Suli"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0335Suli"
+    ]
+   }
+  },
+  "syntax: clause frames (150)": {
+   "chunk": 0.21235521235521235,
+   "book": 0.29850746268656714,
+   "same": [
+    19,
+    55
+   ],
+   "cross": [
+    1,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0335Suli"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0281IbnAbiDunya"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0335Suli"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0335Suli"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0346Mascudi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0310Tabari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0395AbuHilalCaskari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0395AbuHilalCaskari"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0255Jahiz"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0285IbnYazidMubarrad"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0384MuhassinTanukhi"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0310Tabari"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0255Jahiz"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0335Suli"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0335Suli"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0281IbnAbiDunya"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0335Suli"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0310Tabari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0337QudamaIbnJacfar"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0337QudamaIbnJacfar"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0395AbuHilalCaskari"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0384IbnCimranMarzubani"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0346Mascudi"
+    ]
+   }
+  },
+  "syntax: all three": {
+   "chunk": 0.26640926640926643,
+   "book": 0.3283582089552239,
+   "same": [
+    21,
+    55
+   ],
+   "cross": [
+    1,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0395AbuHilalCaskari"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0310Tabari"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0335Suli"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0362AbuFarajIsbahani"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0346Mascudi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0335Suli"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0285IbnYazidMubarrad"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0285IbnYazidMubarrad"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0421Miskawayh"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0384IbnCimranMarzubani"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0429AbuMansurThacalibi"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0395AbuHilalCaskari"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0360HamzaIsfahani"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0292Yacqubi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0279Baladhuri"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0281IbnAbiDunya"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0395AbuHilalCaskari"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0362AbuFarajIsbahani"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0395AbuHilalCaskari"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ]
+   }
+  }
+ },
+ "noise25": {
+  "syntax: dependencies (200)": {
+   "chunk": 0.26640926640926643,
+   "book": 0.3582089552238806,
+   "same": [
+    24,
+    55
+   ],
+   "cross": [
+    0,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0395AbuHilalCaskari"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0285IbnYazidMubarrad"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0362AbuFarajIsbahani"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0310Tabari"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0335Suli"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0346Mascudi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0335Suli"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0395AbuHilalCaskari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0255Jahiz"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0279Baladhuri"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0296IbnMuctazz"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0310Tabari"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0285IbnYazidMubarrad"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0310Tabari"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0395AbuHilalCaskari"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0335Suli"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0292Yacqubi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0255Jahiz"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0335Suli"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0335Suli"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ]
+   }
+  },
+  "syntax: clause frames (150)": {
+   "chunk": 0.2277992277992278,
+   "book": 0.2835820895522388,
+   "same": [
+    19,
+    55
+   ],
+   "cross": [
+    0,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0346Mascudi"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0395AbuHilalCaskari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0255Jahiz"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0285IbnYazidMubarrad"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0395AbuHilalCaskari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0255Jahiz"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0255Jahiz"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0395AbuHilalCaskari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0384IbnCimranMarzubani"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0335Suli"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0292Yacqubi"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0255Jahiz"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0429AbuMansurThacalibi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0335Suli"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0310Tabari"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0346Mascudi"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0335Suli"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0421Miskawayh"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0395AbuHilalCaskari"
+    ]
+   }
+  },
+  "syntax: all three": {
+   "chunk": 0.2876447876447876,
+   "book": 0.373134328358209,
+   "same": [
+    24,
+    55
+   ],
+   "cross": [
+    1,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0335Suli"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0362AbuFarajIsbahani"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0285IbnYazidMubarrad"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0285IbnYazidMubarrad"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0362AbuFarajIsbahani"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0335Suli"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0335Suli"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0395AbuHilalCaskari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0395AbuHilalCaskari"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0384MuhassinTanukhi"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0362AbuFarajIsbahani"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0279Baladhuri"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0255Jahiz"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0335Suli"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0292Yacqubi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0421Miskawayh"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0255Jahiz"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0395AbuHilalCaskari"
+    ]
+   }
+  }
+ },
+ "noise50": {
+  "syntax: dependencies (200)": {
+   "chunk": 0.2084942084942085,
+   "book": 0.29850746268656714,
+   "same": [
+    20,
+    55
+   ],
+   "cross": [
+    0,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0285IbnYazidMubarrad"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0395AbuHilalCaskari"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0281IbnAbiDunya"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0395AbuHilalCaskari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0255Jahiz"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0395AbuHilalCaskari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0362AbuFarajIsbahani"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0346Mascudi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0310Tabari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0255Jahiz"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0255Jahiz"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0395AbuHilalCaskari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0281IbnAbiDunya"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0384MuhassinTanukhi"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0279Baladhuri"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0255Jahiz"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0310Tabari"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0292Yacqubi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0429AbuMansurThacalibi"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0346Mascudi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0279Baladhuri"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0285IbnYazidMubarrad"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0279Baladhuri"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0429AbuMansurThacalibi"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0285IbnYazidMubarrad"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0255Jahiz"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0255Jahiz"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0395AbuHilalCaskari"
+    ]
+   }
+  },
+  "syntax: clause frames (150)": {
+   "chunk": 0.19111969111969113,
+   "book": 0.2835820895522388,
+   "same": [
+    19,
+    55
+   ],
+   "cross": [
+    0,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0395AbuHilalCaskari"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0335Suli"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0362AbuFarajIsbahani"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0285IbnYazidMubarrad"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0255Jahiz"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0285IbnYazidMubarrad"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0346Mascudi"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0395AbuHilalCaskari"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0255Jahiz"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0279Baladhuri"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0395AbuHilalCaskari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0384MuhassinTanukhi"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0384IbnCimranMarzubani"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0429AbuMansurThacalibi"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0255Jahiz"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0335Suli"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0255Jahiz"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0310Tabari"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0335Suli"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0310Tabari"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0335Suli"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0384MuhassinTanukhi"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0279Baladhuri"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0395AbuHilalCaskari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0255Jahiz"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0421Miskawayh"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0292Yacqubi"
+    ]
+   }
+  },
+  "syntax: all three": {
+   "chunk": 0.22972972972972974,
+   "book": 0.26865671641791045,
+   "same": [
+    18,
+    55
+   ],
+   "cross": [
+    0,
+    12
+   ],
+   "books": {
+    "0255Jahiz.BayanWaTabyin": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Bukhala": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.BursanWaCurjan": [
+     "0255Jahiz",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0255Jahiz.Cuthmaniyya": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Hayawan": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.Rasail": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0255Jahiz.TarbicWaTadwir": [
+     "0255Jahiz",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.AdabKatib": [
+     "0276IbnQutaybaDinawari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0276IbnQutaybaDinawari.CuyunAkhbar": [
+     "0276IbnQutaybaDinawari",
+     "0281IbnAbiDunya"
+    ],
+    "0276IbnQutaybaDinawari.Macarif": [
+     "0276IbnQutaybaDinawari",
+     "0384IbnCimranMarzubani"
+    ],
+    "0276IbnQutaybaDinawari.ShicrWaShucara": [
+     "0276IbnQutaybaDinawari",
+     "0296IbnMuctazz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMukhtalafHadith": [
+     "0276IbnQutaybaDinawari",
+     "0255Jahiz"
+    ],
+    "0276IbnQutaybaDinawari.TawilMushkilQuran": [
+     "0276IbnQutaybaDinawari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0279Baladhuri.AnsabAshraf": [
+     "0279Baladhuri",
+     "0362AbuFarajIsbahani"
+    ],
+    "0279Baladhuri.FutuhBuldan": [
+     "0279Baladhuri",
+     "0335Suli"
+    ],
+    "0281IbnAbiDunya.DhammDunya": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.MakarimAkhlaq": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Samt": [
+     "0281IbnAbiDunya",
+     "0281IbnAbiDunya"
+    ],
+    "0281IbnAbiDunya.Zuhd": [
+     "0281IbnAbiDunya",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Fadil": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.KamilFiLugha": [
+     "0285IbnYazidMubarrad",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0285IbnYazidMubarrad.Tacazi": [
+     "0285IbnYazidMubarrad",
+     "0362AbuFarajIsbahani"
+    ],
+    "0292Yacqubi.Buldan": [
+     "0292Yacqubi",
+     "0337QudamaIbnJacfar"
+    ],
+    "0292Yacqubi.Tarikh": [
+     "0292Yacqubi",
+     "0310Tabari"
+    ],
+    "0296IbnMuctazz.Badic": [
+     "0296IbnMuctazz",
+     "0255Jahiz"
+    ],
+    "0296IbnMuctazz.TabaqatShucara": [
+     "0296IbnMuctazz",
+     "0384MuhassinTanukhi"
+    ],
+    "0310Tabari.IkhtilafFuqaha": [
+     "0310Tabari",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0310Tabari.MuntakhabMinDhayl": [
+     "0310Tabari",
+     "0279Baladhuri"
+    ],
+    "0310Tabari.Tarikh": [
+     "0310Tabari",
+     "0362AbuFarajIsbahani"
+    ],
+    "0335Suli.AdabKuttab": [
+     "0335Suli",
+     "0395AbuHilalCaskari"
+    ],
+    "0335Suli.AkhbarAbiTammam": [
+     "0335Suli",
+     "0281IbnAbiDunya"
+    ],
+    "0335Suli.AkhbarRadi": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0335Suli.AkhbarShucara": [
+     "0335Suli",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0337QudamaIbnJacfar.Kharaj": [
+     "0337QudamaIbnJacfar",
+     "0279Baladhuri"
+    ],
+    "0337QudamaIbnJacfar.NaqdShicr": [
+     "0337QudamaIbnJacfar",
+     "0255Jahiz"
+    ],
+    "0346Mascudi.MurujDhahab": [
+     "0346Mascudi",
+     "0335Suli"
+    ],
+    "0346Mascudi.TanbihWaIshraf": [
+     "0346Mascudi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0360HamzaIsfahani.Tanbih": [
+     "0360HamzaIsfahani",
+     "0395AbuHilalCaskari"
+    ],
+    "0360HamzaIsfahani.TarikhSini": [
+     "0360HamzaIsfahani",
+     "0292Yacqubi"
+    ],
+    "0362AbuFarajIsbahani.Aghani": [
+     "0362AbuFarajIsbahani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0362AbuFarajIsbahani.Diyarat": [
+     "0362AbuFarajIsbahani",
+     "0335Suli"
+    ],
+    "0362AbuFarajIsbahani.ImaShawacir": [
+     "0362AbuFarajIsbahani",
+     "0384MuhassinTanukhi"
+    ],
+    "0362AbuFarajIsbahani.MaqatilTalibiyyin": [
+     "0362AbuFarajIsbahani",
+     "0310Tabari"
+    ],
+    "0384IbnCimranMarzubani.MucjamShucara": [
+     "0384IbnCimranMarzubani",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384IbnCimranMarzubani.Muwashshah": [
+     "0384IbnCimranMarzubani",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0384MuhassinTanukhi.FarajBacdaShidda": [
+     "0384MuhassinTanukhi",
+     "0395AbuHilalCaskari"
+    ],
+    "0384MuhassinTanukhi.Mustajad": [
+     "0384MuhassinTanukhi",
+     "0362AbuFarajIsbahani"
+    ],
+    "0384MuhassinTanukhi.NishwarMuhadara": [
+     "0384MuhassinTanukhi",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Awail": [
+     "0395AbuHilalCaskari",
+     "0335Suli"
+    ],
+    "0395AbuHilalCaskari.DiwanMacani": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.FuruqLughawiyya": [
+     "0395AbuHilalCaskari",
+     "0429AbuMansurThacalibi"
+    ],
+    "0395AbuHilalCaskari.JamharatAmthal": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0395AbuHilalCaskari.Sinacatayn": [
+     "0395AbuHilalCaskari",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0414AbuHayyanTawhidi.AkhlaqWazirayn": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Basair": [
+     "0414AbuHayyanTawhidi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0414AbuHayyanTawhidi.Imtac": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Muqabasat": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0414AbuHayyanTawhidi.Sadaqa": [
+     "0414AbuHayyanTawhidi",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.HawamilWaShawamil": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0421Miskawayh.TahdhibAkhlaq": [
+     "0421Miskawayh",
+     "0414AbuHayyanTawhidi"
+    ],
+    "0421Miskawayh.Tajarib": [
+     "0421Miskawayh",
+     "0276IbnQutaybaDinawari"
+    ],
+    "0429AbuMansurThacalibi.FiqhLugha": [
+     "0429AbuMansurThacalibi",
+     "0395AbuHilalCaskari"
+    ],
+    "0429AbuMansurThacalibi.KhassKhass": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.LubabAdab": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.SihrBalagha": [
+     "0429AbuMansurThacalibi",
+     "0429AbuMansurThacalibi"
+    ],
+    "0429AbuMansurThacalibi.Tamthil": [
+     "0429AbuMansurThacalibi",
+     "0395AbuHilalCaskari"
+    ],
+    "0429AbuMansurThacalibi.ThimarQulub": [
+     "0429AbuMansurThacalibi",
+     "0276IbnQutaybaDinawari"
+    ]
+   }
+  }
+ }
+}
