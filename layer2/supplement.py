@@ -330,6 +330,8 @@ class ClassicalAnalyzer:
         return out
 
     def __getattr__(self, name):          # all_feats(), tok_feats() … of the wrapped analyzer
+        if name.startswith("__") or "an" not in self.__dict__:
+            raise AttributeError(name)
         return getattr(self.__dict__["an"], name)
 
     def analyze(self, word):

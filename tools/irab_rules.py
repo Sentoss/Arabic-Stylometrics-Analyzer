@@ -197,6 +197,8 @@ def blocks(pages):
 def resolve(x, ws, near):
     """Index of the word in ws best matching the text x (nearest to `near`, preceding preferred)."""
     xn = norm(x)
+    if xn in ("لفظ", "لفظ الجلاله", "الجلاله"):
+        xn = "الله"                       # نعت للفظ الجلالة
     xn = re.sub(r"^(ب|ل|ك)\s*", "", xn) if len(xn) > 3 else xn
     if not xn:
         return None
@@ -211,7 +213,7 @@ def resolve(x, ws, near):
 HEAD_PATTERNS = [
     ("pp", re.compile(r"متعلّ?ق(?:ان)?\s*(?:ب\u200d?\s*\(([^()]+)\)|ب(محذوف)\s*(خبر|صفة|نعت|حال|صلة)?|بفعل محذوف|ب(حال)\s+من)")),
     ("atf", re.compile(r"معطوف(?:\s+ب\S+)?\s+على\s+\(?([^\s(),.]+(?:\s+[^\s(),.]+)?)")),
-    ("naat", re.compile(r"(?:نعت|صفة)\s+ل‍?\s*\(?([^\s(),.]+)")),
+    ("naat", re.compile(r"(?:نعت|صفة)(?:\s+(?:ثان|ثالث|رابع|أوّل|أول|ثانية|ثالثة)\S*)?\s+ل\u200d?\s*\(?([^\s(),.]+)")),
     ("badal", re.compile(r"بدل\s+(?:من|عن)\s+\(?([^\s(),.]+)")),
 ]
 
