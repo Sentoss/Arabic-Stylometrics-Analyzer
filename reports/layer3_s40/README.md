@@ -156,3 +156,12 @@ Chi-square is on a par with the two Deltas: best of the three on function
 words (40%, and 2 of the 12 cross-genre books, the most of any method there),
 weaker on POS and patterns, where many features are rare and the expected
 values small. The classifiers stay clearly ahead. Kept as an option.
+
+## Chi-square distance
+
+Added as a fifth method (`methods.chi_square`: sum of (observed − expected)² /
+expected over the author's relative frequencies). Results with 40 chunks per
+book (books correct, same-genre / cross-genre): between Burrows's Delta and
+Cosine Delta on most feature sets, below the classifiers; best on function
+words + clitics (25/55, 2/12, against Delta's 16/55, 0/12). No cross-genre
+gain. Full table: [`../layer3_chi2/evaluation.json`](../layer3_chi2/evaluation.json).
