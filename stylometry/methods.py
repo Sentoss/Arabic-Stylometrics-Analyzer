@@ -94,6 +94,16 @@ def burrows_delta(A, B):
     return np.abs(A[:, None, :] - B[None, :, :]).mean(2)
 
 
+def chi_square(A, B, floor=1e-5):
+    """Chi-square distance of every row of A (observed relative frequencies)
+    from every row of B (an author's expected relative frequencies):
+    sum over features of (observed - expected)^2 / expected.  Works on raw
+    relative frequencies, not z-scores; expected values are floored so a
+    feature the author never used does not divide by zero."""
+    E = np.maximum(B, floor)
+    return (((A[:, None, :] - E[None, :, :]) ** 2) / E[None, :, :]).sum(2)
+
+
 def cosine_delta(A, B):
     An = A / (np.linalg.norm(A, axis=1, keepdims=True) + 1e-12)
     Bn = B / (np.linalg.norm(B, axis=1, keepdims=True) + 1e-12)
