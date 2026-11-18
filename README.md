@@ -30,7 +30,8 @@ the Arabic tradition (بلاغة) and to metre and rhyme in poetry.
 | Layer | What it does | Status |
 |---|---|---|
 | 1. Spelling restoration | Undoes each edition's printing conventions (dropped hamza, ى for ي, ه for ة) while keeping real distinctions; strips apparatus; flags Qur'an quotations | ✅ working |
-| 2. Classical morphology | A Classical disambiguator on top of the CAMeL analyzer, trained on data derived from diacritized text (Tashkeela); later, Classical lemmas from Qabas | ⏳ in progress (Classical supplement + training labels built) |
+| 2a. Classical morphology | A Classical disambiguator on top of the CAMeL analyzer, trained on data derived from diacritized text (Tashkeela); later, Classical lemmas from Qabas | ⏳ in progress (Classical supplement + training labels built) |
+| 2b. Classical syntax (i'rāb) | Each word's head and its function in the terms of naḥw (فاعل، نائب فاعل، حال، تمييز، اسم إنّ وخبرها…), hidden subjects, clause functions. Interim: CAMeL Lab's CATiB parser, relabelled. Target: a CAMeLBERT-CA model trained on MASAQ's i'rāb roles (v5, CC BY 4.0) plus head-annotated data, adapted to prose with hand-checked corpus sentences. Feeds layer 3 (syntactic features) and layers 4 and 7 | ⏳ in progress (CATiB parses of the corpus; rules for heads tested and rejected, see [`reports/irab_rules`](reports/irab_rules/README.md)) |
 | 3. Stylometry | Delta, clustering and classifiers over lemmas, patterns, POS sequences and function words; Impostors verification | ✅ working (first results) |
 | 4. Surface rhetoric | Rule-based سجع, جناس, طباق, repetition, parallelism | planned |
 | 5. Poetry | Metre (عروض) and rhyme (قافية); metre also constrains vowels for layer 2 | planned (on hold for al-Farāhīdī's MCP) |
@@ -292,13 +293,14 @@ samples/             test passages from al-Maktaba al-Shāmila
 1. ~~Layer 1: spelling restoration~~
 2. ~~Layer 3: stylometry~~ (re-run with 40 chunks per book; feature profiles by author/genre/book; next: syntactic features such as clause types, masking of content words, and a larger corpus with authors spanning several genres)
 3. Layer 2 (in progress): Classical disambiguator. Done: a Classical supplement to CAMeL's analyzer (passives and imperatives by rule for all verb forms; the interrogative أَ; 464 Classical vowelings, Form II verbs such as حَدَّثَ and name forms harvested from Tashkeela; lightened كَأَنْ; the lemma of رَأَى corrected from راوَنْد) and training labels for 2.1 M Tashkeela words: 79.9% settled, 16.9% ties kept as option sets, 1.1% unmatched (was 4.0%), 2.1% unknown. Next: training-format conversion, then fine-tuning CAMeLBERT-CA. See [`layer2/README.md`](layer2/README.md).
-4. Layers 4–5: rule-based rhetoric; metre and rhyme (layer 5 on hold until al-Farāhīdī's MCP server is available).
-5. Layer 6: semantics. Start with distributional usage profiles (how an author uses a word, compared with others) and semantic fields from *al-Mukhaṣṣaṣ*; then word senses. Semantic features follow topic closely, so they serve stylistic description more than attribution, and are compared within a genre.
-6. Layer 7 (deep rhetoric) and lexicon extension from Qabas.
-7. Graphical interface: load a text, see its restored spelling and morphology,
+4. Layer 2b (in progress): Classical syntax. Done: the corpus parsed with CAMeL Lab's CATiB parser; syntactic features in layer 3 (combined + syntax 51% vs 46% of books at 8 chunks/book; parse errors cost accuracy); a rule test showing that heads cannot be derived from MASAQ's roles by rule (حال 0%, صفة 33%). Next: head-annotated training data (an i'rāb book or hand annotation), then a CAMeLBERT-CA i'rāb model.
+5. Layers 4–5: rule-based rhetoric; metre and rhyme (layer 5 on hold until al-Farāhīdī's MCP server is available).
+6. Layer 6: semantics. Start with distributional usage profiles (how an author uses a word, compared with others) and semantic fields from *al-Mukhaṣṣaṣ*; then word senses. Semantic features follow topic closely, so they serve stylistic description more than attribution, and are compared within a genre.
+7. Layer 7 (deep rhetoric) and lexicon extension from Qabas.
+8. Graphical interface: load a text, see its restored spelling and morphology,
    its feature profile against the corpus, the closest authors and the
    verification against a chosen candidate, without using the command line.
-8. Standalone offline package (target 250–500 MB, no GPU needed): the trained
+9. Standalone offline package (target 250–500 MB, no GPU needed): the trained
    disambiguator and the parser compressed by 8-bit quantization and run with
    a light runtime (ONNX Runtime) instead of PyTorch; author profiles shipped
    instead of the corpus; accuracy re-measured after compression.
