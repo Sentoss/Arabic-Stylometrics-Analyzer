@@ -134,3 +134,25 @@ chunks / books):
 Chunk accuracy rises by 0.2–0.5 points; book accuracy moves by one book either
 way. The supplement makes the analyses more correct, which matters for
 syntax, rhetoric and semantics; it does not move attribution.
+
+## Chi-square distance
+
+`methods.chi_square`: sum over features of (observed − expected)² / expected,
+with the author's average relative frequencies as the expected values (raw
+frequencies, not z-scores). Same test as above (40 chunks/book, Classical
+supplement; `reports/layer3_chi2`). Book accuracy, chunk accuracy in brackets:
+
+| features | Burrows's Delta | Cosine Delta | chi-square | logistic regression |
+|---|---|---|---|---|
+| surface words | 40% (30%) | 45% (35%) | 43% (30%) | 55% (43%) |
+| lemmas | 40% (31%) | 48% (34%) | 39% (28%) | 52% (40%) |
+| function words + clitics | 24% (17%) | 39% (29%) | 40% (28%) | 45% (33%) |
+| POS 1-3-grams | 30% (25%) | 36% (28%) | 28% (23%) | 48% (34%) |
+| patterns | 39% (27%) | 40% (27%) | 31% (23%) | 48% (30%) |
+| char 3-4-grams | 45% (32%) | 46% (33%) | 39% (30%) | 48% (40%) |
+| combined | 40% (30%) | 48% (33%) | 45% (29%) | 58% (44%) |
+
+Chi-square is on a par with the two Deltas: best of the three on function
+words (40%, and 2 of the 12 cross-genre books, the most of any method there),
+weaker on POS and patterns, where many features are rare and the expected
+values small. The classifiers stay clearly ahead. Kept as an option.

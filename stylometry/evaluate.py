@@ -20,7 +20,7 @@ from pathlib import Path
 import numpy as np
 
 from stylometry.features import load_sample
-from stylometry.methods import Families, zscore, burrows_delta, cosine_delta, centroids, fit_predict
+from stylometry.methods import Families, zscore, burrows_delta, chi_square, cosine_delta, centroids, fit_predict
 
 CONFIGS = {
     "surface words (300)": [("surface", 300)],
@@ -31,7 +31,7 @@ CONFIGS = {
     "char 3-4-grams (1000)": [("char", 1000)],
     "lemma+function+POS+pattern": [("lemma", 300), ("function", 150), ("pos", 300), ("pattern", 200)],
 }
-METHODS = ("delta", "cosine", "logreg", "svm")
+METHODS = ("delta", "cosine", "chi2", "logreg", "svm")
 
 
 def candidates(metas):
@@ -76,6 +76,9 @@ def run(metas, fams, spec, cands, center=False, methods=METHODS):
         preds = {}
         if "delta" in methods:
             preds["delta"] = [cands[j] for j in burrows_delta(Z[te], C).argmin(1)]
+        if "chi2" in methods:
+            Cr = centroids(X[tr], ytr, cands)        # raw relative frequencies
+            preds["chi2"] = [cands[j] for j in chi_square(X[te], Cr).argmin(1)]
         if "cosine" in methods:
             preds["cosine"] = [cands[j] for j in cosine_delta(Z[te], C).argmin(1)]
         for meth in ("logreg", "svm"):
