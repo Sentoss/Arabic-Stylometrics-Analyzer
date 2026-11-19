@@ -33,12 +33,24 @@ FIELDS = ("role", "func", "rel", "target", "hidden")
 
 
 def read(path, limit=0):
+    """Read a .jsonl.gz file, or the plain .jsonl that Kaggle makes when it
+    unpacks an uploaded dataset."""
+    path = Path(path)
+    plain = path.with_suffix("") if path.suffix == ".gz" else path
+    if path.exists():
+        f = gzip.open(path, "rt", encoding="utf-8")
+    elif plain.exists():
+        f = open(plain, encoding="utf-8")
+    else:
+        found = sorted(p.name for p in path.parent.iterdir()) if path.parent.exists() else "folder missing"
+        raise SystemExit(f"ERROR: neither {path.name} nor {plain.name} in {path.parent} (found: {found})")
     rows = []
-    with gzip.open(path, "rt", encoding="utf-8") as f:
+    with f:
         for line in f:
-            rows.append(json.loads(line))
-            if limit and len(rows) >= limit:
-                break
+            if line.strip():
+                rows.append(json.loads(line))
+                if limit and len(rows) >= limit:
+                    break
     return rows
 
 
