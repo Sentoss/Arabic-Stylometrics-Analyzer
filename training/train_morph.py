@@ -115,10 +115,12 @@ class Tagger(nn.Module):
 
 def partial_label_loss(logits, mask, valid):
     """-log of the total probability of the allowed values (ties count as right)."""
+    valid = valid.to(logits.device)
+    mask = mask.to(logits.device)            # on a GPU, everything must sit on the same device
     if valid.sum() == 0:
         return logits.sum() * 0
     lp = logits[valid].log_softmax(-1)
-    m = mask[valid].to(lp.device)
+    m = mask[valid]
     return -(lp.masked_fill(~m, -1e9).logsumexp(-1)).mean()
 
 
