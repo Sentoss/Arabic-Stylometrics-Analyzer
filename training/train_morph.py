@@ -162,6 +162,8 @@ def main():
     ap.add_argument("--seed", type=int, default=13)
     ap.add_argument("--limit", type=int, default=0, help="use only N training segments")
     ap.add_argument("--smoke", action="store_true", help="tiny run to check that everything works")
+    ap.add_argument("--init", default="", help="start from this model.pt (continue training)")
+    ap.add_argument("--skip-test", action="store_true")
     a = ap.parse_args()
     if a.smoke:
         a.limit, a.epochs, a.batch = 40, 1, 8
@@ -185,6 +187,9 @@ def main():
     vl = DataLoader(val, batch_size=a.batch * 2, collate_fn=col)
     sl = DataLoader(test, batch_size=a.batch * 2, collate_fn=col)
     model = Tagger(a.base, sizes).to(dev)
+    if a.init:
+        model.load_state_dict(torch.load(a.init, map_location=dev))
+        print(f"continuing from {a.init}", flush=True)
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=0.01)
     steps = a.epochs * len(tl)
     sch = get_linear_schedule_with_warmup(opt, int(0.06 * steps), steps)
@@ -214,7 +219,7 @@ def main():
             torch.save(model.state_dict(), out / "model.pt")
             print(f"  saved (best so far: {best:.3f})", flush=True)
     model.load_state_dict(torch.load(out / "model.pt", map_location=dev))
-    acc = evaluate(model, sl, dev, names)
+    acc = evaluate(model, sl, dev, names) if not a.skip_test else {}
     print("test: " + "  ".join(f"{k} {v:.3f}" for k, v in acc.items()), flush=True)
     tok.save_pretrained(out / "tokenizer")
     json.dump({"base": a.base, "labels": labels, "test": acc, "args": vars(a)},
