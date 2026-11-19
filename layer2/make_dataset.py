@@ -82,7 +82,8 @@ def convert(path, out, vocab, max_words):
                     for opt in options.split(";"):
                         for k, v in parse_option(opt).items():
                             if k in FEATS:
-                                allowed[k].add(idx[k][v])
+                                if v in idx[k]:
+                                    allowed[k].add(idx[k][v])
                     targets.append([sorted(allowed[k]) for k in FEATS])
                     n_lab += 1
                 else:
@@ -100,11 +101,12 @@ def main():
     ap.add_argument("labels_dir")
     ap.add_argument("out_dir")
     ap.add_argument("--max-words", type=int, default=100)
+    ap.add_argument("--vocab", default="", help="reuse this labels.json (keeps value ids, e.g. to continue training)")
     a = ap.parse_args()
     out = Path(a.out_dir)
     out.mkdir(parents=True, exist_ok=True)
     paths = {s: Path(a.labels_dir) / f"labels_{s}.tsv" for s in ("train", "val", "test")}
-    vocab = first_pass(paths.values())
+    vocab = json.load(open(a.vocab, encoding="utf-8"))["values"] if a.vocab else first_pass(paths.values())
     for split, path in paths.items():
         n_seg, n_w, n_lab = convert(path, out / f"{split}.jsonl.gz", vocab, a.max_words)
         print(f"{split}: {n_seg} segments, {n_w} words, {n_lab} labelled ({n_lab / n_w:.1%})")

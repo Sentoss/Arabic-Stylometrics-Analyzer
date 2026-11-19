@@ -103,14 +103,25 @@ class Result:
 DEFAULT_PRIOR = Path(__file__).resolve().parent.parent / "resources" / "form_freq_tashkeela.tsv"
 
 
+import os
+DEFAULT_MORPH = Path(os.environ.get("MORPH_MODEL", Path(__file__).resolve().parent.parent / "models" / "morph_model"))
+
+
 class Restorer:
     """window: forms whose context score is within `window` of the best are
     treated as a tie and decided by Classical frequency (if a prior is given)."""
 
-    def __init__(self, disambiguator=None, prior="default", window=0.15, classical=True):
+    def __init__(self, disambiguator=None, prior="default", window=0.15, classical=True,
+                 morph_model="default"):
         """classical: give the disambiguator the layer 2 Classical supplement
         (passives, imperatives, interrogative أَ, Classical vowelings, Form II
         verbs such as حَدَّثَ, the lightened كَأَنْ, the lemma of رَأَى)."""
+        if morph_model == "default":
+            morph_model = DEFAULT_MORPH if (DEFAULT_MORPH / "model.pt").exists() else None
+        if disambiguator is None and morph_model and classical:
+            # layer 2a: the Classical tagger (fine-tuned CAMeLBERT-CA)
+            from layer2.disambiguator import ClassicalDisambiguator
+            disambiguator = ClassicalDisambiguator(morph_model)
         if disambiguator is None:
             from camel_tools.disambig.bert import BERTUnfactoredDisambiguator
             # MSA model only: dialect models are deliberately not used.

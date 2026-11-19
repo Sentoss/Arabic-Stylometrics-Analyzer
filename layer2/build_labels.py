@@ -50,6 +50,64 @@ def enc_len(a):
     return len(MARK.sub("", a["d3tok"].rsplit("_+", 1)[1]))
 
 
+VOWEL = set("َُِْ")          # fatha, damma, kasra, sukun
+FIXED_POS = ("part", "prep", "conj", "pron", "adv", "interj")
+
+
+def is_fixed(a):
+    return a.get("pos", "").startswith(FIXED_POS) or (a.get("pos") == "verb" and a.get("asp") in ("p", "c"))
+
+
+def built_ending(written, a):
+    """A مبنيّ word (perfect or imperative verb, particle, pronoun...) has a fixed
+    final vowel that is not a case ending: the text's final vowel or sukun must
+    not contradict it. وَقَدْ is the particle قد, not the verb وَقَدَ."""
+    if a.get("enc0", "0") not in ("0", "na"):
+        return True
+    if not is_fixed(a):
+        return True
+    wm, am = final_marks(written) & VOWEL, final_marks(a["diac"]) & VOWEL
+    return not (wm and am) or wm == am
+
+
+def final_marks(d):
+    """The marks on the last letter (sukun kept; CAMeL leaves it out, which
+    then simply gives no evidence)."""
+    out = set()
+    for ch in reversed(d):
+        if MARK.match(ch):
+            out.add(ch)
+        else:
+            break
+    return out
+
+
+def letters(d):
+    out = []
+    for ch in d.replace("ٱ", "ا"):
+        if MARK.match(ch):
+            if out:
+                out[-1][1].add(ch)
+        else:
+            out.append([ch, set()])
+    return out
+
+
+def sukun_ok(written, a):
+    """A sukun the text writes inside the word contradicts a vowel the reading
+    has on that letter (بَعْدَ is not the verb بَعُدَ). Long-vowel letters are
+    left out (some texts put sukun on them)."""
+    w, d = letters(written), letters(a["diac"])
+    if [c for c, _ in w] != [c for c, _ in d]:
+        return True
+    for i, ((c, wm), (_, am)) in enumerate(zip(w[:-1], d[:-1])):
+        if i == 0 or (c == "ل" and i == 1 and w[0][0] in "فو"):
+            continue                   # بْنُ (dropped hamzat al-waṣl), فَلْيَكْتُبْ (lām al-amr)
+        if "ْ" in wm and c not in "اويى" and am & set("َُِ"):
+            return False
+    return True
+
+
 def strict(written, a, full):
     """compatible() plus the case vowel, when the text gives one."""
     diac = a["diac"]
@@ -66,9 +124,22 @@ def label(written, readings):
     full = len(MARK.findall(written)) >= len(bare) - 1
     # final ى may stand for ي (أَبِى); try the text both ways
     spellings = [written] + ([re.sub("ى(?=[ً-ْ]*$)", "ي", written)] if bare.endswith("ى") else [])
+    readings = [a for a in readings if any(built_ending(w, a) and sukun_ok(w, a) for w in spellings)]
+    # فَقَدَ: the verb's written final vowel beats a particle whose (unwritten)
+    # final sukun the text does not show
     strict_k = [a for a in readings if any(strict(w, a, full) for w in spellings)]
     loose_k = [a for a in readings
                if any(compatible(w, a["diac"], full, enc_len(a)) for w in spellings)]
+    # CAMeL writes names without a case ending, so خالِدٍ passes only as the
+    # adjective; the name of the same letters joins it
+    lexes = {MARK.sub("", a["lex"]) for a in strict_k if a["pos"] == "adj"}
+    strict_k += [a for a in loose_k if a["pos"] == "noun_prop" and a not in strict_k
+                 and MARK.sub("", a["lex"]) in lexes]
+    wv = final_marks(written) & set("َُِ")
+    if wv and any(is_fixed(a) and final_marks(a["diac"]) & VOWEL == wv for a in loose_k):
+        silent = lambda a: is_fixed(a) and not final_marks(a["diac"]) & VOWEL
+        strict_k = [a for a in strict_k if not silent(a)]
+        loose_k = [a for a in loose_k if not silent(a)]
     # ordinary readings first (strict, then loose); the supplement's rare
     # constructions (interrogative أَ, imperatives) only when nothing else fits:
     # أَرَادَ stays the verb أَراد, not أَ + رادَ; ابْنِ stays "son of", not "build!"
@@ -87,6 +158,26 @@ def label(written, readings):
     status = "unique" if len(full_keys) == 1 else "case_tie" if len(lexical) == 1 else "tie"
     options = sorted({f"{a['lex']}~{a['pos']}~{feats(a)}" for a in kept})
     return status, best, len(kept), ";".join(options)
+
+
+NAME_NEXT = {"بن", "ابن", "بنت", "ابنة"}                      # خالد بن الوليد / ابن خالد
+NAME_AFTER = {"أبو", "أبي", "أبا", "أم", "بنو", "بني", "آل"}   # أبي طالب، بني أمية
+
+
+def name_context(rows, stats):
+    """A tie between a name and a common word (خالد adj/noun_prop) is settled
+    as the name next to بن/ابن or after أبو/أم/بني/آل."""
+    for j, r in enumerate(rows):
+        if r[4] != "tie" or "~noun_prop~" not in r[11]:
+            continue
+        prev = rows[j - 1][3] if j else ""
+        near = {prev, rows[j + 1][3] if j + 1 < len(rows) else ""}
+        if near & NAME_NEXT or prev in NAME_AFTER:
+            opts = [o for o in r[11].split(";") if o.split("~")[1] == "noun_prop"]
+            lex, pos, fs = opts[0].split("~", 2)
+            r[4] = "unique" if len(opts) == 1 else "case_tie"
+            r[6], r[7], r[8], r[9], r[11] = len(opts), lex, pos, fs, ";".join(opts)
+            stats["name_context"] += 1
 
 
 def main():
@@ -114,6 +205,7 @@ def main():
             words = WORD.findall(line)
             if not words:
                 continue
+            rows = []
             for i, w in enumerate(words):
                 bare = MARK.sub("", w)
                 if bare not in cache_r:
@@ -134,11 +226,15 @@ def main():
                 row = [s, i, w, bare, status, len(readings), k]
                 row += ([best["lex"], best["pos"], feats(best), best["diac"]]
                         if best else ["", "", "", ""]) + [opts]
+                rows.append(row)
+            name_context(rows, stats)
+            for row in rows:
                 out.write("\t".join(map(str, row)) + "\n")
             out.write("\n")
             if s % 5000 == 0 and s:
                 print(f"{s} lines, {n} words, {n / (time.time() - t0):.0f} w/s", flush=True)
     print(f"words: {n}")
+    print(f"  ties settled as names: {stats['name_context']}")
     for k in ["unique", "case_tie", "tie", "no_match", "oov"]:
         print(f"  {k:9} {stats[k]:7}  {stats[k] / n:.1%}")
     for k, v in src.items():
