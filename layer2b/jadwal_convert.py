@@ -134,6 +134,9 @@ def convert_block(nums, body, ws):
         full = toks[0] == ws[dep]["norm"] or len(toks[0]) >= 3
         cursor = dep + len(toks) if full else dep
         last = dep + len(toks) - 1 if full else dep
+        if full:
+            for j in range(dep + 1, min(dep + len(toks), len(ws))):
+                recs[j].setdefault("covered_by", dep)   # (من الذين) جار ومجرور: one gloss, two words
         r = recs[dep]
         r["jadwal"] = (r.get("jadwal", "") + " | " if r.get("jadwal") else "") + f"({tok}) {gloss.strip()[:200]}"
         fn = function_of(gloss)
@@ -264,22 +267,27 @@ def main():
     masaq = R.load_masaq(a.masaq)
     want = {int(x) for x in a.suras.split(",") if x}
     stats = Counter()
-    with gzip.open(a.out, "wt", encoding="utf-8") as o:
-        for sura, blocks in iter_suras(a.pages_dir, a.suras_json, masaq):
-            if want and sura not in want:
+    rows = []
+    for sura, blocks in iter_suras(a.pages_dir, a.suras_json, masaq):
+        if want and sura not in want:
+            continue
+        for nums, body in blocks:
+            ws = [w for v in nums for w in masaq.get((str(sura), v), [])]
+            if not ws:
+                stats["blocks_without_masaq"] += 1
                 continue
-            for nums, body in blocks:
-                ws = [w for v in nums for w in masaq.get((str(sura), v), [])]
-                if not ws:
-                    stats["blocks_without_masaq"] += 1
-                    continue
-                recs = convert_block(nums, body, ws)
-                stats["words"] += len(recs)
-                stats["with_jadwal"] += sum("jadwal" in r for r in recs)
-                for k in ("function", "mutaallaq", "matbu", "sahib_hal", "muqaddar", "amil", "flags"):
-                    stats[k] += sum(k in r for r in recs)
-                o.write(json.dumps({"sura": sura, "verses": nums, "words": recs}, ensure_ascii=False) + "\n")
-            stats["suras"] += 1
+            rows.append({"sura": sura, "verses": nums, "words": convert_block(nums, body, ws)})
+        stats["suras"] += 1
+    import jadwal_refs
+    stats.update(jadwal_refs.fill(rows))
+    with gzip.open(a.out, "wt", encoding="utf-8") as o:
+        for row in rows:
+            recs = row["words"]
+            stats["words"] += len(recs)
+            stats["with_jadwal"] += sum("jadwal" in r for r in recs)
+            for k in ("function", "mutaallaq", "matbu", "sahib_hal", "muqaddar", "amil", "flags", "covered_by"):
+                stats[k] += sum(k in r for r in recs)
+            o.write(json.dumps(row, ensure_ascii=False) + "\n")
     print(dict(stats))
 
 

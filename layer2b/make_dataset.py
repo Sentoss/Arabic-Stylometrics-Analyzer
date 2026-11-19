@@ -77,6 +77,8 @@ def main():
     for r in rows:
         split = "test" if r["sura"] in TEST else "val" if r["sura"] in VAL else "train"
         ws = r["words"]
+        if split != "train":     # evaluate on الجدول's own analyses only, not on filled-in ones
+            ws = [{k: v for k, v in w.items() if k != "function"} if w.get("src") else w for w in ws]
         n = len(ws)
         item = {"sura": r["sura"], "verses": r["verses"], "w": [bare(w["word"]) for w in ws],
                 "role": [roles.index(w["role"]) for w in ws],
