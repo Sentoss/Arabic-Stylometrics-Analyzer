@@ -51,15 +51,24 @@ EQUIV = {"صفه": "نعت", "نائب الفاعل": "نائب فاعل", "مب
          "عطف بيان": "بدل"}
 
 
+ALIASES = [(R.norm(a), b) for a, b in (("ماض", "فعل ماض"), ("مجرور بالإضافة", "مضاف اليه"),
+                                        ("ظرف لما يستقبل من الزمان", "ظرف زمان"),
+                                        ("مفعول ثان", "مفعول به ثان"), ("مفعول أول", "مفعول به اول"), ("ظرف لما مضى", "ظرف زمان"))]
 DESCRIPTIVE = {"ضمير", "اسم موصول", "موصول", "حرف", "اسم اشاره", "اسم استفهام", "حرف جر", "جار ومجرور"}
 
 
 def function_of(gloss):
     """The first naḥw function in the gloss; word-class terms (ضمير، اسم موصول،
     حرف...) only when no function follows (ضمير ... مبتدأ → مبتدأ)."""
-    g = R.norm(gloss.split("،")[0] if "متعلق" not in R.norm(gloss.split("،")[0]) else gloss)
     g = R.norm(gloss)[:160]
+    # «حرف توكيد ونصب», «اللام للتوكيد», «نون التوكيد»: a particle's meaning, not the تابع توكيد
+    g = re.sub(r"(حرف|لام|نون|اللام|النون)\s+(ال)?توكيد|للتوكيد|توكيد\s+ونصب|توكيد\s+وقسم", " ", g)
+    g = re.split(r"\sاو\s", g)[0]               # the first analysis, not the alternative (… أو بمحذوف نعت)
     found = []
+    for pat, f in ALIASES:                  # دار الصحابة's wording: «ماض و (نا) فاعل», «مجرور بالإضافة»
+        k = g.find(pat)
+        if k >= 0:
+            found.append((k, -len(pat), f))
     for f in FUNCTIONS:
         k = g.find(R.norm(f))
         if k >= 0:
@@ -68,6 +77,8 @@ def function_of(gloss):
         return None
     found.sort()
     real = [f for _, _, f in found if f not in DESCRIPTIVE]
+    if g.startswith(R.norm("جار ومجرور")) and real and real[0] == "مضاف اليه":
+        return "جار ومجرور"                 # «جار ومجرور، ومضاف إليه»: the إضافة is the pronoun's
     return real[0] if real else found[0][2]
 
 
@@ -75,13 +86,13 @@ HAL = re.compile(r"حال(?:\s+(?!من[\s(])\S+){0,2}\s+من(?=[\s(])\s*(?:فا�
 STEM_ROLE = lambda w: w["role"] or ("VERB" if w["verb"] else "NONE")
 
 
-def convert_block(nums, body, ws):
+def convert_block(nums, body, ws, ents=None):
     recs = [{"word": w["text"], "verse": w["verse"], "n": w["n"], "role": STEM_ROLE(w)} for w in ws]
     for i, w in enumerate(ws):
         if w["role"] == "GEN_CONS" and i > 0:
             recs[i]["amil"] = i - 1
     cursor, last, pending = 0, None, None
-    ents = R.entries(body)
+    ents = R.entries(body) if ents is None else ents
     for ei, (tok, gloss) in enumerate(ents):
         letter = bool(R.LETTER.match(tok.strip()))
         toks = R.norm(tok).split()
@@ -107,7 +118,8 @@ def convert_block(nums, body, ws):
                 last = dep
                 r = recs[dep]
                 r["jadwal"] = (r.get("jadwal", "") + " | " if r.get("jadwal") else "") + f"({tok}) {gloss.strip()[:200]}"
-                r.setdefault("function", "جار ومجرور")
+                fn = function_of(gloss)          # متعلّق بمحذوف نعت → نعت, like any other جار ومجرور
+                r.setdefault("function", fn if fn and fn not in DESCRIPTIVE else "جار ومجرور")
                 h = R.HEAD_PATTERNS[0][1].search(gloss)
                 if h:
                     if h.group(2) or h.group(4) or "بفعل محذوف" in h.group(0):
@@ -131,9 +143,14 @@ def convert_block(nums, body, ws):
                 break
         if dep is None:
             continue
+        if len(toks) == 1 and toks[0] in R.PRON_TOK and toks[0] != ws[dep]["norm"]:
+            # a pronoun entry «(نا) مضاف إليه» whose word was not found: it describes the
+            # suffix, not the word (أبصارنا is نائب فاعل)
+            recs[dep].setdefault("suffix", []).append(f"({tok}) {gloss.strip()[:80]}")
+            continue
         full = toks[0] == ws[dep]["norm"] or len(toks[0]) >= 3
         cursor = dep + len(toks) if full else dep
-        last = dep + len(toks) - 1 if full else dep
+        last = min(dep + len(toks) - 1, len(ws) - 1) if full else dep
         if full:
             for j in range(dep + 1, min(dep + len(toks), len(ws))):
                 recs[j].setdefault("covered_by", dep)   # (من الذين) جار ومجرور: one gloss, two words

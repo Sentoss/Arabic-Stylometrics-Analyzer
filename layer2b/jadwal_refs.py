@@ -44,7 +44,7 @@ def fill(rows):
             tok, gloss = first_entry(r)
             if tok is None:
                 continue
-            g = R.norm(gloss)
+            g = R.norm(re.sub(r"[().،:؛]", " ", gloss))
             if carry and "function" not in r:
                 r["function"], r["src"], r["ref"] = carry, "ref", "ومثله"
                 stats["ref_wamithluh"] += 1
@@ -63,7 +63,7 @@ def fill(rows):
                     if r.get("function") != "جار ومجرور":
                         r["function"], r["src"] = "جار ومجرور", "ref"
                         stats["ref_own"] += 1
-                elif own and own not in DESCRIPTIVE:
+                elif own and own not in DESCRIPTIVE and not (own == "معطوف" and key in last):
                     if r.get("function") != own:
                         r["function"], r["src"] = own, "ref"
                         stats["ref_own"] += 1
