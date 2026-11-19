@@ -21,9 +21,11 @@ import torch
 
 ROOT = Path(__file__).resolve().parent.parent
 sys.path.insert(0, str(ROOT / "training"))
+sys.path.insert(0, str(Path(__file__).resolve().parent))
 
 MARK = re.compile("[ً-ْٰـ]")
 FLOOR = 1e-4          # probability of a value the tagger never saw
+DIAC_FREQ = Path(__file__).parent / "resources" / "diac_freq.tsv"
 
 
 class ClassicalDisambiguator:
@@ -50,6 +52,15 @@ class ClassicalDisambiguator:
             analyzer = Analyzer(MorphologyDB.builtin_db("calima-msa-r13", "a"),
                                 backoff="ADD_PROP", cache_size=100000)
         self._analyzer = analyzer          # same attribute name as camel-tools (Restorer swaps it)
+        # exact ties (same features, different vowels: حَدَّثَنا / حَدَثَنا) go to
+        # the form Classical text writes more often
+        from diac_freq import key
+        self._key = key
+        self.freq = {}
+        if DIAC_FREQ.exists():
+            for line in open(DIAC_FREQ, encoding="utf-8"):
+                k, n = line.rstrip("\n").split("\t")
+                self.freq[k] = int(n)
 
     # -- the tagger --------------------------------------------------------
     def _pieces(self, words):
@@ -103,6 +114,7 @@ class ClassicalDisambiguator:
             best = max(s for s, _ in scored) or 1.0
             sa = [ScoredAnalysis(s / best, a, a.get("diac", ""), a.get("pos_lex_logprob", -99),
                                  a.get("lex_logprob", -99)) for s, a in scored]
-            sa.sort(key=lambda x: (-x.score, -x.pos_lex_logprob, -x.lex_logprob))
+            f = lambda x: self.freq.get(self._key(x.diac or ""), 0)
+            sa.sort(key=lambda x: (-round(x.score, 6), -f(x), -x.pos_lex_logprob, -x.lex_logprob))
             out.append(DisambiguatedWord(word, sa[:self.top]))
         return out
