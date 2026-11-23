@@ -17,7 +17,7 @@ Three feature families, counted per chunk from its .conllx parse:
 Only particles are named by lemma; nouns and verbs are reduced to their POS,
 so the features describe construction, not vocabulary.
 
-usage (evaluation): python -m stylometry.syntax DATA_DIR [--noise]
+usage (evaluation): python -m stylometry.syntax DATA_DIR [--noise] [--irab irab_tagged]
 """
 import argparse
 import csv
@@ -121,21 +121,28 @@ def corrupt(sents, p, rng):
     return out
 
 
-def load(data_dir, sample="sample_syn.tsv", parsed="parsed", analyzed="analyzed_l2", noise=0.0, seed=7):
-    """(metas, feature dicts) with the usual families plus dep / frame / dist."""
+def load(data_dir, sample="sample_syn.tsv", parsed="parsed", analyzed="analyzed_l2", noise=0.0, seed=7,
+         irab=None):
+    """(metas, feature dicts) with the usual families plus dep / frame / dist, and
+    nfunc / nlink / nrole when irab names a folder of layer-2b output. With irab,
+    only chunks that have both parses are kept, so the comparison is fair."""
     from .features import chunk_features, read_tokens
+    from .irab_features import irab_features, read_tagged
     root = Path(data_dir)
     rng = random.Random(seed)
     metas, feats = [], []
     for r in csv.DictReader(open(root / sample, encoding="utf-8"), delimiter="\t"):
         pc, pa = root / parsed / f"{r['chunk_id']}.conllx", root / analyzed / f"{r['chunk_id']}.tsv"
-        if not (pc.exists() and pa.exists()):
+        pi = root / irab / f"{r['chunk_id']}.jsonl" if irab else None
+        if not (pc.exists() and pa.exists()) or (pi and not pi.exists()):
             continue
         sents = read_conllx(pc)
         if noise:
             sents = corrupt(sents, noise, rng)
         f = chunk_features(read_tokens(pa), (root / r["path"]).read_text(encoding="utf-8"))
         f.update(syntax_features(sents))
+        if pi:
+            f.update(irab_features(read_tagged(pi)))
         metas.append(r)
         feats.append(f)
     return metas, feats
@@ -155,6 +162,19 @@ CONFIGS = {
                           ("dep", 200), ("frame", 150), ("dist", 60)],
 }
 SYN_ONLY = ["syntax: dependencies (200)", "syntax: clause frames (150)", "syntax: all three"]
+IRAB_CONFIGS = {
+    "iʿrāb: functions (200)": [("nfunc", 200)],
+    "iʿrāb: links (150)": [("nlink", 150)],
+    "iʿrāb: roles (150)": [("nrole", 150)],
+    "iʿrāb: all three": [("nfunc", 200), ("nlink", 150), ("nrole", 150)],
+    "CATiB + iʿrāb": [("dep", 200), ("frame", 150), ("dist", 60), ("nfunc", 200), ("nlink", 150), ("nrole", 150)],
+    "function words + iʿrāb": [("function", 150), ("nfunc", 200), ("nlink", 150), ("nrole", 150)],
+    "combined + iʿrāb": [("lemma", 300), ("function", 150), ("pos", 300), ("pattern", 200),
+                         ("nfunc", 200), ("nlink", 150), ("nrole", 150)],
+    "combined + syntax + iʿrāb": [("lemma", 300), ("function", 150), ("pos", 300), ("pattern", 200),
+                                  ("dep", 200), ("frame", 150), ("dist", 60),
+                                  ("nfunc", 200), ("nlink", 150), ("nrole", 150)],
+}
 
 
 def genre_split(metas, book_res):
@@ -179,19 +199,21 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("data_dir")
     ap.add_argument("--noise", action="store_true", help="also run with corrupted parses")
+    ap.add_argument("--irab", help="folder (inside DATA_DIR) of layer-2b output; adds the iʿrāb configurations")
     ap.add_argument("--out", default="reports/syntax/evaluation.json")
     a = ap.parse_args()
+    configs = dict(CONFIGS, **(IRAB_CONFIGS if a.irab else {}))
     out = Path(a.out)
     out.parent.mkdir(parents=True, exist_ok=True)
     results = {}
     for noise in ([0.0, 0.1, 0.25, 0.5] if a.noise else [0.0]):
-        metas, feats = load(a.data_dir, noise=noise)
+        metas, feats = load(a.data_dir, noise=noise, irab=a.irab)
         cands = candidates(metas)
-        fams = Families(feats, families=sorted({f for spec in CONFIGS.values() for f, _ in spec}))
+        fams = Families(feats, families=sorted({f for spec in configs.values() for f, _ in spec}))
         tag = f"noise{int(noise * 100)}"
         results[tag] = {}
         print(f"== {tag}: {len(metas)} chunks, {len(cands)} candidates", flush=True)
-        for name, spec in CONFIGS.items():
+        for name, spec in configs.items():
             if noise and name not in SYN_ONLY:
                 continue
             res = run(metas, fams, spec, cands, methods=("logreg",))["logreg"]
