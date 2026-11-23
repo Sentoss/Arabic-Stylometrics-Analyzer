@@ -2,14 +2,14 @@
 
 For every (unvowelled) word the model predicts
   role    MASAQ's i'rab role
-  func    the book's naḥw function (فاعل، حال، تمييز، مفعول مطلق…)
+  func    the naḥw function from the treebank (فاعل، حال، تمييز، مفعول مطلق…)
   rel     the kind of link: تعلق / نعت / عطف / بدل / توكيد / حال / none
   target  the word it links to (المتعلَّق به، المتبوع، صاحب الحال), or one of
           five "محذوف" slots (محذوف خبر / صفة / حال / صلة / غير ذلك)
   hidden  for verbs: whether the subject is a ضمير مستتر
 Labels missing for a word (-1) are skipped by the loss.
 
-Data: the folder made by layer2b/make_dataset.py (internal use only).
+Data: a folder of train/val/test .jsonl.gz files and labels.json (see TRAINING.md).
 
 usage:
   python training/train_irab.py --data DATA_DIR --out OUT_DIR [--epochs 10]
