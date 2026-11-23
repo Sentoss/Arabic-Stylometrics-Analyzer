@@ -1,0 +1,182 @@
+{
+ "adj": [
+  "صفة",
+  "Adjective"
+ ],
+ "poss": [
+  "مضاف إليه",
+  "Possessive construction"
+ ],
+ "pred": [
+  "مبتدأ وخبر",
+  "Predicate of a subject"
+ ],
+ "app": [
+  "بدل",
+  "Apposition"
+ ],
+ "spec": [
+  "تمييز",
+  "Specification"
+ ],
+ "cpnd": [
+  "مركب",
+  "Compound"
+ ],
+ "subj": [
+  "فاعل",
+  "Subject of a verb"
+ ],
+ "pass": [
+  "نائب فاعل",
+  "Passive verb subject representative"
+ ],
+ "obj": [
+  "مفعول به",
+  "Object of a verb"
+ ],
+ "subjx": [
+  "اسم كان",
+  "Subject of a special verb or particle"
+ ],
+ "predx": [
+  "خبر كان",
+  "Predicate of a special verb or particle"
+ ],
+ "impv": [
+  "أمر",
+  "Imperative"
+ ],
+ "imrs": [
+  "جواب أمر",
+  "Imperative result"
+ ],
+ "pro": [
+  "نهي",
+  "Prohibition"
+ ],
+ "gen": [
+  "جار ومجرور",
+  "Preposition phrase"
+ ],
+ "link": [
+  "متعلق",
+  "PP attachment"
+ ],
+ "conj": [
+  "معطوف",
+  "Coordinating conjunction"
+ ],
+ "sub": [
+  "صلة",
+  "Subordinate clause"
+ ],
+ "cond": [
+  "شرط",
+  "Condition"
+ ],
+ "rslt": [
+  "جواب شرط",
+  "Result"
+ ],
+ "circ": [
+  "حال",
+  "Circumstantial accusative"
+ ],
+ "cog": [
+  "مفعول مطلق",
+  "Cognate accusative"
+ ],
+ "prp": [
+  "المفعول لأجله",
+  "Accusative of purpose"
+ ],
+ "com": [
+  "المفعول معه",
+  "Comitative object"
+ ],
+ "emph": [
+  "توكيد",
+  "Emphasis"
+ ],
+ "intg": [
+  "استفهام",
+  "Interrogation"
+ ],
+ "neg": [
+  "نفي",
+  "Negation"
+ ],
+ "fut": [
+  "استقبال",
+  "Future clause"
+ ],
+ "voc": [
+  "منادي",
+  "Vocative"
+ ],
+ "exp": [
+  "مستثني",
+  "Exceptive"
+ ],
+ "res": [
+  "حصر",
+  "Restriction"
+ ],
+ "avr": [
+  "ردع",
+  "Aversion"
+ ],
+ "cert": [
+  "تحقيق",
+  "Certainty"
+ ],
+ "ret": [
+  "اضراب",
+  "Retraction"
+ ],
+ "prev": [
+  "كاف",
+  "Preventive"
+ ],
+ "ans": [
+  "جواب",
+  "Answer"
+ ],
+ "inc": [
+  "ابتداء",
+  "Inceptive"
+ ],
+ "sur": [
+  "فجاءة",
+  "Surprise"
+ ],
+ "sup": [
+  "زائد",
+  "Supplemental"
+ ],
+ "exh": [
+  "تحضيض",
+  "Exhortation"
+ ],
+ "exl": [
+  "تفصيل",
+  "Explanation"
+ ],
+ "eq": [
+  "تسوية",
+  "Equalization"
+ ],
+ "caus": [
+  "سببية",
+  "Cause"
+ ],
+ "amd": [
+  "استدراك",
+  "Amendment"
+ ],
+ "int": [
+  "تفسير",
+  "Intepretation"
+ ]
+}
