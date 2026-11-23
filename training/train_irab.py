@@ -151,6 +151,28 @@ def evaluate(model, loader, dev):
     return {k: right[k] / max(total[k], 1) for k in FIELDS}
 
 
+def carry_over(model, init_dir, labels):
+    """Load a trained model's weights; the role/func/rel heads are copied row by
+    row by label name, so labels added since then start fresh."""
+    if not (init_dir / "model.pt").exists() and (init_dir / "irab_model" / "model.pt").exists():
+        init_dir = init_dir / "irab_model"
+    old = json.load(open(init_dir / "config.json", encoding="utf-8"))["labels"]
+    state = torch.load(init_dir / "model.pt", map_location="cpu")
+    own = model.state_dict()
+    for head, key in (("role", "roles"), ("func", "funcs"), ("rel", "rels")):
+        w, b = state.pop(f"{head}.weight"), state.pop(f"{head}.bias")
+        ow, ob = own[f"{head}.weight"].clone(), own[f"{head}.bias"].clone()
+        idx = {x: i for i, x in enumerate(old[key])}
+        for j, x in enumerate(labels[key]):
+            if x in idx:
+                ow[j], ob[j] = w[idx[x]], b[idx[x]]
+        state[f"{head}.weight"], state[f"{head}.bias"] = ow, ob
+        new = [x for x in labels[key] if x not in idx]
+        if new:
+            print(f"{head}: new labels {new}", flush=True)
+    model.load_state_dict(state, strict=False)
+
+
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--data", required=True)
@@ -162,6 +184,10 @@ def main():
     ap.add_argument("--max-len", type=int, default=256)
     ap.add_argument("--seed", type=int, default=13)
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--init", help="start from a trained irab_model folder; its heads are carried over by label name")
+    ap.add_argument("--max-minutes", type=float, default=0,
+                    help="stop after this many minutes and save a checkpoint (for machines that cannot run for long)")
+    ap.add_argument("--resume", action="store_true", help="continue from OUT_DIR/checkpoint.pt")
     a = ap.parse_args()
     lim = 0
     if a.smoke:
@@ -180,17 +206,34 @@ def main():
         splits["test"] = splits["test"] or splits["train"][:8]
     print({s: len(v) for s, v in splits.items()}, flush=True)
     col = lambda b: collate(b, tok.pad_token_id)
-    tl = DataLoader(splits["train"], batch_size=a.batch, shuffle=True, collate_fn=col)
+    gen = torch.Generator()
+    tl = DataLoader(splits["train"], batch_size=a.batch, shuffle=True, collate_fn=col, generator=gen)
     vl = DataLoader(splits["val"], batch_size=a.batch * 2, collate_fn=col)
     sl = DataLoader(splits["test"], batch_size=a.batch * 2, collate_fn=col)
     model = IrabModel(a.base, len(labels["roles"]), len(labels["funcs"]), len(labels["rels"])).to(dev)
+    if a.init:
+        carry_over(model, Path(a.init), labels)
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=0.01)
     steps = a.epochs * len(tl)
     sch = get_linear_schedule_with_warmup(opt, int(0.06 * steps), steps)
     scaler = torch.amp.GradScaler("cuda", enabled=(dev == "cuda"))
-    best, t0 = -1, time.time()
-    for ep in range(a.epochs):
+    best, t0, start_ep, start_step = -1, time.time(), 0, 0
+    ck = out / "checkpoint.pt"
+    if a.resume and ck.exists():
+        c = torch.load(ck, map_location=dev)
+        model.load_state_dict(c["model"]); opt.load_state_dict(c["opt"]); sch.load_state_dict(c["sch"])
+        best, start_ep, start_step = c["best"], c["epoch"], c["step"]
+        print(f"resumed at epoch {start_ep + 1} step {start_step}", flush=True)
+    for ep in range(start_ep, a.epochs):
+        gen.manual_seed(a.seed * 1000 + ep)              # same batch order when resuming
         for step, (ids, att, first, wmask, lab) in enumerate(tl, 1):
+            if ep == start_ep and step <= start_step:
+                continue
+            if a.max_minutes and (time.time() - t0) / 60 > a.max_minutes:
+                torch.save({"model": model.state_dict(), "opt": opt.state_dict(), "sch": sch.state_dict(),
+                            "best": best, "epoch": ep, "step": step - 1}, ck)
+                print(f"paused at epoch {ep + 1} step {step - 1}/{len(tl)}; run again with --resume", flush=True)
+                return
             with torch.autocast(device_type=dev, dtype=torch.float16, enabled=(dev == "cuda")):
                 o = model(ids.to(dev), att.to(dev), first.to(dev), wmask.to(dev))
             loss = losses(o, lab)
@@ -204,6 +247,7 @@ def main():
             if step % 100 == 0 or a.smoke:
                 print(f"epoch {ep + 1} step {step}/{len(tl)} loss {loss.item():.4f} "
                       f"({(time.time() - t0) / 60:.1f} min)", flush=True)
+        start_step = 0
         acc = evaluate(model, vl, dev)
         score = (acc["func"] + acc["rel"] + acc["target"]) / 3
         print(f"epoch {ep + 1} validation: " + "  ".join(f"{k} {v:.3f}" for k, v in acc.items()), flush=True)
@@ -217,6 +261,8 @@ def main():
     tok.save_pretrained(out / "tokenizer")
     json.dump({"base": a.base, "labels": labels, "test": acc, "args": vars(a)},
               open(out / "config.json", "w"), ensure_ascii=False, indent=1)
+    if ck.exists():
+        ck.unlink()
     print(f"done in {(time.time() - t0) / 60:.1f} min; files in {out}", flush=True)
 
 
