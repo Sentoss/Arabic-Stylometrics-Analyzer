@@ -188,6 +188,14 @@ def make_imperative(a, kind, final_vowel=None):
         return None
     damma_prefix = m.group(1) == DAMMA
     body = d[2:]
+    enc = ""
+    if str(a.get("enc0", "0")) not in ("0", "na"):
+        # an object pronoun: the imperative is formed on the stem before it (اِعْرِضْهُ، اِرْمِهِ، قُلْهُ)
+        mm = re.search("(ه[\u064e\u064f\u0650]?(?:م[\u064e\u064f\u0652]?|ما|نَّ)?|ها|ن[\u0650]?ي|نا|ك[\u064e\u064f\u0650]?(?:م[\u064f\u0652]?|ما|نَّ)?)$", body)
+        if not mm or mm.start() < 2 or str(a.get("root", "")).split(".")[-1] in ("#", "و", "ي"):
+            return None     # weak-final verbs with a pronoun (اِرْمِهِ، اُدْعُهُمْ) are left to the dictionary
+        body, enc = body[:mm.start()], mm.group(1)
+        enc = {"ه": "هُ", "هم": "هُمْ", "هما": "هُما", "كم": "كُمْ"}.get(enc, enc)
     if kind == "hamza":            # خُذْ، كُلْ، مُرْ
         if a.get("lex") not in ("أَخَذ", "أَكَل", "أَمَر") or not body.startswith("أ"):
             return None
@@ -224,7 +232,7 @@ def make_imperative(a, kind, final_vowel=None):
         head = "اُ" if DAMMA in first else "اِ"
     else:
         head = ""                                       # عَلِّمْ، قاتِلْ، تَعَلَّمْ، قُلْ
-    return head + join(u)
+    return head + join(u) + enc
 
 
 class ClassicalAnalyzer:
@@ -344,6 +352,18 @@ class ClassicalAnalyzer:
                 self._cache.clear()
             self._cache[word] = hit
         return [dict(a) for a in hit]
+
+    @staticmethod
+    def _bare_alif_unexplained(word, readings):
+        """The word opens (after و/ف) with a bare alif, and no reading has a bare
+        alif there: every reading needs a hamza the text does not write
+        (واعرضه read as وَأَعْرَضَهُ). The written alif is then likely the
+        hamzat al-wasl of an imperative (وَاعْرِضْهُ)."""
+        rest = word[1:] if len(word) > 2 and word[0] in "وف" else word
+        if not rest.startswith("ا"):
+            return False
+        k = len(word) - len(rest)
+        return not any(bare_letters(a["diac"])[k:k + 1] == "ا" for a in readings)
 
     def _core(self, word, question=True):
         base = self._base(word)

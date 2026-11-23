@@ -12,11 +12,12 @@ For each word:
   4. The chosen reading's letters are written back onto the original word
      (its diacritics are kept), giving the restored form.
 """
+import re
 from dataclasses import dataclass, asdict
 from pathlib import Path
 
 from .text import bare, split_marks, SHADDA
-from .markup import clean, tokenize
+from .markup import clean, tokenize, Token
 from .profile import detect
 from .prior import FormPrior
 
@@ -61,6 +62,20 @@ def diac_mismatches(written_word: str, analysis_diac: str) -> int:
             wm = wm & {SHADDA}           # only shadda is reliable on the last letter
         bad += len(wm - am - {"ْ"})  # editors add sukun the DB often omits
     return bad
+
+
+# Old prints seat a final hamza under the alif to show the genitive
+# (المبتدإ، الخطإ، المتوضإ). Analyse it as أ, but keep the writing.
+FINAL_HAMZA_BELOW = re.compile(r"([\u0621-\u064A][\u064B-\u0652]*)إ([\u064B-\u0652]*)$")
+
+
+def for_analysis(word: str) -> str:
+    return FINAL_HAMZA_BELOW.sub(r"\1أ\2", word)
+
+
+# Short words that a missing space most often glues to the word before
+GLUED = {"من", "ما", "في", "عن", "لا", "لم", "لن", "قد", "أن", "إن", "أو", "ثم", "هو", "هي",
+         "كل", "على", "إلى", "مع", "بن", "بعد", "قبل", "الله"}
 
 
 def apply_letters(written_word: str, standard: str) -> str:
@@ -140,18 +155,56 @@ class Restorer:
 
     def run(self, raw_text: str, overrides=None):
         text = clean(raw_text)
-        tokens = tokenize(text)
+        tokens = self._split_glued(tokenize(text))
         profile = detect(tokens, overrides)
         results = self._restore(tokens, profile)
         return text, profile, results
 
     # -- internals -------------------------------------------------------
+    def _lexical(self, word):
+        an = self.dis._analyzer
+        return [a for a in an.analyze(word) if a.get("source") != "backoff"]
+
+    def _split_glued(self, tokens):
+        """A word the analyzer does not know, which is two known words with the
+        space between them lost (بآخرمن = بآخر من), is split in two. One part must
+        be a common short word (من، ما، في …) and the other a known word.
+        Vowelled words are left alone: the editor wrote them deliberately."""
+        out = []
+        for t in tokens:
+            w = bare(t.text)
+            if t.kind != "ar" or len(w) < 5 or t.text != w or self._lexical(for_analysis(w)):
+                out.append(t)
+                continue
+            best = None
+            for i in range(2, len(w) - 1):
+                left, right = w[:i], w[i:]
+                if right in GLUED and len(left) >= 3 and self._lexical(left) and self._lexical(right):
+                    if best is None or len(right) > len(w) - best[1]:
+                        best = (0, i)
+            if best is None:
+                out.append(t)
+                continue
+            i, k, cut = best[1], 0, len(t.text)
+            for j, ch in enumerate(t.text):               # position after the i-th letter, marks included
+                if bare(ch):
+                    k += 1
+                    if k == i:
+                        cut = j + 1
+                        while cut < len(t.text) and not bare(t.text[cut]) and t.text[cut] != "ـ":
+                            cut += 1
+                        break
+            a = Token(t.text[:cut], t.start, t.start + cut, t.kind, t.sent, t.quran, list(t.notes) + ["missing_space"])
+            b = Token(t.text[cut:], t.start + cut, t.end, t.kind, t.sent, t.quran, list(t.notes) + ["missing_space"])
+            out += [a, b]
+        return out
+
     def _restore(self, tokens, profile):
         sents = {}
         for t in tokens:
             sents.setdefault(t.sent, []).append(t)
         order = sorted(sents)
-        inputs = [[t.text.replace("ـ", "") for t in sents[k]] for k in order]
+        inputs = [[for_analysis(t.text.replace("ـ", "")) for t in sents[k]] for k in order]
         # one call per sentence: camel-tools 1.6 batching breaks on mixed lengths
         disamb = [self.dis.disambiguate(s) for s in inputs]
         results = []
@@ -165,7 +218,8 @@ class Restorer:
         if tok.kind != "ar":
             return Result(restored=tok.text, changed=False, status="not_word",
                           confidence="", conventions=[], alternatives=[], **base)
-        written = bare(tok.text)
+        written = for_analysis(bare(tok.text))
+        hamza_below = written != bare(tok.text)
         scored = list(dw.analyses)
         lexical = [s for s in scored if s.analysis.get("source") != "backoff"]
         if not lexical:
@@ -218,15 +272,20 @@ class Restorer:
 
         best = best_of[chosen]
         restored = apply_letters(tok.text, best[2])
-        changed = bare(restored) != written
+        if hamza_below:
+            restored = re.sub(r"أ([\u064B-\u0652]*)$", r"إ\1", restored)
+        changed = bare(restored) != bare(tok.text)
         a = best[4]
         status = "restored" if changed else "exact"
         if a.get("source") == "backoff":
             status = "kept_as_name"
         if conf == "low":
             status = "ambiguous"
+        convs = set(best[3]) | (set(tok.notes) & {"missing_space"}) | ({"final_hamza_below"} if hamza_below else set())
+        if "missing_space" in tok.notes and status == "exact":
+            status, changed = "restored", True
         return Result(restored=restored, changed=changed, status=status, confidence=conf,
-                      conventions=sorted(set(best[3])),
+                      conventions=sorted(convs),
                       alternatives=[f for f in forms if f != chosen][:3],
                       lemma=a.get("lex", ""), pos=a.get("pos", ""), diac=a.get("diac", ""),
                       root=a.get("root", ""), pattern=a.get("pattern", ""), **base)
@@ -234,12 +293,35 @@ class Restorer:
     def _no_compatible(self, tok, written, profile, lexical, base):
         """The analyzer knows the word only in a form this source's conventions
         do not license (e.g. الأصفهانىّ known only as الإصفهاني). Apply only
-        what the writing itself proves, and flag for review."""
+        what the writing itself proves, and flag for review.
+
+        One exception: a word opening (after و/ف) with a bare alif that every
+        reading spells with a hamza (واعرضه read only as وَأَعْرَضَهُ, الق only
+        as أَلْقَ) is an imperative with hamzat al-wasl (وَاعْرِضْهُ، اِلْقَ)
+        when the verb has one: the writing itself then fits."""
+        imp = self._imperative(tok, written)
+        if imp is not None:
+            return Result(restored=tok.text.replace("ـ", ""), changed=False, status="exact",
+                          confidence="high", conventions=["imperative_wasl"], alternatives=[],
+                          lemma=imp.get("lex", ""), pos=imp.get("pos", ""), diac=imp.get("diac", ""),
+                          root=imp.get("root", ""), pattern=imp.get("pattern", ""), **base)
         r = self._oov(tok, written, profile, base)
         r.status = "no_compatible"
         r.confidence = "low" if not r.changed else r.confidence
         r.alternatives = sorted({bare(s.analysis["diac"]) for s in lexical})[:5]
         return r
+
+    def _imperative(self, tok, written):
+        rest = written[1:] if len(written) > 2 and written[0] in "وف" else written
+        an = self.dis._analyzer
+        if not rest.startswith("ا") or not hasattr(an, "imperatives"):
+            return None
+        k = len(written) - len(rest)
+        for a in an.imperatives(written):
+            d = bare(a["diac"]).replace("ٱ", "ا")
+            if d == written and d[k] == "ا":
+                return a
+        return None
 
     def _oov(self, tok, written, profile, base):
         """Unknown to the analyzer: only change what is certain from the
