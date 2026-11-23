@@ -16,17 +16,16 @@ import argparse, collections, csv, gzip, json, re, zlib
 from pathlib import Path
 
 SLOTS = ['محذوف خبر', 'محذوف صفة', 'محذوف حال', 'محذوف صلة', 'محذوف غير ذلك']
-RELS = ['none', 'تعلق', 'نعت', 'عطف', 'بدل', 'توكيد', 'حال']
+RELS = ['none', 'تعلق', 'نعت', 'عطف', 'بدل', 'عطف بيان', 'توكيد', 'حال']
 VERBS = {'فعل ماض', 'فعل مضارع', 'فعل أمر'}
 
 QAC_REL = {'adj': 'نعت', 'conj': 'عطف', 'app': 'بدل', 'emph': 'توكيد', 'circ': 'حال'}
 
 ALF_FUNC = {'نعت': 'صفة',
-            'مفعول به أول': 'مفعول به', 'مفعول به ثان': 'مفعول به',
             'مفعول لأجله': 'المفعول لأجله', 'مفعول معه': 'المفعول معه',
-            'منادى': 'منادي', 'مستثنى': 'مستثني', 'عطف بيان': 'بدل', 'مجرور': 'جار ومجرور'}
+            'منادى': 'منادي', 'مستثنى': 'مستثني', 'مجرور': 'جار ومجرور'}
 ALF_DROP = {'منصوب', 'صلة', 'ظرف', None}
-ALF_REL = {'صفة': 'نعت', 'معطوف': 'عطف', 'بدل': 'بدل', 'توكيد': 'توكيد', 'حال': 'حال'}
+ALF_REL = {'صفة': 'نعت', 'معطوف': 'عطف', 'بدل': 'بدل', 'عطف بيان': 'عطف بيان', 'توكيد': 'توكيد', 'حال': 'حال'}
 SLOT_OF = {'خبر': 0, 'نعت': 1, 'حال': 2, 'صلة': 3}
 PARTICLE_FUNC = [(r'^(?:حرف )?نافية|^حرف نفي', 'نفي'), (r'^(?:حرف )?ناهية|^لا الناهية', 'نهي'),
                  (r'^حرف تحقيق|^تحقيق', 'تحقيق'), (r'^حرف استفهام|^(?:همزة )?الاستفهام', 'استفهام')]
@@ -104,11 +103,36 @@ def masaq_verses(path):
     return out
 
 
-def qac_labels(x, nw, v):
+def object_order(qac):
+    """For verbs with exactly two objects in QAC (أعطى، ظنّ، جعل، اتخذ…), map each
+    object (word, seg) to 'أول' / 'ثان' by position. Pairs where one object is a
+    detached إيّا (اشتغال, as in وإياي فارهبون) are left out."""
+    objs = collections.defaultdict(list)
+    for v, ws in qac.items():
+        for w, x in ws.items():
+            for si, seg in enumerate(x['segments']):
+                for e in seg['edges']:
+                    h = e.get('head')
+                    if e['rel'] == 'obj' and isinstance(h, dict) and 'word' in h:
+                        objs[(h['word'], h['seg'])].append(((w, si), seg.get('lemma')))
+    order = {}
+    for head, deps in objs.items():
+        if len(deps) == 2 and not any(l and l.startswith('<iy~') for _, l in deps):
+            (a, _), (b, _) = sorted(deps)
+            v = tuple(map(int, head[0].split(':')[:2]))
+            order[(v, a)], order[(v, b)] = 'مفعول به أول', 'مفعول به ثان'
+    return order
+
+
+def qac_labels(x, nw, v, order=None):
     """-> func, rel, target, hidden for one QAC word (target may be None)."""
     func = x.get('function')
     if func == 'متعلق':
         func = None
+    if func == 'مفعول به' and order:
+        w = int(x['loc'].split(':')[2])
+        stem = next((i for i, sg in enumerate(x['segments']) if sg['kind'] == 'stem'), 0)
+        func = order.get((v, (w, stem)), func)
     rel, target = 'none', None
     is_verb = func in VERBS
     hidden = (1 if x.get('hidden') else 0) if is_verb else None
@@ -212,6 +236,7 @@ def main():
         s, v, w = map(int, x['loc'].split(':'))
         qac.setdefault((s, v), {})[w] = x
 
+    order = object_order(qac)
     rows, skipped = [], []
     for v, words in sorted(masaq_verses(a.masaq).items()):
         nw = len(words)
@@ -221,7 +246,7 @@ def main():
         row = {'src': 'quran', 'id': '%d:%d' % v, 'w': [w for w, _ in words], 'role': [r for _, r in words],
                'func': [None] * nw, 'rel': [None] * nw, 'target': [None] * nw, 'hidden': [None] * nw}
         for w, x in qac.get(v, {}).items():
-            f, rl, t, h = qac_labels(x, nw, v)
+            f, rl, t, h = qac_labels(x, nw, v, order)
             i = w - 1
             row['func'][i], row['rel'][i], row['target'][i], row['hidden'][i] = f, rl, t, h
         rows.append(row)
