@@ -6,10 +6,11 @@ Classical Arabic):
 | model | what it learns | training data | file to train with | time on a T4 GPU |
 |---|---|---|---|---|
 | **2a, morphology** | 14 features of every unvowelled word (part of speech, clitics, person, aspect, voice, mood, gender, number, state, case, pronoun suffix) | `morph_dataset.zip`: 2.1 M Tashkeela words, labels from their vowels (GPL v2) | `train_morph.py` / `kaggle_morph.ipynb` | about 1 hour (3 epochs) |
-| **2b, i'rab** | each word's i'rab role, its naḥw function, its link (المتعلَّق به، المتبوع، صاحب الحال, or a محذوف) and hidden subjects | the i'rāb treebank (to be rebuilt: MASAQ roles, CC BY 4.0, plus open-licensed heads; see the README) | `train_irab.py` / `kaggle_irab.ipynb` | 15–30 minutes (10 epochs) |
+| **2b, i'rab** | each word's i'rab role, its naḥw function, its link (المتعلَّق به، المتبوع، صاحب الحال, or a محذوف) and hidden subjects | MASAQ roles (CC BY 4.0) for the whole Qur'an, plus functions, links and hidden subjects from the Quranic Arabic Corpus treebank (~40% of the Qur'an) and Muḥyī al-Dīn ʿAbd al-Ḥamīd's iʿrāb of the Alfiyya (vols 1–2) and its shawāhid; built by `layer2b/make_dataset.py` | `train_irab.py` / `kaggle_irab.ipynb` | 15–30 minutes (10 epochs) |
 
-> **The i'rab dataset is being rebuilt** from openly licensed sources only;
-> the earlier version (built partly from a modern i'rāb book) was withdrawn.
+> The i'rab dataset uses openly licensed or public-domain sources only. The
+> QAC labels may be used for training but not redistributed: keep the Kaggle
+> dataset **Private**.
 
 Each run prints its progress, keeps the best model after every pass through
 the data (epoch), and ends with the scores on held-out test data. The result
