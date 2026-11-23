@@ -47,7 +47,7 @@ HIDDEN = r'ضمير مستتر فيه (?:جوازا|وجوبا)? ?تقديره (
 MAHALL = r'في محل (رفع|نصب|جر|جزم)'
 NOT_HEAD = {'محذوف', 'بمحذوف', 'المبتدأ', 'المبتدا', 'مضاف', 'الضمير', 'الاعراب', 'له', 'لها',
             'مقدم', 'مؤخر', 'مستتر', 'الشرط', 'الجملة', 'ما', 'قوله', 'الذي', 'التي', 'ضمير',
-            'المستتر', 'موصول', 'المحذوف', 'ذلك', 'وخبر', 'وهو', 'هو', 'الفاعل', 'المصدر'}
+            'المستتر', 'موصول', 'المحذوف', 'ذلك', 'وخبر', 'وهو', 'هو', 'الفاعل', 'المصدر', 'الحال', 'النعت', 'الخبر'}
 
 
 def first_match(table, text):
@@ -125,7 +125,9 @@ def _analyse(gloss):
         scope = first if not re.search(r'جار ومجرور|ظرف', first) else ' '.join(segs[:2])
         ms = [m for m in (re.search(p, scope) for p in HEAD_PATTERNS) if m]
         if ms:
-            e['head'] = min(ms, key=lambda m: m.start()).group(1)
+            h = min(ms, key=lambda m: m.start()).group(1)
+            if h not in NOT_HEAD and norm(h) not in {norm(x) for x in NOT_HEAD}:
+                e['head'] = h
     e['alternatives'] = bool(re.search(r'يجوز (?:أن|فيه)|وقيل|أو بدل|ويجوز', gloss))
     if not e['pos'] and re.match(r'متعلق', gloss):
         e['pos'] = 'جار ومجرور'
