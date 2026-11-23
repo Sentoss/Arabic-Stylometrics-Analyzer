@@ -16,6 +16,7 @@ import json
 from pathlib import Path
 
 UNUSABLE = {"أخرى (في الملاحظات)", ""}
+CLITICS = ("conj", "part", "subj", "enc")
 
 
 def rows(batch, ann, slots):
@@ -29,7 +30,8 @@ def rows(batch, ann, slots):
         if len(words) != n:
             continue
         r = {"src": "prose", "id": s["id"], "split": s["split"], "w": s["words"], "role": [None] * n,
-             "func": [None] * n, "rel": [None] * n, "target": [None] * n, "hidden": [None] * n}
+             "func": [None] * n, "rel": [None] * n, "target": [None] * n, "hidden": [None] * n,
+             **{k: [None] * n for k in CLITICS}}
         checked = 0
         for i, w in enumerate(words):
             if not (w.get("ok") or a.get("all")):
@@ -42,6 +44,9 @@ def rows(batch, ann, slots):
                 r["target"][i] = int(t) if str(t).isdigit() else (n + slots.index(t) if t in slots else None)
             if w.get("h") is not None and w.get("f") in ("فعل ماض", "فعل مضارع", "فعل أمر"):
                 r["hidden"][i] = 1 if w["h"] else 0
+            for k in CLITICS:                 # the attached pieces ("none" = the word has none)
+                if w.get(k):
+                    r[k][i] = w[k]
         if checked:
             yield r
 
@@ -58,7 +63,7 @@ def main():
     out = {"train": [], "test": []}
     added = set()
     for r in rows(batch, ann, labels["slots"]):
-        for k, key in (("func", "funcs"), ("rel", "rels")):
+        for k, key in (("func", "funcs"), ("rel", "rels")) + tuple((c, c) for c in CLITICS):
             ids = []
             for x in r[k]:
                 if x is None:

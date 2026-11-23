@@ -29,7 +29,8 @@ from transformers import AutoModel, AutoTokenizer, get_linear_schedule_with_warm
 
 BASE = "CAMeL-Lab/bert-base-arabic-camelbert-ca"
 N_SLOTS = 5
-FIELDS = ("role", "func", "rel", "target", "hidden")
+CLITICS = ("conj", "part", "subj", "enc")      # the word's attached pieces (see make_dataset.py)
+FIELDS = ("role", "func", "rel", "target", "hidden") + CLITICS
 
 
 def read(path, limit=0):
@@ -61,7 +62,7 @@ def encode(rows, tok, max_len):
         wid = enc.word_ids()
         first = [i for i, w in enumerate(wid) if w is not None and (i == 0 or wid[i - 1] != w)]
         n = len(first)                      # words that survived truncation
-        lab = {k: list(r[k][:n]) for k in FIELDS}
+        lab = {k: list(r.get(k, [-1] * len(r["w"]))[:n]) for k in FIELDS}
         # a target pointing at a truncated word, or a slot, must be re-indexed to the kept length
         nw = len(r["w"])
         lab["target"] = [(t - nw + n if t >= nw else (t if t < n else -1)) if t >= 0 else -1
@@ -95,7 +96,7 @@ def collate(batch, pad_id):
 
 
 class IrabModel(nn.Module):
-    def __init__(self, base, n_roles, n_funcs, n_rels, dropout=0.1, arc_dim=256):
+    def __init__(self, base, n_roles, n_funcs, n_rels, dropout=0.1, arc_dim=256, clitics=None):
         super().__init__()
         self.enc = AutoModel.from_pretrained(base)
         h = self.enc.config.hidden_size
@@ -108,6 +109,7 @@ class IrabModel(nn.Module):
         self.head = nn.Sequential(nn.Linear(h, arc_dim), nn.GELU())
         self.slots = nn.Parameter(torch.randn(N_SLOTS, arc_dim) * 0.02)
         self.bil = nn.Parameter(torch.eye(arc_dim))
+        self.clitic = nn.ModuleDict({k: nn.Linear(h, n) for k, n in (clitics or {}).items() if n})
 
     def forward(self, ids, att, first, wmask):
         hid = self.enc(input_ids=ids, attention_mask=att).last_hidden_state
@@ -119,14 +121,19 @@ class IrabModel(nn.Module):
         W = wmask.size(1)
         self_mask = torch.eye(W, W + N_SLOTS, dtype=torch.bool, device=arc.device).unsqueeze(0)
         arc = arc.masked_fill(~cmask.unsqueeze(1) | self_mask, -1e4)
-        return {"role": self.role(x), "func": self.func(x), "rel": self.rel(x),
-                "hidden": self.hidden(x), "target": arc}
+        out = {"role": self.role(x), "func": self.func(x), "rel": self.rel(x),
+               "hidden": self.hidden(x), "target": arc}
+        for k, layer in self.clitic.items():
+            out[k] = layer(x)
+        return out
 
 
 def losses(out, lab):
     ce = nn.CrossEntropyLoss(ignore_index=-1)
     total = 0
     for k in FIELDS:
+        if k not in out:
+            continue
         lg = out[k].float()
         y = lab[k].to(lg.device)
         if (y >= 0).any():
@@ -142,13 +149,15 @@ def evaluate(model, loader, dev):
     for ids, att, first, wmask, lab in loader:
         out = model(ids.to(dev), att.to(dev), first.to(dev), wmask.to(dev))
         for k in FIELDS:
+            if k not in out:
+                continue
             y = lab[k]
             p = out[k].argmax(-1).cpu()
             m = y >= 0
             right[k] += int((p[m] == y[m]).sum())
             total[k] += int(m.sum())
     model.train()
-    return {k: right[k] / max(total[k], 1) for k in FIELDS}
+    return {k: right[k] / total[k] for k in FIELDS if total[k]}
 
 
 def carry_over(model, init_dir, labels):
@@ -159,7 +168,9 @@ def carry_over(model, init_dir, labels):
     old = json.load(open(init_dir / "config.json", encoding="utf-8"))["labels"]
     state = torch.load(init_dir / "model.pt", map_location="cpu")
     own = model.state_dict()
-    for head, key in (("role", "roles"), ("func", "funcs"), ("rel", "rels")):
+    heads = [("role", "roles"), ("func", "funcs"), ("rel", "rels")]
+    heads += [(f"clitic.{k}", k) for k in CLITICS if f"clitic.{k}.weight" in own and k in old]
+    for head, key in heads:
         w, b = state.pop(f"{head}.weight"), state.pop(f"{head}.bias")
         ow, ob = own[f"{head}.weight"].clone(), own[f"{head}.bias"].clone()
         idx = {x: i for i, x in enumerate(old[key])}
@@ -210,7 +221,8 @@ def main():
     tl = DataLoader(splits["train"], batch_size=a.batch, shuffle=True, collate_fn=col, generator=gen)
     vl = DataLoader(splits["val"], batch_size=a.batch * 2, collate_fn=col)
     sl = DataLoader(splits["test"], batch_size=a.batch * 2, collate_fn=col)
-    model = IrabModel(a.base, len(labels["roles"]), len(labels["funcs"]), len(labels["rels"])).to(dev)
+    model = IrabModel(a.base, len(labels["roles"]), len(labels["funcs"]), len(labels["rels"]),
+                      clitics={k: len(labels[k]) for k in CLITICS if k in labels}).to(dev)
     if a.init:
         carry_over(model, Path(a.init), labels)
     opt = torch.optim.AdamW(model.parameters(), lr=a.lr, weight_decay=0.01)

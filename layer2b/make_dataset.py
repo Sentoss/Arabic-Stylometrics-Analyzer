@@ -5,7 +5,14 @@
   Alfiyya (Muhyi al-Din)  function, links, hidden subjects         -> func, rel, target, hidden
 
 Each row is one Qur'an verse or one Alfiyya verse / shahid:
-  {"src", "id", "w": [unvowelled words], "role", "func", "rel", "target", "hidden"}
+  {"src", "id", "w": [unvowelled words], "role", "func", "rel", "target", "hidden",
+   "conj", "part", "subj", "enc"}
+The last four are the attached pieces of the word, each with its own function:
+  conj  the و/ف prefix (عاطفة، استئنافية، رابطة للجواب …), "none" if absent
+  part  another prefix (حرف جر، لام التعليل، أ الاستفهام، س …)
+  subj  an attached subject pronoun on a verb (ت، وا، نا …): فاعل، نائب فاعل، اسم كان
+  enc   an attached object / possessive pronoun: مفعول به، مضاف إليه، مجرور، اسم إنّ …
+"none" is a label (the word has no such piece); -1 means unknown.
 Labels are ids into labels.json; -1 means "not annotated" and is skipped by the loss.
 target: index of the linked word, or len(w)+k for the k-th محذوف slot.
 
@@ -18,6 +25,17 @@ from pathlib import Path
 SLOTS = ['محذوف خبر', 'محذوف صفة', 'محذوف حال', 'محذوف صلة', 'محذوف غير ذلك']
 RELS = ['none', 'تعلق', 'نعت', 'عطف', 'بدل', 'عطف بيان', 'توكيد', 'حال']
 VERBS = {'فعل ماض', 'فعل مضارع', 'فعل أمر'}
+
+CONJ = ['none', 'عاطفة', 'استئنافية', 'رابطة للجواب', 'حالية', 'سببية', 'زائدة', 'معية']
+PART = ['none', 'جر', 'قسم', 'توكيد', 'استفهام', 'تسوية', 'تعليل', 'استقبال', 'أمر', 'نداء']
+SUBJ = ['none', 'فاعل', 'نائب فاعل', 'اسم كان']
+ENC = ['none', 'مفعول به', 'مفعول به أول', 'مفعول به ثان', 'مضاف إليه', 'مجرور', 'اسم إنّ']
+QAC_CONJ = {'CONJ': 'عاطفة', 'REM': 'استئنافية', 'RSLT': 'رابطة للجواب', 'CIRC': 'حالية',
+            'CAUS': 'سببية', 'SUP': 'زائدة', 'COM': 'معية'}
+QAC_PART = {'EMPH': 'توكيد', 'INTG': 'استفهام', 'EQ': 'تسوية', 'PRP': 'تعليل', 'FUT': 'استقبال',
+            'IMPV': 'أمر', 'VOC': 'نداء'}
+MASAQ_SUBJ = {'AGNT': 'فاعل', 'PASS_SUBJ': 'نائب فاعل', 'SUBJ_COP_V': 'اسم كان'}
+MASAQ_ENC = {'OBJ': 'مفعول به', 'GEN_CONS': 'مضاف إليه', 'PREP_OBJ': 'مجرور', 'SUBJ_COP_PART': 'اسم إنّ'}
 
 QAC_REL = {'adj': 'نعت', 'conj': 'عطف', 'app': 'بدل', 'emph': 'توكيد', 'circ': 'حال'}
 
@@ -87,6 +105,105 @@ class Vocab:
         return self.idx[x]
 
 
+def masaq_clitics(segs):
+    """MASAQ marks the attached pieces but not the kind of و/ف (only that there
+    is one): conj is then unknown (None), "none" when there is no و/ف."""
+    c = {'conj': 'none', 'part': 'none', 'subj': 'none', 'enc': 'none'}
+    for sg in segs:
+        tag, role, typ = sg['Morph_Tag'], sg['Syntactic_Role'], sg['Morph_Type']
+        if typ == 'Prefix':
+            if tag == 'CONJ':
+                c['conj'] = None
+            elif tag == 'PREP':
+                c['part'] = 'جر'
+            elif tag == 'INTERROG':
+                c['part'] = 'استفهام'
+            elif tag == 'FUTURE_PART':
+                c['part'] = 'استقبال'
+        elif typ == 'Suffix':
+            if role in MASAQ_SUBJ and c['subj'] == 'none':
+                c['subj'] = MASAQ_SUBJ[role]
+            elif role in MASAQ_ENC and c['enc'] == 'none':
+                c['enc'] = MASAQ_ENC[role]
+    return c
+
+
+def qac_clitics(x, order, v):
+    """The attached pieces of a QAC word, from its segments' own tags and edges."""
+    c = {'conj': 'none', 'part': 'none', 'subj': 'none', 'enc': 'none'}
+    w = int(x['loc'].split(':')[2])
+    for si, sg in enumerate(x['segments']):
+        tag, rels = sg['tag'], [e['rel'] for e in sg['edges']]
+        if sg['kind'] == 'prefix':
+            if tag in QAC_CONJ:
+                c['conj'] = QAC_CONJ[tag]
+            elif tag == 'P':
+                c['part'] = 'قسم' if sg['form'] == 'wa' else 'جر'
+            elif tag in QAC_PART:
+                c['part'] = QAC_PART[tag]
+        elif sg['kind'] == 'suffix' and tag == 'PRON':
+            for e in sg['edges']:
+                r = e['rel']
+                if r == 'subj':
+                    c['subj'] = 'فاعل'
+                elif r == 'pass':
+                    c['subj'] = 'نائب فاعل'
+                elif r == 'subjx':
+                    if x.get('function') in VERBS or any(g['tag'] == 'V' for g in x['segments']):
+                        c['subj'] = 'اسم كان'
+                    else:
+                        c['enc'] = 'اسم إنّ'
+                elif r == 'obj' and c['enc'] == 'none':
+                    c['enc'] = order.get((v, (w, si)), 'مفعول به')
+                elif r == 'poss' and c['enc'] == 'none':
+                    c['enc'] = 'مضاف إليه'
+                elif r == 'gen' and c['enc'] == 'none':
+                    c['enc'] = 'مجرور'
+    return c
+
+
+ALF_CONJ = [(r'عاطفة|حرف عطف|للعطف', 'عاطفة'), (r'استئناف', 'استئنافية'),
+            (r'جواب|رابطة|واقعة في', 'رابطة للجواب'), (r'الحال|حالية', 'حالية'),
+            (r'سببية|للسببية|للتعليل|تعليلية', 'سببية'), (r'زائدة', 'زائدة'), (r'المعية', 'معية')]
+ALF_PART = [(r'^(?:الباء|الكاف|اللام)[^،]*(?:حرف جر|جارة|الجر)', 'جر'), (r'قسم', 'قسم'),
+            (r'^اللام[^،]*(?:التعليل|تعليل|كي)', 'تعليل'), (r'^اللام[^،]*(?:الأمر|الامر)', 'أمر'),
+            (r'^اللام[^،]*(?:توكيد|ابتداء|المزحلقة)', 'توكيد'), (r'^(?:الهمزة|همزة)[^،]*استفهام', 'استفهام'),
+            (r'^(?:الهمزة|همزة)[^،]*تسوية', 'تسوية'), (r'^السين', 'استقبال')]
+ALF_PRON = re.compile(r'(?:الهاء|الضمير(?! المستتر)|ضمير (?:الغائب|الغائبة|الغائبين|المتكلم|المخاطب|المتكلمين)|ياء المتكلم|الياء|الكاف|'
+                      r'نا(?![\u0621-\u064A])|تاء (?:المتكلم|المخاطب|الفاعل)|التاء|واو الجماعة|الواو ضمير|ألف الاثنين|نون النسوة)'
+                      r'([^،.]{0,40}?)(مفعول به أول|مفعول أول|مفعول به ثان|مفعول ثان|مفعول به|مضاف إليه|نائب فاعل|فاعل|اسم إن|اسم كان|في محل جر)')
+
+
+def alfiyya_clitics(e, word):
+    """Only what Muhyi al-Din's note says; everything else stays unknown (None)."""
+    c = {'conj': None, 'part': None, 'subj': None, 'enc': None}
+    pre = (e.get('prefix') or '').strip()
+    if pre:
+        if re.match(r'^(?:الواو|الفاء|و|ف)', pre):
+            c['conj'] = next((lab for pat, lab in ALF_CONJ if re.search(pat, pre)), None)
+        else:
+            c['part'] = next((lab for pat, lab in ALF_PART if re.search(pat, pre)), None)
+    for m in ALF_PRON.finditer(e['gloss']):
+        if 'مستتر' in m.group(1):
+            continue
+        f = m.group(2)
+        if f in ('فاعل', 'نائب فاعل', 'اسم كان'):
+            c['subj'] = f
+        elif f in ('مفعول به أول', 'مفعول أول'):
+            c['enc'] = 'مفعول به أول'
+        elif f in ('مفعول به ثان', 'مفعول ثان'):
+            c['enc'] = 'مفعول به ثان'
+        elif f == 'مفعول به':
+            c['enc'] = 'مفعول به'
+        elif f == 'مضاف إليه':
+            c['enc'] = 'مضاف إليه'
+        elif f == 'اسم إن':
+            c['enc'] = 'اسم إنّ'
+        elif f == 'في محل جر':
+            c['enc'] = 'مجرور' if e.get('pos') == 'جار ومجرور' else 'مضاف إليه'
+    return c
+
+
 def masaq_verses(path):
     words = collections.defaultdict(lambda: collections.defaultdict(list))
     for r in csv.DictReader(open(path, encoding='utf-8-sig')):
@@ -98,7 +215,7 @@ def masaq_verses(path):
             segs = ws[n]
             stems = [s['Syntactic_Role'] for s in segs if s['Morph_Type'] == 'Stem' and s['Syntactic_Role']]
             anyr = [s['Syntactic_Role'] for s in segs if s['Syntactic_Role']]
-            row.append((segs[0]['Without_Diacritics'], (stems or anyr or [None])[0]))
+            row.append((segs[0]['Without_Diacritics'], (stems or anyr or [None])[0], masaq_clitics(segs)))
         out[k] = row
     return out
 
@@ -162,9 +279,12 @@ def alfiyya_rows(path):
     for r in map(json.loads, gzip.open(path, 'rt', encoding='utf-8')):
         n = len(r['tokens'])
         func = [None] * n; rel = [None] * n; target = [None] * n; hidden = [None] * n
+        cl = {k: [None] * n for k in ('conj', 'part', 'subj', 'enc')}
         earlier = []
         for e in r['entries']:
             span, first = e['span'], e['span'][0]
+            for k, v in alfiyya_clitics(e, r['tokens'][first]['word']).items():
+                cl[k][first] = v
             pos, f = e['pos'], e['function']
             g = re.sub(r'^[\u0621-\u064A]+\s*:\s*', '', e['gloss'].lstrip(': '))
             if e.get('prefix'):
@@ -213,7 +333,7 @@ def alfiyya_rows(path):
         words = [t['word'] for t in r['tokens']]
         key = '%s:%s:%s' % (r['kind'], r['page'], r['verse'][:20])
         yield {'src': r['kind'], 'id': key, 'w': words, 'role': [None] * n,
-               'func': func, 'rel': rel, 'target': target, 'hidden': hidden}
+               'func': func, 'rel': rel, 'target': target, 'hidden': hidden, **cl}
 
 
 def main():
@@ -243,16 +363,22 @@ def main():
         if qcount[v] != nw:
             skipped.append('%d:%d' % v)
             continue
-        row = {'src': 'quran', 'id': '%d:%d' % v, 'w': [w for w, _ in words], 'role': [r for _, r in words],
+        row = {'src': 'quran', 'id': '%d:%d' % v, 'w': [w for w, _, _ in words], 'role': [r for _, r, _ in words],
                'func': [None] * nw, 'rel': [None] * nw, 'target': [None] * nw, 'hidden': [None] * nw}
+        for k in ('conj', 'part', 'subj', 'enc'):
+            row[k] = [c[k] for _, _, c in words]
         for w, x in qac.get(v, {}).items():
             f, rl, t, h = qac_labels(x, nw, v, order)
             i = w - 1
             row['func'][i], row['rel'][i], row['target'][i], row['hidden'][i] = f, rl, t, h
+            for k, val in qac_clitics(x, order, v).items():
+                if val is not None and (val != 'none' or row[k][i] is None or k == 'conj'):
+                    row[k][i] = val          # QAC's analysis wins where it has one
         rows.append(row)
     rows.extend(alfiyya_rows(a.alfiyya))
 
     roles, funcs, rels = Vocab(), Vocab(), Vocab(RELS)
+    cvoc = {'conj': Vocab(CONJ), 'part': Vocab(PART), 'subj': Vocab(SUBJ), 'enc': Vocab(ENC)}
     cnt = collections.Counter(f for r in rows for f in r['func'] if f)
     keep = {f for f, c in cnt.items() if c >= 3}
     for r in rows:
@@ -261,6 +387,8 @@ def main():
         r['rel'] = [rels(x) for x in r['rel']]
         r['target'] = [-1 if t is None else t for t in r['target']]
         r['hidden'] = [-1 if h is None else h for h in r['hidden']]
+        for k, voc in cvoc.items():
+            r[k] = [voc(x) for x in r[k]]
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     split = collections.defaultdict(list)
     for r in rows:
@@ -270,7 +398,8 @@ def main():
         with gzip.open(out / f'{s}.jsonl.gz', 'wt', encoding='utf-8') as f:
             for r in rs:
                 f.write(json.dumps(r, ensure_ascii=False) + '\n')
-    json.dump({'roles': roles.items, 'funcs': funcs.items, 'rels': rels.items, 'slots': SLOTS},
+    json.dump({'roles': roles.items, 'funcs': funcs.items, 'rels': rels.items, 'slots': SLOTS,
+               **{k: v.items for k, v in cvoc.items()}},
               open(out / 'labels.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
     def n(field, src=None):
@@ -278,7 +407,8 @@ def main():
     stats = {'rows': {s: len(rs) for s, rs in split.items()}, 'alfiyya_repeat': a.alfiyya_repeat,
              'by_source': {src: {'units': sum(1 for r in rows if r['src'] == src),
                                  'words': sum(len(r['w']) for r in rows if r['src'] == src),
-                                 **{f: n(f, src) for f in ('role', 'func', 'rel', 'target', 'hidden')}}
+                                 **{f: n(f, src) for f in ('role', 'func', 'rel', 'target', 'hidden',
+                                                           'conj', 'part', 'subj', 'enc')}}
                            for src in ('quran', 'alfiyya', 'shahid')},
              'labels': {'roles': len(roles.items), 'funcs': len(funcs.items), 'rels': len(rels.items)},
              'skipped_verses': skipped}

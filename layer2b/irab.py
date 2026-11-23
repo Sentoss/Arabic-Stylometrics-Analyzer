@@ -2,7 +2,9 @@
 
     tagger = IrabTagger("models/irab_model")
     tagger.tag(["قال", "محمد", "هو", "ابن", "مالك"])
-    -> [{"word", "role", "func", "rel", "target", "target_word", "hidden", "p_func"}, …]
+    -> [{"word", "role", "func", "rel", "target", "target_word", "hidden", "p_func",
+         and, when the word has them, "conj", "part", "subj", "enc"}, …]
+    (conj: the و/ف prefix; part: another prefix; subj / enc: attached pronouns)
 
 target is the index of the linked word, or one of the محذوف slots ("محذوف خبر" …),
 and is only given when rel is not "none". hidden (verbs only) is True when the
@@ -26,6 +28,7 @@ import torch.nn as nn
 from transformers import AutoConfig, AutoModel, AutoTokenizer
 
 N_SLOTS = 5
+CLITICS = ("conj", "part", "subj", "enc")
 VOWELS = re.compile(r"[ً-ْٰـ]")
 STOP = set(".!?؟:;؛")
 CONN = re.compile(r"^(ف|ثم$|و)")
@@ -35,7 +38,7 @@ class _Model(nn.Module):
     """Same layout as IrabModel in training/train_irab.py, built from a config
     so that no download is needed at run time."""
 
-    def __init__(self, enc_config, n_roles, n_funcs, n_rels, arc_dim=256):
+    def __init__(self, enc_config, n_roles, n_funcs, n_rels, arc_dim=256, clitics=None):
         super().__init__()
         self.enc = AutoModel.from_config(enc_config)
         h = enc_config.hidden_size
@@ -48,6 +51,7 @@ class _Model(nn.Module):
         self.head = nn.Sequential(nn.Linear(h, arc_dim), nn.GELU())
         self.slots = nn.Parameter(torch.zeros(N_SLOTS, arc_dim))
         self.bil = nn.Parameter(torch.eye(arc_dim))
+        self.clitic = nn.ModuleDict({k: nn.Linear(h, n) for k, n in (clitics or {}).items() if n})
 
     def forward(self, ids, att, first, wmask):
         hid = self.enc(input_ids=ids, attention_mask=att).last_hidden_state
@@ -59,8 +63,11 @@ class _Model(nn.Module):
         W = wmask.size(1)
         self_mask = torch.eye(W, W + N_SLOTS, dtype=torch.bool, device=arc.device).unsqueeze(0)
         arc = arc.masked_fill(~cmask.unsqueeze(1) | self_mask, -1e4)
-        return {"role": self.role(x), "func": self.func(x), "rel": self.rel(x),
-                "hidden": self.hidden(x), "target": arc}
+        out = {"role": self.role(x), "func": self.func(x), "rel": self.rel(x),
+               "hidden": self.hidden(x), "target": arc}
+        for k, layer in self.clitic.items():
+            out[k] = layer(x)
+        return out
 
 
 class IrabTagger:
@@ -81,7 +88,9 @@ class IrabTagger:
             except OSError:
                 pass
         L = self.labels
-        self.model = _Model(enc_cfg, len(L["roles"]), len(L["funcs"]), len(L["rels"]))
+        self.clitics = [k for k in CLITICS if k in L]
+        self.model = _Model(enc_cfg, len(L["roles"]), len(L["funcs"]), len(L["rels"]),
+                            clitics={k: len(L[k]) for k in self.clitics})
         self.device = device or ("cuda" if torch.cuda.is_available() else "cpu")
         state = torch.load(d / "model.pt", map_location="cpu")
         missing, unexpected = self.model.load_state_dict(state, strict=False)
@@ -146,6 +155,10 @@ class IrabTagger:
                     r["target"] = r["target_word"] = self.slots[t - W]
             if r["func"] in ("فعل ماض", "فعل مضارع", "فعل أمر"):
                 r["hidden"] = bool(P["hidden"][k, i].argmax())
+            for c in self.clitics:           # attached pieces: "none" when the word has none
+                lab = L[c][int(P[c][k, i].argmax())]
+                if lab != "none":
+                    r[c] = lab
             res.append(r)
         return res
 
