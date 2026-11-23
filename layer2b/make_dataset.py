@@ -21,7 +21,7 @@ VERBS = {'فعل ماض', 'فعل مضارع', 'فعل أمر'}
 
 QAC_REL = {'adj': 'نعت', 'conj': 'عطف', 'app': 'بدل', 'emph': 'توكيد', 'circ': 'حال'}
 
-ALF_FUNC = {'نعت': 'صفة', 'اسم ناسخ': 'اسم كان', 'خبر ناسخ': 'خبر كان',
+ALF_FUNC = {'نعت': 'صفة',
             'مفعول به أول': 'مفعول به', 'مفعول به ثان': 'مفعول به',
             'مفعول لأجله': 'المفعول لأجله', 'مفعول معه': 'المفعول معه',
             'منادى': 'منادي', 'مستثنى': 'مستثني', 'عطف بيان': 'بدل', 'مجرور': 'جار ومجرور'}
@@ -31,7 +31,39 @@ SLOT_OF = {'خبر': 0, 'نعت': 1, 'حال': 2, 'صلة': 3}
 PARTICLE_FUNC = [(r'^(?:حرف )?نافية|^حرف نفي', 'نفي'), (r'^(?:حرف )?ناهية|^لا الناهية', 'نهي'),
                  (r'^حرف تحقيق|^تحقيق', 'تحقيق'), (r'^حرف استفهام|^(?:همزة )?الاستفهام', 'استفهام')]
 
-NASIKH = r'^خبر (?:كان|إن|ان|أن|ليس|لا|ما|كاد|عسى|لعل|ليت|لكن|كأن|أصبح|اصبح|صار|ظل|بات|أمسى|امسى|زال|دام)'
+# the nasikh families are kept apart: اسم كان (مرفوع) is not اسم إنّ (منصوب)
+FAMILY = {}
+for fam, ws in {'إنّ': 'إن ان أن إنّ أنّ كأن لكن ليت لعل',
+                'كان': 'كان يكن يك يكون تكون الكون ليس أصبح اصبح صار يصير ظل بات أمسى امسى أضحى اضحى زال برح فتئ انفك دام',
+                'كاد': 'كاد عسى أوشك اوشك كرب طفق جعل أخذ',
+                'لا': 'لا', 'ما': 'ما'}.items():
+    for w in ws.split():
+        FAMILY[w] = fam
+CONTINUITY = set('يزال تزال يزل تزل زال يبرح تبرح برح يفتأ تفتأ فتئ ينفك تنفك انفك دام يزالون'.split())
+NOT_NASIKH = {'المبتدأ', 'المبتدا', 'لمبتدأ', 'لمبتدا', 'مبتدأ', 'للمبتدأ', 'مقدم', 'مؤخر', 'ثان', 'عن'}
+HINTS = [(r'مقاربة|رجاء|شروع', 'كاد'), (r'ناقص', 'كان'),
+         (r'حرف (?:توكيد|تشبيه|استدراك|ترج|تمن)[^،]*نصب|ينصب الاسم', 'إنّ'),
+         (r'نافية للجنس', 'لا'), (r'حجازية|تعمل عمل ليس', 'ما')]
+
+
+def nasikh_family(gloss, earlier):
+    m = re.match(r'(?:اسم|خبر)\s+([\u0621-\u064A]+)(?:\s+([\u0621-\u064A]+))?', gloss)
+    if m:
+        w, nxt = m.group(1), m.group(2)
+        if w in ('لا', 'ما') and nxt in CONTINUITY:      # خبر لا يزال، اسم ما دام
+            return 'كان'
+        for cand in (w, w[1:] if w.startswith('ل') else None):
+            if cand in FAMILY:
+                return FAMILY[cand]
+        if w in NOT_NASIKH:
+            return None
+    if not re.match(r'(?:اسم|خبر)(?:ها|ه)(?![\u0621-\u064A])', gloss):
+        return None
+    for g in reversed(earlier[-3:]):     # اسمها / خبرها: look back for the nasikh itself
+        for pat, fam in HINTS:
+            if re.search(pat, g):
+                return fam
+    return None
 
 
 def bucket(key):
@@ -106,11 +138,22 @@ def alfiyya_rows(path):
     for r in map(json.loads, gzip.open(path, 'rt', encoding='utf-8')):
         n = len(r['tokens'])
         func = [None] * n; rel = [None] * n; target = [None] * n; hidden = [None] * n
+        earlier = []
         for e in r['entries']:
             span, first = e['span'], e['span'][0]
-            pos, f, g = e['pos'], e['function'], e['gloss']
-            if f == 'خبر' and re.match(NASIKH, g):
-                f = 'خبر ناسخ'
+            pos, f = e['pos'], e['function']
+            g = re.sub(r'^[\u0621-\u064A]+\s*:\s*', '', e['gloss'].lstrip(': '))
+            if e.get('prefix'):
+                g = re.sub(r'^.*?[\u0621-\u064A]+\s*:\s*', '', g, count=1) if ':' in g else g
+            if f in ('اسم ناسخ', 'خبر ناسخ', 'خبر'):
+                fam = nasikh_family(g, earlier)
+                if f == 'خبر' and fam is None:
+                    pass                      # خبر المبتدأ
+                elif fam is None:
+                    f = None                  # a nasikh we cannot name: leave unlabelled
+                else:
+                    f = ('اسم ' if f == 'اسم ناسخ' else 'خبر ') + fam
+            earlier.append(e['gloss'])
             f = ALF_FUNC.get(f, f)
             h = e['head_index']
             slot = None

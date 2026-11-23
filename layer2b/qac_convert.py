@@ -119,6 +119,31 @@ def describe(nm, nodes, phrases):
     return {"word": "%d:%d:%d" % n["loc"], "seg": n["seg"]}
 
 
+KADA = {"kaAda", "EasaY", ">awoshaka", "karaba", "Tafiqa", ">axa*a", "jaEala", "{xolawolaq"}
+
+
+def nasikh_name(rel, head, words):
+    """QAC's subjx/predx cover كان، إنّ، لا and ما alike; name them by the governing word."""
+    kind = "اسم" if rel == "subjx" else "خبر"
+    tag = lemma = None
+    key = tuple(map(int, head["word"].split(":"))) if isinstance(head, dict) and "word" in head else None
+    if key in words:
+        segs = words[key]["segments"]
+        if head["seg"] < len(segs):
+            tag, lemma = segs[head["seg"]]["tag"], segs[head["seg"]].get("lemma")
+    elif isinstance(head, dict) and head.get("omitted"):
+        tag = head["omitted"]
+    if tag == "ACC":
+        return kind + " إنّ"
+    if tag == "NEG":
+        return kind + (" ما" if lemma == "maA" else " لا")
+    if tag == "V" and lemma in KADA:
+        return kind + " كاد"
+    if tag == "V":
+        return kind + " كان"
+    return None
+
+
 def main():
     qac_dir, out = sys.argv[1], sys.argv[2]
     morph = load_morphology(qac_dir)
@@ -178,6 +203,8 @@ def main():
                 w["function"], w["rel"], w["head"] = e["ar"], e["rel"], e["head"]
                 if e["rel"] == "pred":
                     w["function"] = "خبر"
+                elif e["rel"] in ("subjx", "predx"):
+                    w["function"] = nasikh_name(e["rel"], e["head"], words)
                 elif e["rel"] == "link" and stem["tag"] in ("T", "LOC"):
                     w["function"] = "ظرف زمان" if stem["tag"] == "T" else "ظرف مكان"
             elif w.get("pp_head") is not None:
@@ -188,7 +215,10 @@ def main():
                 w["function"] = {"PERF": "فعل ماض", "IMPF": "فعل مضارع", "IMPV": "فعل أمر"}.get(stem["aspect"], "فعل")
                 w["rel"] = "verb"
             if w.get("clause"):
-                w["clause_function"] = w["clause"][0]["ar"] if w["clause"][0]["rel"] != "pred" else "خبر"
+                c0 = w["clause"][0]
+                w["clause_function"] = ("خبر" if c0["rel"] == "pred" else
+                                        nasikh_name(c0["rel"], c0["head"], words) if c0["rel"] in ("subjx", "predx")
+                                        else c0["ar"])
             if "function" in w:
                 stats["with_function"] += 1
             stats["words"] += 1
