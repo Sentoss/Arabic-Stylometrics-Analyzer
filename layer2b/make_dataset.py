@@ -29,13 +29,23 @@ VERBS = {'فعل ماض', 'فعل مضارع', 'فعل أمر'}
 CONJ = ['none', 'عاطفة', 'استئنافية', 'رابطة للجواب', 'حالية', 'سببية', 'زائدة', 'معية']
 PART = ['none', 'جر', 'قسم', 'توكيد', 'استفهام', 'تسوية', 'تعليل', 'استقبال', 'أمر', 'نداء']
 SUBJ = ['none', 'فاعل', 'نائب فاعل', 'اسم كان']
-ENC = ['none', 'مفعول به', 'مفعول به أول', 'مفعول به ثان', 'مضاف إليه', 'مجرور', 'اسم إنّ']
+ACC_PARTICLES = ['إنّ', 'أنّ', 'كأنّ', 'لكنّ', 'ليت', 'لعلّ']
+ENC = ['none', 'مفعول به', 'مفعول به أول', 'مفعول به ثان', 'مضاف إليه', 'مجرور'] + ['اسم ' + p for p in ACC_PARTICLES]
 QAC_CONJ = {'CONJ': 'عاطفة', 'REM': 'استئنافية', 'RSLT': 'رابطة للجواب', 'CIRC': 'حالية',
             'CAUS': 'سببية', 'SUP': 'زائدة', 'COM': 'معية'}
 QAC_PART = {'EMPH': 'توكيد', 'INTG': 'استفهام', 'EQ': 'تسوية', 'PRP': 'تعليل', 'FUT': 'استقبال',
             'IMPV': 'أمر', 'VOC': 'نداء'}
 MASAQ_SUBJ = {'AGNT': 'فاعل', 'PASS_SUBJ': 'نائب فاعل', 'SUBJ_COP_V': 'اسم كان'}
 MASAQ_ENC = {'OBJ': 'مفعول به', 'GEN_CONS': 'مضاف إليه', 'PREP_OBJ': 'مجرور', 'SUBJ_COP_PART': 'اسم إنّ'}
+
+
+def acc_particle(word):
+    """إنّ، أنّ، كأنّ … from the unvowelled word that carries the attached pronoun."""
+    w = word[1:] if len(word) > 3 and word[0] in 'وف' else word
+    for pre, name in (('كأن', 'كأنّ'), ('لكن', 'لكنّ'), ('ليت', 'ليت'), ('لعل', 'لعلّ'), ('إن', 'إنّ'), ('أن', 'أنّ'), ('لأن', 'أنّ'), ('بأن', 'أنّ')):
+        if w.startswith(pre):
+            return name
+    return None
 
 QAC_REL = {'adj': 'نعت', 'conj': 'عطف', 'app': 'بدل', 'emph': 'توكيد', 'circ': 'حال'}
 
@@ -50,7 +60,7 @@ PARTICLE_FUNC = [(r'^(?:حرف )?نافية|^حرف نفي', 'نفي'), (r'^(?:�
 
 # the nasikh families are kept apart: اسم كان (مرفوع) is not اسم إنّ (منصوب)
 FAMILY = {}
-for fam, ws in {'إنّ': 'إن ان أن إنّ أنّ كأن لكن ليت لعل',
+for fam, ws in {'إنّ': 'إن إنّ', 'أنّ': 'أن أنّ', 'كأنّ': 'كأن', 'لكنّ': 'لكن', 'ليت': 'ليت', 'لعلّ': 'لعل',
                 'كان': 'كان يكن يك يكون تكون الكون ليس أصبح اصبح صار يصير ظل بات أمسى امسى أضحى اضحى زال برح فتئ انفك دام',
                 'كاد': 'كاد عسى أوشك اوشك كرب طفق جعل أخذ',
                 'لا': 'لا', 'ما': 'ما'}.items():
@@ -59,7 +69,7 @@ for fam, ws in {'إنّ': 'إن ان أن إنّ أنّ كأن لكن ليت ل�
 CONTINUITY = set('يزال تزال يزل تزل زال يبرح تبرح برح يفتأ تفتأ فتئ ينفك تنفك انفك دام يزالون'.split())
 NOT_NASIKH = {'المبتدأ', 'المبتدا', 'لمبتدأ', 'لمبتدا', 'مبتدأ', 'للمبتدأ', 'مقدم', 'مؤخر', 'ثان', 'عن'}
 HINTS = [(r'مقاربة|رجاء|شروع', 'كاد'), (r'ناقص', 'كان'),
-         (r'حرف (?:توكيد|تشبيه|استدراك|ترج|تمن)[^،]*نصب|ينصب الاسم', 'إنّ'),
+         (r'حرف (?:توكيد|تشبيه|استدراك|ترج|تمن)[^،]*نصب|ينصب الاسم', 'ACC'),
          (r'نافية للجنس', 'لا'), (r'حجازية|تعمل عمل ليس', 'ما')]
 
 
@@ -76,9 +86,12 @@ def nasikh_family(gloss, earlier):
             return None
     if not re.match(r'(?:اسم|خبر)(?:ها|ه)(?![\u0621-\u064A])', gloss):
         return None
-    for g in reversed(earlier[-3:]):     # اسمها / خبرها: look back for the nasikh itself
+    for q, g in reversed(earlier[-3:]):  # اسمها / خبرها: look back for the nasikh itself
         for pat, fam in HINTS:
             if re.search(pat, g):
+                if fam == 'ACC':           # which of إنّ's sisters: the quoted particle says
+                    w = re.sub(r'^[وف](?=..)', '', q.strip())
+                    return FAMILY.get(w) if FAMILY.get(w) in ('إنّ', 'أنّ', 'كأنّ', 'لكنّ', 'ليت', 'لعلّ') else None
                 return fam
     return None
 
@@ -125,6 +138,9 @@ def masaq_clitics(segs):
                 c['subj'] = MASAQ_SUBJ[role]
             elif role in MASAQ_ENC and c['enc'] == 'none':
                 c['enc'] = MASAQ_ENC[role]
+                if role == 'SUBJ_COP_PART':
+                    p = acc_particle(segs[0]['Without_Diacritics'])
+                    c['enc'] = 'اسم ' + p if p else None
     return c
 
 
@@ -152,7 +168,10 @@ def qac_clitics(x, order, v):
                     if x.get('function') in VERBS or any(g['tag'] == 'V' for g in x['segments']):
                         c['subj'] = 'اسم كان'
                     else:
-                        c['enc'] = 'اسم إنّ'
+                        h = next((g for g in x['segments'] if g['tag'] == 'ACC'), None)
+                        name = {'<in~': 'إنّ', '>an~': 'أنّ', 'ka>an~': 'كأنّ', 'la`kin~': 'لكنّ', 'la`kin': 'لكنّ',
+                                'layot': 'ليت', 'laEal~': 'لعلّ'}.get(h.get('lemma') if h else None)
+                        c['enc'] = 'اسم ' + name if name else None
                 elif r == 'obj' and c['enc'] == 'none':
                     c['enc'] = order.get((v, (w, si)), 'مفعول به')
                 elif r == 'poss' and c['enc'] == 'none':
@@ -198,7 +217,8 @@ def alfiyya_clitics(e, word):
         elif f == 'مضاف إليه':
             c['enc'] = 'مضاف إليه'
         elif f == 'اسم إن':
-            c['enc'] = 'اسم إنّ'
+            p = acc_particle(word)
+            c['enc'] = 'اسم ' + p if p else None
         elif f == 'في محل جر':
             c['enc'] = 'مجرور' if e.get('pos') == 'جار ومجرور' else 'مضاف إليه'
     return c
@@ -319,7 +339,7 @@ def alfiyya_rows(path):
                     f = None                  # a nasikh we cannot name: leave unlabelled
                 else:
                     f = ('اسم ' if f == 'اسم ناسخ' else 'خبر ') + fam
-            earlier.append(e['gloss'])
+            earlier.append((e['quote'], e['gloss']))
             f = ALF_FUNC.get(f, f)
             h = e['head_index']
             slot = None

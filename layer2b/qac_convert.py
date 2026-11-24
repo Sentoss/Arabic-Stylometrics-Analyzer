@@ -119,6 +119,9 @@ def describe(nm, nodes, phrases):
     return {"word": "%d:%d:%d" % n["loc"], "seg": n["seg"]}
 
 
+# إنّ وأخواتها are named by the particle itself: اسم إنّ is not اسم أنّ
+ACC_NAME = {"<in~": "إنّ", ">an~": "أنّ", "ka>an~": "كأنّ", "la`kin~": "لكنّ", "la`kin": "لكنّ",
+            "layot": "ليت", "laEal~": "لعلّ"}
 KADA = {"kaAda", "EasaY", ">awoshaka", "karaba", "Tafiqa", ">axa*a", "jaEala", "{xolawolaq"}
 
 
@@ -134,7 +137,7 @@ def nasikh_name(rel, head, words):
     elif isinstance(head, dict) and head.get("omitted"):
         tag = head["omitted"]
     if tag == "ACC":
-        return kind + " إنّ"
+        return kind + " " + ACC_NAME.get(lemma, "إنّ")
     if tag == "NEG":
         return kind + (" ما" if lemma == "maA" else " لا")
     if tag == "V" and lemma in KADA:
