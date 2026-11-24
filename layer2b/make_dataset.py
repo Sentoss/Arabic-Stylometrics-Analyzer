@@ -23,7 +23,7 @@ import argparse, collections, csv, gzip, json, re, zlib
 from pathlib import Path
 
 SLOTS = ['محذوف خبر', 'محذوف صفة', 'محذوف حال', 'محذوف صلة', 'محذوف غير ذلك']
-RELS = ['none', 'تعلق', 'نعت', 'عطف', 'بدل', 'عطف بيان', 'توكيد', 'حال']
+RELS = ['none', 'تعلق', 'نعت', 'عطف', 'عطف جملة', 'بدل', 'عطف بيان', 'توكيد', 'حال']
 VERBS = {'فعل ماض', 'فعل مضارع', 'فعل أمر'}
 
 CONJ = ['none', 'عاطفة', 'استئنافية', 'رابطة للجواب', 'حالية', 'سببية', 'زائدة', 'معية']
@@ -241,7 +241,18 @@ def object_order(qac):
     return order
 
 
-def qac_labels(x, nw, v, order=None):
+TENSE = {'PERF': 'فعل ماض', 'IMPF': 'فعل مضارع', 'IMPV': 'فعل أمر'}
+
+
+def has_verb(x):
+    return any(sg['tag'] == 'V' for sg in x['segments'])
+
+
+def tense(x):
+    return next((TENSE.get(sg.get('aspect')) for sg in x['segments'] if sg['tag'] == 'V'), None)
+
+
+def qac_labels(x, nw, v, order=None, words=None):
     """-> func, rel, target, hidden for one QAC word (target may be None)."""
     func = x.get('function')
     if func == 'متعلق':
@@ -272,6 +283,17 @@ def qac_labels(x, nw, v, order=None):
         rel = QAC_REL[x['rel']]
         if rel != 'حال':      # QAC attaches حال to its verb, not to صاحب الحال
             target = idx(x.get('head'))
+    # coordination of clauses (عطف جملة على جملة): a verb joined to a verb, or the head
+    # of a clause joined to another clause; the verb keeps its tense as its function
+    h = x.get('head') if isinstance(x.get('head'), dict) else {}
+    if x.get('rel') == 'conj' and has_verb(x) and words is not None and has_verb(words.get(h.get('word'), {'segments': []})):
+        rel, func = 'عطف جملة', tense(x) or func
+        hidden = 1 if x.get('hidden') else 0
+    elif rel == 'none':
+        for cl in x.get('clause') or []:
+            if cl['rel'] == 'conj':
+                rel, target = 'عطف جملة', idx(cl['head'])
+                break
     return func, rel, target, hidden
 
 
@@ -314,6 +336,10 @@ def alfiyya_rows(path):
                 func[first], rel[first] = zm, 'تعلق'
                 target[first] = slot if slot is not None else h
                 continue
+            if pos in VERBS and f == 'معطوف':       # a verb joined to a verb: عطف جملة
+                func[first], rel[first], hidden[first] = pos, 'عطف جملة', 1 if e['hidden'] else 0
+                target[first] = None if e['head_external'] else h
+                continue
             if pos in VERBS and (f is None or f in ALF_DROP):
                 f = pos
             if pos in VERBS:
@@ -326,6 +352,10 @@ def alfiyya_rows(path):
             if f in ALF_DROP:
                 f = None
             func[first] = f
+            mj = re.search(r'(?:والجملة|وجملة)[^،.]{0,30}?معطوفة على (?:جملة )?', g)
+            if mj and f not in ALF_REL:
+                rel[first], target[first] = 'عطف جملة', None
+                continue
             rr = ALF_REL.get(f, 'none')
             rel[first] = rr if (f or pos) else None
             if rr != 'none' and not e['head_external']:
@@ -357,6 +387,7 @@ def main():
         qac.setdefault((s, v), {})[w] = x
 
     order = object_order(qac)
+    qac_flat = {f"{v[0]}:{v[1]}:{w}": x for v, ws in qac.items() for w, x in ws.items()}
     rows, skipped = [], []
     for v, words in sorted(masaq_verses(a.masaq).items()):
         nw = len(words)
@@ -368,7 +399,7 @@ def main():
         for k in ('conj', 'part', 'subj', 'enc'):
             row[k] = [c[k] for _, _, c in words]
         for w, x in qac.get(v, {}).items():
-            f, rl, t, h = qac_labels(x, nw, v, order)
+            f, rl, t, h = qac_labels(x, nw, v, order, qac_flat)
             i = w - 1
             row['func'][i], row['rel'][i], row['target'][i], row['hidden'][i] = f, rl, t, h
             for k, val in qac_clitics(x, order, v).items():
