@@ -239,15 +239,19 @@ class ClassicalAnalyzer:
     """CAMeL's analyzer plus Classical passives and harvested variants."""
 
     def __init__(self, analyzer=None, variants=VARIANTS, passives=True, keep_backoff=False,
-                 cache_size=200000, mode="labels"):
+                 cache_size=200000, mode="labels", imperatives=None, questions=None):
         """keep_backoff: also return the analyzer's backoff guesses (proper
         nouns), as layer 1 needs; the label builder leaves them out.
         mode="labels": every supplement reading (the printed vowels decide).
         mode="text": for unvowelled text, where only a context model decides:
         no interrogative readings, and imperatives only for words with no other
         reading (the MSA model cannot be trusted with them: it read the name
-        أهرمن as أَ + هَرَّمَ). Revisit once the Classical model is trained."""
+        أهرمن as أَ + هَرَّمَ). Revisit once the Classical model is trained.
+        imperatives ("always" | "fallback") and questions (True | False)
+        override what the mode would do."""
         self.mode = mode
+        self.imp_always = (imperatives == "always") if imperatives else mode == "labels"
+        self.questions = questions if questions is not None else mode == "labels"
         self.an = analyzer or Analyzer(MorphologyDB.builtin_db())
         self.passives = passives
         self.keep_backoff = keep_backoff
@@ -397,7 +401,7 @@ class ClassicalAnalyzer:
                 p = make_passive(a)
                 if p:
                     add(p)
-        if self.mode == "labels" or not out:
+        if self.imp_always or not out:
             for b in self.imperatives(word):
                 if b.get("lex") == "راوَنْد":
                     b["lex"] = "رَأَى"
@@ -410,7 +414,7 @@ class ClassicalAnalyzer:
                 b.update(diac=re.sub("كَأَن[\u064e\u0651]+$", "كَأَنْ", a["diac"]), source="classical_manual",
                          pos_lex_logprob=a.get("pos_lex_logprob", -99) - 0.5)
                 add(b)
-        if question and self.mode == "labels":
+        if question and self.questions:
             for b in self.question(word):
                 add(b)
         return out

@@ -3,7 +3,9 @@ per word.
 
 usage: python run_system.py SYSTEM aligned.jsonl OUT.jsonl [--limit N]
 SYSTEM: msa | msa_sup (CAMeL's MSA model, without / with the Classical
-supplement) | a folder with one of our morphology models (model.pt, config.json)
+supplement) | a folder with one of our morphology models (model.pt, config.json),
+optionally followed by +imp (offer imperatives always) and/or +q (offer
+question-hamza readings)
 """
 import json
 import sys
@@ -27,8 +29,12 @@ def build(system):
             d._analyzer = ClassicalAnalyzer(analyzer=d._analyzer, keep_backoff=True, mode="text")
         return d
     from layer2.disambiguator import ClassicalDisambiguator
-    d = ClassicalDisambiguator(system, top=1)
-    d._analyzer = ClassicalAnalyzer(analyzer=d._analyzer, keep_backoff=True, mode="text")
+    # MODEL_DIR[+imp][+q]: also offer imperatives always / question-hamza readings
+    model, *opts = system.split("+")
+    d = ClassicalDisambiguator(model, top=1)
+    d._analyzer = ClassicalAnalyzer(analyzer=d._analyzer, keep_backoff=True, mode="text",
+                                    imperatives="always" if "imp" in opts else None,
+                                    questions=True if "q" in opts else None)
     return d
 
 
