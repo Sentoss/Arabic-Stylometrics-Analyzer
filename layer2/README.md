@@ -2,13 +2,29 @@
 
 Goal: pick the right reading (lemma, part of speech, features) of each word in
 **unvowelled Classical text**, as CAMeL Tools' disambiguator does for Modern
-Standard Arabic. The model will be CAMeLBERT-CA fine-tuned on Classical
-text whose correct readings are known.
+Standard Arabic. The model is CAMeLBERT-CA fine-tuned on Classical text whose
+correct readings are known.
+
+How the pieces fit:
+
+- **The dictionary** lists every possible reading of a bare word. It is CAMeL's
+  *MSA* database (calima-msa-r13) plus the supplement described in step 2.
+  There is no Classical lexicon behind it yet: a word the MSA database lacks has
+  no reading (see "Known gaps" below).
+- **The labels** (step 1) say which of those readings is right in a given
+  sentence. They come from vowelled text: Tashkeela's printed vowels rule out
+  readings (silver labels), and the Quranic Arabic Corpus gives hand-checked
+  ones for the Qur'an (gold labels, `qac_eval/`).
+- **The model** learns to predict the right reading's features from bare text;
+  at analysis time the dictionary reading that agrees best with it is chosen
+  (`disambiguator.py`).
 
 ## Step 1: training labels from Tashkeela (done)
 
-Nobody has hand-labelled millions of Classical words. But Tashkeela's texts are
-*vowelled*, and vowels rule out readings. `build_labels.py` asks CAMeL's
+Hand-labelled Classical data is scarce (the Qur'an in QAC, ~77k words; a
+205k-word Classical corpus by the Noor team, of which only al-Fātiḥa and
+al-Baqara are public). But Tashkeela's texts are *vowelled*, and vowels rule out
+readings. `build_labels.py` asks CAMeL's
 analyzer for every possible reading of the bare word, then keeps only the
 readings whose vowels agree with the printed ones:
 
@@ -47,8 +63,27 @@ the dictionary's most probable pick, which is often wrong (أَقْوَى → th
 ## Step 2: the Classical supplement (done)
 
 The no_match words showed what CAMeL's MSA dictionary lacks for Classical
-prose. `supplement.py` adds the missing readings at analysis time
-(`ClassicalAnalyzer`, a drop-in for CAMeL's analyzer):
+prose. `supplement.py` adds readings at analysis time (`ClassicalAnalyzer`, a
+drop-in for CAMeL's analyzer).
+
+> **What the supplement is, and what it is not.** It is **not a Classical
+> dictionary**. Most of it *generates* forms by rule from the MSA database's
+> own entries: passives (1), imperatives (3) and the interrogative hamza (4)
+> for every verb or particle the database already has. Only part 2 comes from
+> Classical text: 464 vowellings harvested from a 2.1M-word Tashkeela sample.
+> Parts 5–6 are hand fixes. So the supplement repairs how MSA data covers
+> regular Classical *forms* of known words; it adds almost no new *words*.
+> Rule-generated readings are also over-generated (every verb gets a passive,
+> whether used or not), and the model must choose among them.
+
+| part | source | adds |
+|---|---|---|
+| 1. passives | rule | a passive for every active verb reading |
+| 2. Classical variants | Tashkeela (data) | 464 vowellings / new lemmas of known stems |
+| 3. imperatives | rule | imperatives from the 2nd-person jussive |
+| 4. interrogative أَ | rule | أَ + verb, pronoun, demonstrative or particle |
+| 5. fixes | by hand | lightened كَأَنْ; lemma of رَأَى |
+| 6. conventions | by hand | spelling conventions reconciled when matching vowels |
 
 **1. Passives by rule** (`make_passive`). The MSA database has passives for only
 some verbs (عُلِمَ, يُذْكَرُ) and none for most (ذُكِرَ, قِيلَ, رُوِيَ, يُشْتَرَطُ).
@@ -117,9 +152,31 @@ python layer2/harvest_variants.py LABELS_without_variants.tsv
 python layer2/build_labels.py DATA/tashkeela_aliosm/dataset/train.txt DATA/layer2/labels_train.tsv
 ```
 
-## Next steps
+## Step 3: the model (done) and its gold test
 
-1. ~~Classical supplement to the dictionary, and rebuilt labels~~ (done, above).
-2. **Fine-tune** CAMeLBERT-CA on the labels (unique + case_tie as targets, ties
-   as option sets); evaluate on the test split against the vowels.
-3. Plug it into layer 1 in place of the MSA disambiguator and re-run layer 3.
+CAMeLBERT-CA fine-tuned on the labels (`training/train_morph.py`), plugged into
+layer 1. On the Tashkeela test split it agrees with the silver labels on all 14
+features for 97.6% of words; that measures agreement with our own labels, not
+true accuracy.
+
+Gold test against QAC's morphology (`qac_eval/`), on sūras held out from
+training (8,440 words), all features except case and mood:
+
+| model | score |
+|---|---|
+| CAMeL MSA disambiguator | 87.9% |
+| ours, Tashkeela labels only | 88.9% |
+| ours, Tashkeela + QAC gold labels (`morph_v4`) | **92.2%** |
+
+The gold labels fixed what vowels can't decide (relative ما: 30% → 98%).
+
+## Known gaps
+
+- **No Classical lexicon.** Words missing from the MSA database get no reading
+  and fall back to "proper noun". Planned: a Classical lexicon (Lane's Lexicon,
+  possibly Arramooz or Qabas) and a candidate generator for unknown words
+  (root-and-pattern matching).
+- **Imperatives** are offered only as secondary readings, so unvowelled text
+  rarely gets them (≈41% right on the Qur'an).
+- **Case and mood** are often left open by the chosen reading; by design they
+  will come from layer 2b (iʿrāb).
