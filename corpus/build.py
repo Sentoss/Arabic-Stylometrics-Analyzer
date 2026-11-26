@@ -1,6 +1,6 @@
 """Build the benchmark corpus.
 
-usage: python -m corpus.build DATA_DIR [--chunk 2000]
+usage: python -m corpus.build DATA_DIR [--chunk 2500]
 
 DATA_DIR/raw/<versionUri>.mARkdown      downloaded files
 DATA_DIR/clean/<book>.jsonl             labelled paragraphs
@@ -74,7 +74,7 @@ def chunk_paragraphs(paras, size):
 def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("data_dir")
-    ap.add_argument("--chunk", type=int, default=2000)
+    ap.add_argument("--chunk", type=int, default=2500)
     a = ap.parse_args()
     root = Path(a.data_dir)
     for d in ("raw", "clean", "chunks"):

@@ -19,7 +19,7 @@ placeholders (<Q-BLOCK>, <H-BLOCK>, <M-BLOCK>, <ISNAD>) and embedded quotations
 by <Q>, <H>, <M>: their words no longer count as the author's, but the fact of
 quoting stays visible as a countable feature.
 
-usage: python -m corpus.quotations DATA_DIR REFS_DIR [--chunk 2000]
+usage: python -m corpus.quotations DATA_DIR REFS_DIR [--chunk 2500]
 """
 import argparse
 import json
@@ -279,7 +279,7 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("data_dir")
     ap.add_argument("refs_dir")
-    ap.add_argument("--chunk", type=int, default=2000)
+    ap.add_argument("--chunk", type=int, default=2500)
     ap.add_argument("--max-df", type=float, default=0.10,
                     help="hadith shingles found in more than this share of books are "
                          "treated as common phrasing, not quotation")
