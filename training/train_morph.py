@@ -164,6 +164,8 @@ def main():
     ap.add_argument("--smoke", action="store_true", help="tiny run to check that everything works")
     ap.add_argument("--init", default="", help="start from this model.pt (continue training)")
     ap.add_argument("--skip-test", action="store_true")
+    ap.add_argument("--extra-test", default="test_qac.jsonl.gz",
+                    help="also score this file of DATA if present (gold QAC words held out by sūra)")
     a = ap.parse_args()
     if a.smoke:
         a.limit, a.epochs, a.batch = 40, 1, 8
@@ -221,8 +223,14 @@ def main():
     model.load_state_dict(torch.load(out / "model.pt", map_location=dev))
     acc = evaluate(model, sl, dev, names) if not a.skip_test else {}
     print("test: " + "  ".join(f"{k} {v:.3f}" for k, v in acc.items()), flush=True)
+    extra = {}
+    xp = data / a.extra_test
+    if a.extra_test and not a.skip_test and (xp.exists() or xp.with_suffix("").exists()):
+        xt = Segments(read(xp, lim_eval), tok, len(names), a.max_len)
+        extra = evaluate(model, DataLoader(xt, batch_size=a.batch * 2, collate_fn=col), dev, names)
+        print(f"{a.extra_test}: " + "  ".join(f"{k} {v:.3f}" for k, v in extra.items()), flush=True)
     tok.save_pretrained(out / "tokenizer")
-    json.dump({"base": a.base, "labels": labels, "test": acc, "args": vars(a)},
+    json.dump({"base": a.base, "labels": labels, "test": acc, "test_extra": extra, "args": vars(a)},
               open(out / "config.json", "w"), ensure_ascii=False, indent=1)
     print(f"done in {(time.time() - t0) / 60:.1f} min; files in {out}", flush=True)
 
