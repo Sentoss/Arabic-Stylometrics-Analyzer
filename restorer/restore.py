@@ -119,7 +119,11 @@ DEFAULT_PRIOR = Path(__file__).resolve().parent.parent / "resources" / "form_fre
 
 
 import os
+# The default pipeline (27 Nov 2026): layer 2a = morph_v5 with the Lane/Arramooz
+# dictionary picks each word; layer 2b = irab_v5 predicts its final vowel.
+# models/morph_model and models/irab_model point at the current models.
 DEFAULT_MORPH = Path(os.environ.get("MORPH_MODEL", Path(__file__).resolve().parent.parent / "models" / "morph_model"))
+DEFAULT_IRAB = Path(os.environ.get("IRAB_MODEL", Path(__file__).resolve().parent.parent / "models" / "irab_model"))
 
 
 class Restorer:
@@ -127,18 +131,28 @@ class Restorer:
     treated as a tie and decided by Classical frequency (if a prior is given)."""
 
     def __init__(self, disambiguator=None, prior="default", window=0.15, classical=True,
-                 morph_model="default", irab_model=None):
+                 morph_model="default", irab_model="default", lane=True):
         """classical: give the disambiguator the layer 2 Classical supplement
         (passives, imperatives, interrogative أَ, Classical vowelings, Form II
         verbs such as حَدَّثَ, the lightened كَأَنْ, the lemma of رَأَى).
         irab_model: a layer 2b model folder with the `end` head; the word's final
-        vowel is then the one 2b predicts (layer2/ending_from_irab.py)."""
+        vowel is then the one 2b predicts (layer2/ending_from_irab.py). "default":
+        models/irab_model if present; None: 2a's own endings.
+        lane: layer 2a uses the dictionary with Lane's and Arramooz's words
+        (layer2/lane/lexicon_db.py)."""
         if morph_model == "default":
             morph_model = DEFAULT_MORPH if (DEFAULT_MORPH / "model.pt").exists() else None
+        if irab_model == "default":
+            irab_model = DEFAULT_IRAB if (DEFAULT_IRAB / "model.pt").exists() else None
         if disambiguator is None and morph_model and classical:
             # layer 2a: the Classical tagger (fine-tuned CAMeLBERT-CA)
             from layer2.disambiguator import ClassicalDisambiguator
-            disambiguator = ClassicalDisambiguator(morph_model)
+            analyzer = None
+            if lane:
+                from camel_tools.morphology.analyzer import Analyzer
+                from layer2.lane.lexicon_db import STEMS, lane_db
+                analyzer = Analyzer(lane_db(stems=STEMS), backoff="ADD_PROP")
+            disambiguator = ClassicalDisambiguator(morph_model, analyzer=analyzer)
         if disambiguator is None:
             from camel_tools.disambig.bert import BERTUnfactoredDisambiguator
             # MSA model only: dialect models are deliberately not used.
