@@ -97,7 +97,9 @@ PTYPE_OF = {'REL': 'اسم موصول', 'NEG': 'حرف نفي', 'ACC': 'حرف �
             'EXP': 'استثناء', 'INC': 'ابتداء', 'EXL': 'تفصيل', 'AMD': 'استدراك', 'INT': 'تفسير',
             'FUT': 'استقبال', 'ANS': 'جواب', 'EXH': 'تحضيض', 'SUR': 'فجاءة', 'AVR': 'ردع', 'INL': 'حروف مقطعة',
             'SUP': 'زائد', 'IMPN': 'اسم فعل', 'P': 'حرف جر', 'CONJ': 'حرف عطف'}
-PTYPE = ['none'] + sorted(set(PTYPE_OF.values()) | {'فعل ناسخ'})
+# types with no QAC source, labelled only by annotators: تعجب (ما التعجبية …)
+EXPERT_PTYPE = {'تعجب'}
+PTYPE = ['none'] + sorted(set(PTYPE_OF.values()) | {'فعل ناسخ'} | EXPERT_PTYPE)
 END = ['none', 'ضمة', 'فتحة', 'كسرة', 'تنوين ضم', 'تنوين فتح', 'تنوين كسر', 'سكون']
 MARK_NAME = {'\u064f': 'ضمة', '\u064e': 'فتحة', '\u0650': 'كسرة', '\u064c': 'تنوين ضم',
              '\u064b': 'تنوين فتح', '\u064d': 'تنوين كسر', '\u0652': 'سكون'}
