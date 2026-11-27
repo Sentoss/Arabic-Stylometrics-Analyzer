@@ -12,6 +12,8 @@ For every (unvowelled) word the model predicts
   ptype   the kind of particle or relative (حرف نفي، شرط، حرف مصدري، حرف ناسخ، فعل ناسخ …)
   mn      its meaning where one kind has several (تشبيه، نافية للجنس، مقاربة …)
   clause  the function of the clause that starts at this word (صلة، شرط، جواب شرط، خبر …)
+  end     the final short vowel the word is printed with (ضمة، فتحة، كسرة، تنوين …، سكون),
+          learned by prediction from vowelled prose (Tashkeela) and the vowelled Qur'an
 Labels missing for a word (-1) are skipped by the loss.
 
 Data: a folder of train/val/test .jsonl.gz files and labels.json (see TRAINING.md).
@@ -34,7 +36,7 @@ from transformers import AutoModel, AutoTokenizer, get_linear_schedule_with_warm
 
 BASE = "CAMeL-Lab/bert-base-arabic-camelbert-ca"
 N_SLOTS = 5
-CLITICS = ("conj", "part", "subj", "enc", "cm", "ptype", "mn", "clause")   # word-level heads (see make_dataset.py)
+CLITICS = ("conj", "part", "subj", "enc", "cm", "ptype", "mn", "clause", "end")   # word-level heads (see make_dataset.py)
 FIELDS = ("role", "func", "rel", "target", "hidden") + CLITICS
 
 

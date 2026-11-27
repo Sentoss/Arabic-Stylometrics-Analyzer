@@ -12,6 +12,11 @@ The last four are the attached pieces of the word, each with its own function:
   part  another prefix (حرف جر، لام التعليل، أ الاستفهام، س …)
   subj  an attached subject pronoun on a verb (ت، وا، نا …): فاعل، نائب فاعل، اسم كان
   enc   an attached object / possessive pronoun: مفعول به، مضاف إليه، مجرور، اسم إنّ …
+One field is learned from vowelled text by prediction (no dictionary, no annotation):
+  end     the final short vowel the word is printed with: ضمة، فتحة، كسرة، تنوين ضم/فتح/كسر،
+          سكون، or "none" (ends in a long vowel: فِي، مُوسَى، قالُوا); -1 where the text
+          leaves the last letter unvowelled. From Tashkeela (AliOsm split, prose) and from
+          MASAQ's vowelled Qur'an words. Tashkeela rows carry only this field.
 Three more word-level fields come from the rest of QAC:
   cm      the case or mood the word carries (QAC morphology, whole Qur'an): رفع، نصب، جر،
           مضارع مرفوع، منصوب، مجزوم; "none" for a word with no case or mood (مبني، حرف، ماض …)
@@ -93,6 +98,55 @@ PTYPE_OF = {'REL': 'اسم موصول', 'NEG': 'حرف نفي', 'ACC': 'حرف �
             'FUT': 'استقبال', 'ANS': 'جواب', 'EXH': 'تحضيض', 'SUR': 'فجاءة', 'AVR': 'ردع', 'INL': 'حروف مقطعة',
             'SUP': 'زائد', 'IMPN': 'اسم فعل', 'P': 'حرف جر', 'CONJ': 'حرف عطف'}
 PTYPE = ['none'] + sorted(set(PTYPE_OF.values()) | {'فعل ناسخ'})
+END = ['none', 'ضمة', 'فتحة', 'كسرة', 'تنوين ضم', 'تنوين فتح', 'تنوين كسر', 'سكون']
+MARK_NAME = {'\u064f': 'ضمة', '\u064e': 'فتحة', '\u0650': 'كسرة', '\u064c': 'تنوين ضم',
+             '\u064b': 'تنوين فتح', '\u064d': 'تنوين كسر', '\u0652': 'سكون'}
+HARAKAT = re.compile('[\u064b-\u0652\u0670\u0640]')
+
+
+def ending(word):
+    """The final short vowel of a vowelled word (see END), or None if it is not printed."""
+    w = word.replace('\u0640', '')
+    units = re.findall('([\u0621-\u064a])([\u064b-\u0652\u0670]*)', w)
+    if not units:
+        return None
+    marks = lambda m: [MARK_NAME[c] for c in m if c in MARK_NAME]
+    last, lm = units[-1]
+    prev = marks(units[-2][1]) if len(units) > 1 else []
+    lm = marks(lm)
+    if last in 'اى':
+        if 'تنوين فتح' in lm or 'تنوين فتح' in prev:
+            return 'تنوين فتح'                 # كِتَابًا، هُدًى
+        if lm:
+            return lm[-1]
+        return 'none' if prev else None        # مُوسَى، قَالَا; unvowelled: unknown
+    if not lm:
+        if (last == 'و' and 'ضمة' in prev) or (last == 'ي' and 'كسرة' in prev):
+            return 'none'                      # قَالُوا، فِي
+        return None
+    return lm[-1]
+
+
+def tashkeela_rows(path, split, maxw=40):
+    """Vowelled prose cut into segments; the only label is each word's printed ending."""
+    stop = set('.؟?!؛:')
+    for ln, line in enumerate(open(path, encoding='utf-8')):
+        cur = []
+        toks = re.findall('[\u0621-\u064a\u064b-\u0652\u0670\u0640]+|[^\\s\u0621-\u0652\u0670\u0640]', line)
+        for t in toks + ['.']:
+            if not re.match('[\u0621-\u064a]', t):
+                if cur and (t in stop or (t == '،' and len(cur) >= 20)):
+                    yield cur
+                    cur = []
+                continue
+            cur.append(t)
+            if len(cur) >= maxw:
+                yield cur
+                cur = []
+        if cur:
+            yield cur
+
+
 CLAUSE_SKIP = {'متعلق', 'جار ومجرور'}
 MASAQ_SUBJ = {'AGNT': 'فاعل', 'PASS_SUBJ': 'نائب فاعل', 'SUBJ_COP_V': 'اسم فعل ناسخ'}
 MASAQ_ENC = {'OBJ': 'مفعول به', 'GEN_CONS': 'مضاف إليه', 'PREP_OBJ': 'مجرور', 'SUBJ_COP_PART': 'اسم حرف ناسخ'}
@@ -335,7 +389,7 @@ def masaq_verses(path):
             segs = ws[n]
             stems = [s['Syntactic_Role'] for s in segs if s['Morph_Type'] == 'Stem' and s['Syntactic_Role']]
             anyr = [s['Syntactic_Role'] for s in segs if s['Syntactic_Role']]
-            row.append((segs[0]['Without_Diacritics'], (stems or anyr or [None])[0], masaq_clitics(segs)))
+            row.append((segs[0]['Without_Diacritics'], (stems or anyr or [None])[0], masaq_clitics(segs), segs[0]['Word']))
         out[k] = row
     return out
 
@@ -488,7 +542,7 @@ def alfiyya_rows(path):
         key = '%s:%s:%s' % (r['kind'], r['page'], r['verse'][:20])
         yield {'src': r['kind'], 'id': key, 'w': words, 'role': [None] * n,
                'func': func, 'rel': rel, 'target': target, 'hidden': hidden, **cl,
-               'cm': [None] * n, 'ptype': ptype, 'mn': [None] * n, 'clause': [None] * n}
+               'cm': [None] * n, 'ptype': ptype, 'mn': [None] * n, 'clause': [None] * n, 'end': [None] * n}
 
 
 def main():
@@ -496,6 +550,10 @@ def main():
     ap.add_argument('--masaq', required=True); ap.add_argument('--qac', required=True)
     ap.add_argument('--alfiyya', required=True); ap.add_argument('--qac-morph', required=True)
     ap.add_argument('--out', required=True)
+    ap.add_argument('--tashkeela', help='folder with the AliOsm split of Tashkeela (train/val/test.txt)')
+    ap.add_argument('--tashkeela-words', type=int, default=0, help='use at most this many training words (0: all)')
+    ap.add_argument('--quran-repeat', type=int, default=1,
+                    help='copies of each Qur\'an row in train, so the iʿrāb heads are not drowned by Tashkeela rows')
     ap.add_argument('--alfiyya-repeat', type=int, default=3,
                     help='copies of each Alfiyya/shahid row in train (they are the only non-Qur\'anic data)')
     a = ap.parse_args()
@@ -520,10 +578,11 @@ def main():
         if qcount[v] != nw:
             skipped.append('%d:%d' % v)
             continue
-        row = {'src': 'quran', 'id': '%d:%d' % v, 'w': [w for w, _, _ in words], 'role': [r for _, r, _ in words],
+        row = {'src': 'quran', 'id': '%d:%d' % v, 'w': [x[0] for x in words], 'role': [x[1] for x in words],
                'func': [None] * nw, 'rel': [None] * nw, 'target': [None] * nw, 'hidden': [None] * nw}
         for k in ('conj', 'part', 'subj', 'enc'):
-            row[k] = [c[k] for _, _, c in words]
+            row[k] = [x[2][k] for x in words]
+        row['end'] = [ending(x[3]) for x in words]
         mw = [morph.get((*v, i + 1), (None,) * 4) for i in range(nw)]
         row['cm'] = [m[0] for m in mw]
         row['ptype'] = [m[1] for m in mw]
@@ -551,10 +610,27 @@ def main():
                     row[k][i] = val          # QAC's analysis wins where it has one
         rows.append(row)
     rows.extend(alfiyya_rows(a.alfiyya))
+    fields = ('role', 'func', 'rel', 'target', 'hidden', 'conj', 'part', 'subj', 'enc', 'cm', 'ptype', 'mn', 'clause', 'end')
+    tash = []
+    if a.tashkeela:
+        for sp in ('train', 'val', 'test'):
+            used = 0
+            for k, seg in enumerate(tashkeela_rows(Path(a.tashkeela) / f'{sp}.txt', sp)):
+                if sp == 'train' and a.tashkeela_words and used >= a.tashkeela_words:
+                    break
+                n = len(seg)
+                r = {'src': 'tashkeela', 'id': f'tashkeela:{sp}:{k}', 'split': sp,
+                     'w': [HARAKAT.sub('', t) for t in seg], **{f: [None] * n for f in fields}}
+                r['end'] = [ending(t) for t in seg]
+                if sum(e is not None for e in r['end']) < 0.8 * n:
+                    continue                       # mostly unvowelled: skip
+                used += n
+                tash.append(r)
+    rows.extend(tash)
 
     roles, funcs, rels = Vocab(), Vocab(), Vocab(RELS)
     cvoc = {'conj': Vocab(CONJ), 'part': Vocab(PART), 'subj': Vocab(SUBJ), 'enc': Vocab(ENC),
-            'cm': Vocab(CM), 'ptype': Vocab(PTYPE), 'mn': Vocab(MEANING)}
+            'cm': Vocab(CM), 'ptype': Vocab(PTYPE), 'mn': Vocab(MEANING), 'end': Vocab(END)}
     ccnt = collections.Counter(c for r in rows for c in r['clause'] if c)
     clauses = Vocab(['none'] + sorted((c for c, k in ccnt.items() if k >= 10 and c != 'none'), key=lambda c: -ccnt[c]))
     cnt = collections.Counter(f for r in rows for f in r['func'] if f)
@@ -571,8 +647,11 @@ def main():
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     split = collections.defaultdict(list)
     for r in rows:
-        s = bucket(r['id'])
-        split[s].extend([r] * (a.alfiyya_repeat if s == 'train' and r['src'] != 'quran' else 1))
+        s = r.pop('split', None) or bucket(r['id'])
+        rep = 1
+        if s == 'train':
+            rep = a.quran_repeat if r['src'] == 'quran' else 1 if r['src'] == 'tashkeela' else a.alfiyya_repeat * a.quran_repeat
+        split[s].extend([r] * rep)
     for s, rs in split.items():
         with gzip.open(out / f'{s}.jsonl.gz', 'wt', encoding='utf-8') as f:
             for r in rs:
@@ -583,13 +662,13 @@ def main():
 
     def n(field, src=None):
         return sum(1 for r in rows if src in (None, r['src']) for x in r[field] if x >= 0)
-    stats = {'rows': {s: len(rs) for s, rs in split.items()}, 'alfiyya_repeat': a.alfiyya_repeat,
+    stats = {'rows': {s: len(rs) for s, rs in split.items()}, 'alfiyya_repeat': a.alfiyya_repeat, 'quran_repeat': a.quran_repeat,
              'by_source': {src: {'units': sum(1 for r in rows if r['src'] == src),
                                  'words': sum(len(r['w']) for r in rows if r['src'] == src),
                                  **{f: n(f, src) for f in ('role', 'func', 'rel', 'target', 'hidden',
                                                            'conj', 'part', 'subj', 'enc',
-                                                           'cm', 'ptype', 'mn', 'clause')}}
-                           for src in ('quran', 'alfiyya', 'shahid')},
+                                                           'cm', 'ptype', 'mn', 'clause', 'end')}}
+                           for src in ('quran', 'alfiyya', 'shahid', 'tashkeela')},
              'labels': {'roles': len(roles.items), 'funcs': len(funcs.items), 'rels': len(rels.items),
                         'clause': len(clauses.items)},
              'clause_counts': {c: ccnt[c] for c in clauses.items},
