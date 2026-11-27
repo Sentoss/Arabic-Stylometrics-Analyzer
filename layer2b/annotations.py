@@ -13,10 +13,31 @@ usage: python layer2b/annotations.py BATCH.json ANN.json DATASET_DIR [--repeat 3
 import argparse
 import gzip
 import json
+import sys
 from pathlib import Path
+
+sys.path.insert(0, str(Path(__file__).resolve().parent))
+
+from make_dataset import NO_POSITION, PARTICLE_AS_FUNC, collapse
 
 UNUSABLE = {"أخرى (في الملاحظات)", ""}
 CLITICS = ("conj", "part", "subj", "enc")
+# fields added with the shared label scheme (claude/irab-label-scheme.md); a word saved
+# before them has no "nf" and its new fields are left unlabelled
+NEW = ("ptype", "mn", "cm", "clause")
+PAGE_KEY = {"ptype": "pt", "mn": "mn", "cm": "cm", "clause": "cl"}
+VERB_CM = {"رفع": "مضارع مرفوع", "نصب": "مضارع منصوب", "جزم": "مضارع مجزوم"}
+
+
+def page_cm(v, func):
+    """The page's رفع/نصب/جر/جزم/مبني -> the model's case/mood label."""
+    if not v:
+        return None
+    if v == "مبني":
+        return "none"
+    if func == "فعل مضارع":
+        return VERB_CM.get(v)
+    return v if v in ("رفع", "نصب", "جر") and func not in ("فعل ماض", "فعل أمر") else None
 
 
 def rows(batch, ann, slots):
@@ -31,13 +52,15 @@ def rows(batch, ann, slots):
             continue
         r = {"src": "prose", "id": s["id"], "split": s["split"], "w": s["words"], "role": [None] * n,
              "func": [None] * n, "rel": [None] * n, "target": [None] * n, "hidden": [None] * n,
-             **{k: [None] * n for k in CLITICS}}
+             **{k: [None] * n for k in CLITICS + NEW}}
         checked = 0
         for i, w in enumerate(words):
             if not (w.get("ok") or a.get("all")):
                 continue
             checked += 1
-            r["func"][i] = None if w.get("f") in UNUSABLE else w.get("f")
+            f = w.get("f")
+            f = NO_POSITION if f in PARTICLE_AS_FUNC or f == "لا وظيفة" else collapse(f)  # older saves
+            r["func"][i] = None if f in UNUSABLE else f
             r["rel"][i] = w.get("r") or "none"
             t = w.get("t", "")
             if r["rel"][i] != "none" and t != "":
@@ -46,7 +69,14 @@ def rows(batch, ann, slots):
                 r["hidden"][i] = 1 if w["h"] else 0
             for k in CLITICS:                 # the attached pieces ("none" = the word has none)
                 if w.get(k):
-                    r[k][i] = w[k]
+                    r[k][i] = collapse({"اسم كان": "اسم فعل ناسخ"}.get(w[k], w[k]))
+            if w.get("nf"):                   # checked on the page with the new fields
+                for k in NEW:
+                    v = w.get(PAGE_KEY[k])
+                    if k == "cm":
+                        v = page_cm(v, r["func"][i])
+                    if v:
+                        r[k][i] = v
         if checked:
             yield r
 
@@ -63,7 +93,7 @@ def main():
     out = {"train": [], "test": []}
     added = set()
     for r in rows(batch, ann, labels["slots"]):
-        for k, key in (("func", "funcs"), ("rel", "rels")) + tuple((c, c) for c in CLITICS):
+        for k, key in (("func", "funcs"), ("rel", "rels")) + tuple((c, c) for c in CLITICS + NEW):
             ids = []
             for x in r[k]:
                 if x is None:

@@ -16,7 +16,10 @@ Three more word-level fields come from the rest of QAC:
   cm      the case or mood the word carries (QAC morphology, whole Qur'an): رفع، نصب، جر،
           مضارع مرفوع، منصوب، مجزوم; "none" for a word with no case or mood (مبني، حرف، ماض …)
   ptype   the kind of particle or relative the word is (QAC stem tag, whole Qur'an):
-          حرف نفي، شرط، حرف مصدري، استفهام … "none" for other words
+          حرف نفي، شرط، حرف مصدري، استفهام، حرف ناسخ، فعل ناسخ … "none" for other words
+  mn      the meaning, where one kind has several: the حرف ناسخ (توكيد، تشبيه، استدراك، تمنٍّ،
+          ترجٍّ), لا/ما (نافية للجنس، عاملة عمل ليس، غير عاملة), the فعل ناسخ (كان وأخواتها،
+          مقاربة، رجاء، شروع)
   clause  the function of the clause or phrase that starts at this word (QAC treebank:
           صلة، شرط، جواب شرط، خبر، مفعول به، صفة، حال …), "none" if it starts none;
           the plain متعلق / جار ومجرور of a prepositional phrase is left out
@@ -36,9 +39,49 @@ VERBS = {'فعل ماض', 'فعل مضارع', 'فعل أمر'}
 
 CONJ = ['none', 'عاطفة', 'استئنافية', 'رابطة للجواب', 'حالية', 'سببية', 'زائدة', 'معية']
 PART = ['none', 'جر', 'قسم', 'توكيد', 'استفهام', 'تسوية', 'تعليل', 'استقبال', 'أمر', 'نداء']
-SUBJ = ['none', 'فاعل', 'نائب فاعل', 'اسم كان']
+SUBJ = ['none', 'فاعل', 'نائب فاعل', 'اسم فعل ناسخ']
 ACC_PARTICLES = ['إنّ', 'أنّ', 'كأنّ', 'لكنّ', 'ليت', 'لعلّ']
-ENC = ['none', 'مفعول به', 'مفعول به أول', 'مفعول به ثان', 'مضاف إليه', 'مجرور'] + ['اسم ' + p for p in ACC_PARTICLES]
+ENC = ['none', 'مفعول به', 'مفعول به أول', 'مفعول به ثان', 'مضاف إليه', 'مجرور', 'اسم حرف ناسخ']
+
+# The label scheme shared with the annotation page and site (claude/irab-label-scheme.md):
+# the nasikh is named by its kind only (اسم/خبر حرف ناسخ، اسم/خبر فعل ناسخ); which
+# particle or verb it is shows in ptype and mn on the nasikh word itself.
+NASIKH_PARTICLE = set(ACC_PARTICLES) | {'لا', 'ما'}
+NASIKH_VERB = {'كان', 'كاد'}
+
+
+def collapse(label):
+    """'اسم إنّ' -> 'اسم حرف ناسخ', 'خبر كان' -> 'خبر فعل ناسخ'; other labels unchanged."""
+    if not label:
+        return label
+    m = re.fullmatch(r'(اسم|خبر) (\S+)', label)
+    if m and m.group(2) in NASIKH_PARTICLE:
+        return m.group(1) + ' حرف ناسخ'
+    if m and m.group(2) in NASIKH_VERB:
+        return m.group(1) + ' فعل ناسخ'
+    return label
+
+
+# particle meanings that used to be functions: the particle now gets func «حرف لا محل له»
+# and its kind in ptype
+PARTICLE_AS_FUNC = {'نفي': 'حرف نفي', 'نهي': 'نهي', 'استفهام': 'استفهام', 'تحقيق': 'تحقيق',
+                    'استقبال': 'استقبال', 'حصر': 'حصر', 'تفصيل': 'تفصيل', 'جواب': 'جواب',
+                    'استدراك': 'استدراك', 'اضراب': 'إضراب', 'تحضيض': 'تحضيض', 'ردع': 'ردع',
+                    'فجاءة': 'فجاءة', 'زائد': 'زائد', 'ابتداء': 'ابتداء', 'تسوية': None, 'مركب': None}
+NO_POSITION = 'حرف لا محل له'
+# ptype values that are particles (no محل); اسم موصول، شرط، استفهام may be nouns with a position
+PARTICLE_TYPES = {'حرف نفي', 'حرف ناسخ', 'حرف مصدري', 'حرف عطف', 'حصر', 'تحقيق', 'نهي', 'كافة',
+                  'إضراب', 'استثناء', 'ابتداء', 'تفصيل', 'استدراك', 'تفسير', 'استقبال', 'جواب',
+                  'تحضيض', 'فجاءة', 'ردع', 'زائد', 'حروف مقطعة'}
+MEANING = ['none', 'توكيد', 'تشبيه', 'استدراك', 'تمنٍّ', 'ترجٍّ', 'نافية للجنس', 'عاملة عمل ليس',
+           'غير عاملة', 'كان وأخواتها', 'مقاربة', 'رجاء', 'شروع']
+ACC_MEANING = {'<in~': 'توكيد', '>an~': 'توكيد', 'ka>an~': 'تشبيه', 'la`kin~': 'استدراك',
+               'la`kin': 'استدراك', 'layot': 'تمنٍّ', 'laEal~': 'ترجٍّ'}
+KANA = {'kaAna', 'Zal~a', '>aSobaHa', '>amosaY', '>aDoHaY', 'baAta', 'SaAra', 'layosa', 'zaAla',
+        'baraHa', 'fati}a', '{nfak~a', 'daAma'}
+VERB_MEANING = {**{l: 'كان وأخواتها' for l in KANA}, 'kaAda': 'مقاربة', '>awoshaka': 'مقاربة',
+                'karaba': 'مقاربة', 'EasaY': 'رجاء', '{xolawolaq': 'رجاء', 'Tafiqa': 'شروع',
+                '>axa*a': 'شروع', 'jaEala': 'شروع'}
 QAC_CONJ = {'CONJ': 'عاطفة', 'REM': 'استئنافية', 'RSLT': 'رابطة للجواب', 'CIRC': 'حالية',
             'CAUS': 'سببية', 'SUP': 'زائدة', 'COM': 'معية'}
 QAC_PART = {'EMPH': 'توكيد', 'INTG': 'استفهام', 'EQ': 'تسوية', 'PRP': 'تعليل', 'FUT': 'استقبال',
@@ -49,10 +92,10 @@ PTYPE_OF = {'REL': 'اسم موصول', 'NEG': 'حرف نفي', 'ACC': 'حرف �
             'EXP': 'استثناء', 'INC': 'ابتداء', 'EXL': 'تفصيل', 'AMD': 'استدراك', 'INT': 'تفسير',
             'FUT': 'استقبال', 'ANS': 'جواب', 'EXH': 'تحضيض', 'SUR': 'فجاءة', 'AVR': 'ردع', 'INL': 'حروف مقطعة',
             'SUP': 'زائد', 'IMPN': 'اسم فعل', 'P': 'حرف جر', 'CONJ': 'حرف عطف'}
-PTYPE = ['none'] + sorted(set(PTYPE_OF.values()))
+PTYPE = ['none'] + sorted(set(PTYPE_OF.values()) | {'فعل ناسخ'})
 CLAUSE_SKIP = {'متعلق', 'جار ومجرور'}
-MASAQ_SUBJ = {'AGNT': 'فاعل', 'PASS_SUBJ': 'نائب فاعل', 'SUBJ_COP_V': 'اسم كان'}
-MASAQ_ENC = {'OBJ': 'مفعول به', 'GEN_CONS': 'مضاف إليه', 'PREP_OBJ': 'مجرور', 'SUBJ_COP_PART': 'اسم إنّ'}
+MASAQ_SUBJ = {'AGNT': 'فاعل', 'PASS_SUBJ': 'نائب فاعل', 'SUBJ_COP_V': 'اسم فعل ناسخ'}
+MASAQ_ENC = {'OBJ': 'مفعول به', 'GEN_CONS': 'مضاف إليه', 'PREP_OBJ': 'مجرور', 'SUBJ_COP_PART': 'اسم حرف ناسخ'}
 
 
 def acc_particle(word):
@@ -154,9 +197,6 @@ def masaq_clitics(segs):
                 c['subj'] = MASAQ_SUBJ[role]
             elif role in MASAQ_ENC and c['enc'] == 'none':
                 c['enc'] = MASAQ_ENC[role]
-                if role == 'SUBJ_COP_PART':
-                    p = acc_particle(segs[0]['Without_Diacritics'])
-                    c['enc'] = 'اسم ' + p if p else None
     return c
 
 
@@ -182,12 +222,9 @@ def qac_clitics(x, order, v):
                     c['subj'] = 'نائب فاعل'
                 elif r == 'subjx':
                     if x.get('function') in VERBS or any(g['tag'] == 'V' for g in x['segments']):
-                        c['subj'] = 'اسم كان'
+                        c['subj'] = 'اسم فعل ناسخ'
                     else:
-                        h = next((g for g in x['segments'] if g['tag'] == 'ACC'), None)
-                        name = {'<in~': 'إنّ', '>an~': 'أنّ', 'ka>an~': 'كأنّ', 'la`kin~': 'لكنّ', 'la`kin': 'لكنّ',
-                                'layot': 'ليت', 'laEal~': 'لعلّ'}.get(h.get('lemma') if h else None)
-                        c['enc'] = 'اسم ' + name if name else None
+                        c['enc'] = 'اسم حرف ناسخ'
                 elif r == 'obj' and c['enc'] == 'none':
                     c['enc'] = order.get((v, (w, si)), 'مفعول به')
                 elif r == 'poss' and c['enc'] == 'none':
@@ -223,7 +260,7 @@ def alfiyya_clitics(e, word):
             continue
         f = m.group(2)
         if f in ('فاعل', 'نائب فاعل', 'اسم كان'):
-            c['subj'] = f
+            c['subj'] = collapse(f)
         elif f in ('مفعول به أول', 'مفعول أول'):
             c['enc'] = 'مفعول به أول'
         elif f in ('مفعول به ثان', 'مفعول ثان'):
@@ -233,15 +270,14 @@ def alfiyya_clitics(e, word):
         elif f == 'مضاف إليه':
             c['enc'] = 'مضاف إليه'
         elif f == 'اسم إن':
-            p = acc_particle(word)
-            c['enc'] = 'اسم ' + p if p else None
+            c['enc'] = 'اسم حرف ناسخ'
         elif f == 'في محل جر':
             c['enc'] = 'مجرور' if e.get('pos') == 'جار ومجرور' else 'مضاف إليه'
     return c
 
 
 def qac_morph_words(path):
-    """(sura, verse, word) -> (cm, ptype) for every word of the Qur'an, from QAC morphology."""
+    """(sura, verse, word) -> (cm, ptype, meaning, lemma) for every word of the Qur'an, from QAC morphology."""
     segs = collections.defaultdict(list)
     for line in open(path, encoding='utf-8'):
         m = re.match(r'\((\d+):(\d+):(\d+):\d+\)\t[^\t]*\t([^\t]+)\t(\S+)', line)
@@ -250,10 +286,17 @@ def qac_morph_words(path):
     out = {}
     for k, ss in segs.items():
         stem = next(((t, f) for t, f in ss if f[0] == 'STEM'), None)
-        cm, pt = 'none', 'none'
+        cm, pt, mn = 'none', 'none', 'none'
         if stem:
             tag, f = stem
             pt = PTYPE_OF.get(tag, 'none')
+            lem = next((x[4:] for x in f if x.startswith('LEM:')), None)
+            if tag == 'ACC':
+                mn = ACC_MEANING.get(lem)                 # None: unknown
+            elif tag == 'NEG' and lem in ('laA', 'maA'):
+                mn = None                                 # عاملة or not: only the treebank says
+            elif tag == 'V' and lem in VERB_MEANING:
+                pt = mn = None                            # ناقص or تامّ: only the treebank says
             fs = set(f)
             if 'NOM' in fs: cm = 'رفع'
             elif 'ACC' in fs: cm = 'نصب'
@@ -265,7 +308,19 @@ def qac_morph_words(path):
                         any(x in fs for x in ('3FP', '2FP')):
                     cm = 'none'                 # نون التوكيد / نون النسوة: مبني
                 else: cm = 'مضارع مرفوع'
-        out[k] = (cm, pt)
+        out[k] = (cm, pt, mn, lem if stem else None)
+    return out
+
+
+def nasikh_heads(ws):
+    """Word numbers (in one verse) that govern an اسم or خبر (subjx / predx), as a word or as a clause."""
+    out = set()
+    for x in ws.values():
+        edges = [e for sg in x['segments'] for e in sg['edges']] + (x.get('clause') or [])
+        for e in edges:
+            h = e.get('head')
+            if e['rel'] in ('subjx', 'predx') and isinstance(h, dict) and 'word' in h:
+                out.add(int(h['word'].split(':')[2]))
     return out
 
 
@@ -367,6 +422,7 @@ def alfiyya_rows(path):
         n = len(r['tokens'])
         func = [None] * n; rel = [None] * n; target = [None] * n; hidden = [None] * n
         cl = {k: [None] * n for k in ('conj', 'part', 'subj', 'enc')}
+        ptype = [None] * n
         earlier = []
         for e in r['entries']:
             span, first = e['span'], e['span'][0]
@@ -385,7 +441,7 @@ def alfiyya_rows(path):
                 else:
                     f = ('اسم ' if f == 'اسم ناسخ' else 'خبر ') + fam
             earlier.append((e['quote'], e['gloss']))
-            f = ALF_FUNC.get(f, f)
+            f = collapse(ALF_FUNC.get(f, f))
             h = e['head_index']
             slot = None
             if e.get('head') == 'محذوف':
@@ -416,6 +472,9 @@ def alfiyya_rows(path):
                         break
             if f in ALF_DROP:
                 f = None
+            if f in PARTICLE_AS_FUNC:
+                ptype[first] = PARTICLE_AS_FUNC[f]
+                f = NO_POSITION
             func[first] = f
             mj = re.search(r'(?:والجملة|وجملة)[^،.]{0,30}?معطوفة على (?:جملة )?', g)
             if mj and f not in ALF_REL:
@@ -429,7 +488,7 @@ def alfiyya_rows(path):
         key = '%s:%s:%s' % (r['kind'], r['page'], r['verse'][:20])
         yield {'src': r['kind'], 'id': key, 'w': words, 'role': [None] * n,
                'func': func, 'rel': rel, 'target': target, 'hidden': hidden, **cl,
-               'cm': [None] * n, 'ptype': [None] * n, 'clause': [None] * n}
+               'cm': [None] * n, 'ptype': ptype, 'mn': [None] * n, 'clause': [None] * n}
 
 
 def main():
@@ -465,15 +524,28 @@ def main():
                'func': [None] * nw, 'rel': [None] * nw, 'target': [None] * nw, 'hidden': [None] * nw}
         for k in ('conj', 'part', 'subj', 'enc'):
             row[k] = [c[k] for _, _, c in words]
-        row['cm'] = [morph.get((*v, i + 1), (None, None))[0] for i in range(nw)]
-        row['ptype'] = [morph.get((*v, i + 1), (None, None))[1] for i in range(nw)]
+        mw = [morph.get((*v, i + 1), (None,) * 4) for i in range(nw)]
+        row['cm'] = [m[0] for m in mw]
+        row['ptype'] = [m[1] for m in mw]
+        row['mn'] = [m[2] for m in mw]
         row['clause'] = [None] * nw
+        heads = nasikh_heads(qac.get(v, {}))           # treebank: which words govern an اسم/خبر
         for w, x in qac.get(v, {}).items():
             f, rl, t, h = qac_labels(x, nw, v, order, qac_flat)
             i = w - 1
-            row['func'][i], row['rel'][i], row['target'][i], row['hidden'][i] = f, rl, t, h
+            if f in PARTICLE_AS_FUNC:
+                f = NO_POSITION
+            row['func'][i], row['rel'][i], row['target'][i], row['hidden'][i] = collapse(f), rl, t, h
             cf = x.get('clause_function')
-            row['clause'][i] = 'none' if cf is None or cf in CLAUSE_SKIP else cf
+            row['clause'][i] = 'none' if cf is None or cf in CLAUSE_SKIP else collapse(cf)
+            lem = mw[i][3]
+            if mw[i][0] is not None and lem in VERB_MEANING or (lem in ('laA', 'maA') and row['ptype'][i] == 'حرف نفي'):
+                if lem in VERB_MEANING:          # كان، كاد … in the treebank: ناقص if it governs اسم/خبر
+                    row['ptype'][i], row['mn'][i] = ('فعل ناسخ', VERB_MEANING[lem]) if w in heads else ('none', 'none')
+                else:
+                    row['mn'][i] = ('نافية للجنس' if lem == 'laA' else 'عاملة عمل ليس') if w in heads else 'غير عاملة'
+            if row['ptype'][i] in PARTICLE_TYPES and row['func'][i] is None:
+                row['func'][i] = NO_POSITION
             for k, val in qac_clitics(x, order, v).items():
                 if val is not None and (val != 'none' or row[k][i] is None or k == 'conj'):
                     row[k][i] = val          # QAC's analysis wins where it has one
@@ -482,7 +554,7 @@ def main():
 
     roles, funcs, rels = Vocab(), Vocab(), Vocab(RELS)
     cvoc = {'conj': Vocab(CONJ), 'part': Vocab(PART), 'subj': Vocab(SUBJ), 'enc': Vocab(ENC),
-            'cm': Vocab(CM), 'ptype': Vocab(PTYPE)}
+            'cm': Vocab(CM), 'ptype': Vocab(PTYPE), 'mn': Vocab(MEANING)}
     ccnt = collections.Counter(c for r in rows for c in r['clause'] if c)
     clauses = Vocab(['none'] + sorted((c for c, k in ccnt.items() if k >= 10 and c != 'none'), key=lambda c: -ccnt[c]))
     cnt = collections.Counter(f for r in rows for f in r['func'] if f)
@@ -516,7 +588,7 @@ def main():
                                  'words': sum(len(r['w']) for r in rows if r['src'] == src),
                                  **{f: n(f, src) for f in ('role', 'func', 'rel', 'target', 'hidden',
                                                            'conj', 'part', 'subj', 'enc',
-                                                           'cm', 'ptype', 'clause')}}
+                                                           'cm', 'ptype', 'mn', 'clause')}}
                            for src in ('quran', 'alfiyya', 'shahid')},
              'labels': {'roles': len(roles.items), 'funcs': len(funcs.items), 'rels': len(rels.items),
                         'clause': len(clauses.items)},

@@ -31,7 +31,7 @@ import torch.nn as nn
 from transformers import AutoConfig, AutoModel, AutoTokenizer
 
 N_SLOTS = 5
-CLITICS = ("conj", "part", "subj", "enc", "cm", "ptype", "clause")
+CLITICS = ("conj", "part", "subj", "enc", "cm", "ptype", "mn", "clause")
 VOWELS = re.compile(r"[ً-ْٰـ]")
 STOP = set(".!?؟:;؛")
 CONN = re.compile(r"^(ف|ثم$|و)")
