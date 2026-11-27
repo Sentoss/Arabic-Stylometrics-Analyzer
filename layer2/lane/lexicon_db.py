@@ -15,21 +15,25 @@ from pathlib import Path
 from camel_tools.morphology.database import MorphologyDB
 
 BASE = Path.home() / ".camel_tools/data/morphology_db/calima-msa-r13/morphology.db"
-STEMS = Path(__file__).resolve().parents[1] / "resources" / "lane_stems.tsv"
+RES = Path(__file__).resolve().parents[1] / "resources"
+STEMS = (RES / "lane_stems.tsv", RES / "lane_names.tsv")      # Lane's words + their name twins
+RARE_TRIAL = RES / "lane_rare_trial.tsv"                         # trial: rare competing words, low prior
 CACHE = Path.home() / ".cache" / "arabic_stylometrics"
 
 
 def merged_path(stems=STEMS):
-    h = hashlib.sha1(Path(stems).read_bytes()).hexdigest()[:10]
+    stems = [Path(x) for x in ([stems] if isinstance(stems, (str, Path)) else stems) if Path(x).exists()]
+    h = hashlib.sha1(b"".join(x.read_bytes() for x in stems)).hexdigest()[:10]
     out = CACHE / f"calima-msa-r13+lane-{h}.db"
     if out.exists():
         return out
     CACHE.mkdir(parents=True, exist_ok=True)
     rows = []
-    for line in open(stems, encoding="utf-8"):
-        p = line.rstrip("\n").split("\t")
-        if len(p) >= 3:
-            rows.append("\t".join(p[:3]) + "\n")
+    for f in stems:
+        for line in open(f, encoding="utf-8"):
+            p = line.rstrip("\n").split("\t")
+            if len(p) >= 3:
+                rows.append("\t".join(p[:3]) + "\n")
     tmp = out.with_suffix(".tmp")
     with open(BASE, encoding="utf-8") as src, open(tmp, "w", encoding="utf-8") as dst:
         for line in src:
@@ -41,4 +45,5 @@ def merged_path(stems=STEMS):
 
 
 def lane_db(flags="a", stems=STEMS):
+    """stems: one TSV or a list of TSVs of stem lines (stem, category, features …)."""
     return MorphologyDB(str(merged_path(stems)), flags)

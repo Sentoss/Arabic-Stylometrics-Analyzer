@@ -189,14 +189,15 @@ def main():
     ap.add_argument("--variants", default=None,
                     help="harvested variants TSV ('none' to disable; default: resources/classical_variants.tsv)")
     ap.add_argument("--lane", action="store_true", help="dictionary with Lane's stems added (lane/lexicon_db.py)")
+    ap.add_argument("--lane-rare", action="store_true", help="with --lane: also the rare-words trial file")
     a = ap.parse_args()
     from supplement import VARIANTS
     base = None
     if a.lane:
         sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
-        from layer2.lane.lexicon_db import lane_db
+        from layer2.lane.lexicon_db import RARE_TRIAL, STEMS, lane_db
         from camel_tools.morphology.analyzer import Analyzer
-        base = Analyzer(lane_db())
+        base = Analyzer(lane_db(stems=STEMS + ((RARE_TRIAL,) if a.lane_rare else ())))
     an = ClassicalAnalyzer(analyzer=base, passives=not a.no_passives,
                            variants=None if a.variants == "none" else (a.variants or VARIANTS))
     src = Counter()

@@ -14,7 +14,11 @@ enough; never words that, with a proclitic, have the same vowels as an existing
 word (كَ + ثِير = كَثِير). The Tashkeela frequency sets each reading's prior
 (lex_logprob), so rare readings stay unlikely.
 
-usage: python layer2/lane/build_lane_stems.py lane_cov.jsonl TASHKEELA_FORMS.tsv OUT_STEMS.tsv
+usage: python layer2/lane/build_lane_stems.py lane_cov.jsonl TASHKEELA_FORMS.tsv OUT_STEMS.tsv [OUT_RARE.tsv]
+
+OUT_RARE (trial): the rare competing words too ("shared_rare": Tashkeela does
+not attest them often enough), with a very low prior (RARE_LOGP), so they win
+only where the context clearly calls for their features.
 """
 import json
 import math
@@ -30,6 +34,7 @@ from probe_labels import MARK  # noqa: E402
 
 DB = Path.home() / ".camel_tools/data/morphology_db/calima-msa-r13/morphology.db"
 WEAK = set("ويىاءأإآؤئ")
+RARE_LOGP = -9.0
 PROCLITICS = ["", "وَ", "فَ", "بِ", "لِ", "كَ", "ال", "وَال", "فَال", "بِال", "لِل", "كَال"]
 
 
@@ -175,7 +180,7 @@ def check(word, base, forms):
     return "shared_rare", n_att, f"{n_att}/{comp}"
 
 
-def main(cov_path, forms_path, out_path):
+def main(cov_path, forms_path, out_path, rare_path=None):
     cls, example = load_db_classes()
     forms = load_forms(forms_path)
     base = Base()
@@ -192,7 +197,7 @@ def main(cov_path, forms_path, out_path):
         w = lane_norm(r["w"])
         k = key(w)
         status, n_att, why = check(w, base, forms)
-        if status not in ("new", "shared"):
+        if status not in ("new", "shared") and not (rare_path and status == "shared_rare"):
             stats["skip: " + status] += 1
             continue
         stem, fem = stem_of(w)
@@ -214,6 +219,8 @@ def main(cov_path, forms_path, out_path):
         f = dict(example[((pat, fem, plural), cat)])
         lex = stem + ("َة" if fem else "") + "_lane"
         logp = round(math.log10((n_att + 0.5) / total), 4)
+        if status == "shared_rare":
+            logp = min(logp, RARE_LOGP)
         f.update({"diac": stem, "lex": lex, "bw": stem + "/" + f.get("pos", "noun").upper(),
                   "gloss": "Lane:" + (r.get("entry") or ""), "root": ".".join(letters(root)),
                   "pattern": pat, "source": "lane", "lex_logprob": logp, "pos_lex_logprob": logp,
@@ -224,10 +231,16 @@ def main(cov_path, forms_path, out_path):
         stats[f"added: {status}" + (" (attested)" if n_att else "")] += 1
     with open(out_path, "w", encoding="utf-8") as fo:
         for row in out:
-            fo.write("\t".join(str(x) for x in row) + "\n")
+            if row[3] != "shared_rare":
+                fo.write("\t".join(str(x) for x in row) + "\n")
+    if rare_path:
+        with open(rare_path, "w", encoding="utf-8") as fo:
+            for row in out:
+                if row[3] == "shared_rare":
+                    fo.write("\t".join(str(x) for x in row) + "\n")
     for k_, v in sorted(stats.items()):
         print(f"  {k_:34} {v}")
 
 
 if __name__ == "__main__":
-    main(*sys.argv[1:4])
+    main(*sys.argv[1:5])

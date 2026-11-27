@@ -93,12 +93,20 @@ class ClassicalDisambiguator:
             res += [{f: lps[k][j] for k, f in enumerate(self.feats)} for j in range(len(first))]
         return res
 
+    # features left out when choosing a reading: set to ("cas", "mod") when case and
+    # mood come from layer 2b (design decision), so a name with no case ending
+    # (CAMeL writes names caseless) is not out-scored by a common noun with one
+    ignore = ()
+
     def score(self, analysis, lp):
-        s = 0.0
+        s, n = 0.0, 0
         for f in self.feats:
+            if f in self.ignore:
+                continue
             i = self.index[f].get(analysis.get(f))
             s += float(lp[f][i]) if i is not None else math.log(FLOOR)
-        return math.exp(s / len(self.feats))
+            n += 1
+        return math.exp(s / n)
 
     # -- camel-tools interface ----------------------------------------------
     def disambiguate(self, sentence):

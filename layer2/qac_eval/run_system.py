@@ -32,10 +32,12 @@ def build(system):
     # MODEL_DIR[+imp][+q]: also offer imperatives always / question-hamza readings
     model, *opts = system.split("+")
     d = ClassicalDisambiguator(model, top=1)
+    if "nocase" in opts:                    # choose readings without case/mood (they come from 2b)
+        d.ignore = ("cas", "mod")
     if "lane" in opts:                      # dictionary with Lane's stems
         from camel_tools.morphology.analyzer import Analyzer
-        from layer2.lane.lexicon_db import lane_db
-        d._analyzer = Analyzer(lane_db(), backoff="ADD_PROP")
+        from layer2.lane.lexicon_db import RARE_TRIAL, STEMS, lane_db
+        d._analyzer = Analyzer(lane_db(stems=STEMS + ((RARE_TRIAL,) if "rare" in opts else ())), backoff="ADD_PROP")
     d._analyzer = ClassicalAnalyzer(analyzer=d._analyzer, keep_backoff=True, mode="text",
                                     imperatives="always" if "imp" in opts else None,
                                     questions=True if "q" in opts else None)
