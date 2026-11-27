@@ -129,22 +129,72 @@ def ending(word):
 
 def tashkeela_rows(path, split, maxw=40):
     """Vowelled prose cut into segments; the only label is each word's printed ending."""
+    for line in open(path, encoding='utf-8'):
+        yield from segments_of(line, maxw)
+
+
+def segments_of(line, maxw=40):
+    """One line of vowelled text -> segments of at most maxw words, cut at punctuation."""
     stop = set('.؟?!؛:')
-    for ln, line in enumerate(open(path, encoding='utf-8')):
-        cur = []
-        toks = re.findall('[\u0621-\u064a\u064b-\u0652\u0670\u0640]+|[^\\s\u0621-\u0652\u0670\u0640]', line)
-        for t in toks + ['.']:
-            if not re.match('[\u0621-\u064a]', t):
-                if cur and (t in stop or (t == '،' and len(cur) >= 20)):
-                    yield cur
-                    cur = []
-                continue
-            cur.append(t)
-            if len(cur) >= maxw:
+    cur = []
+    toks = re.findall('[\u0621-\u064a\u064b-\u0652\u0670\u0640]+|[^\\s\u0621-\u0652\u0670\u0640]', line)
+    for t in toks + ['.']:
+        if not re.match('[\u0621-\u064a]', t):
+            if cur and (t in stop or (t == '،' and len(cur) >= 20)):
                 yield cur
                 cur = []
-        if cur:
+            continue
+        cur.append(t)
+        if len(cur) >= maxw:
             yield cur
+            cur = []
+    if cur:
+        yield cur
+
+
+def book_half(name):
+    """Full Tashkeela split by book: 0 = training books (31.6M words, 48 books),
+    1 = held-out books (34.9M words, 49 books), never trained on."""
+    return zlib.crc32(name.encode()) % 2
+
+
+def tashkeela_book_rows(texts_dir, train_words, val_words, test_words, exclude, seed=13):
+    """Rows from whole Tashkeela books: train/val from the training books (lines also in
+    the AliOsm val/test split are left out), test from the held-out books. Lines are
+    sampled at random so every book contributes in proportion to its size."""
+    import os, random
+    rnd = random.Random(seed)
+    W = re.compile('[\u0621-\u064a][\u0621-\u0652\u0670]*')
+    books = sorted(f for f in os.listdir(texts_dir) if os.path.isfile(os.path.join(texts_dir, f)))
+    size = {b: sum(len(W.findall(l)) for l in open(os.path.join(texts_dir, b), encoding='utf-8', errors='ignore'))
+            for b in books}
+    pool = {h: sum(size[b] for b in books if book_half(b) == h) for h in (0, 1)}
+    want = {'train': (0, train_words), 'val': (0, val_words), 'test': (1, test_words)}
+    p_take = {sp: n / pool[h] * 1.4 for sp, (h, n) in want.items()}   # 1.4: room for the vowelling filter
+    used = {sp: 0 for sp in want}
+    out = []
+    for b in books:
+        h = book_half(b)
+        for ln, line in enumerate(open(os.path.join(texts_dir, b), encoding='utf-8', errors='ignore')):
+            if h == 0 and line.strip() in exclude:
+                continue
+            x = rnd.random()
+            sp = None
+            if h == 1 and x < p_take['test']:
+                sp = 'test'
+            elif h == 0 and x < p_take['val']:
+                sp = 'val'
+            elif h == 0 and x < p_take['val'] + p_take['train']:
+                sp = 'train'
+            if sp is None or used[sp] >= want[sp][1]:
+                continue
+            for k, seg in enumerate(segments_of(line)):
+                ends = [ending(t) for t in seg]
+                if sum(e is not None for e in ends) < 0.8 * len(seg):
+                    continue
+                used[sp] += len(seg)
+                out.append((sp, f'book:{b}:{ln}:{k}', seg, ends))
+    return out, used
 
 
 CLAUSE_SKIP = {'متعلق', 'جار ومجرور'}
@@ -552,6 +602,10 @@ def main():
     ap.add_argument('--out', required=True)
     ap.add_argument('--tashkeela', help='folder with the AliOsm split of Tashkeela (train/val/test.txt)')
     ap.add_argument('--tashkeela-words', type=int, default=0, help='use at most this many training words (0: all)')
+    ap.add_argument('--tashkeela-books', help='folder of full Tashkeela books (texts.txt); replaces the AliOsm training lines')
+    ap.add_argument('--books-train-words', type=int, default=10_000_000)
+    ap.add_argument('--books-val-words', type=int, default=100_000)
+    ap.add_argument('--books-test-words', type=int, default=200_000)
     ap.add_argument('--quran-repeat', type=int, default=1,
                     help='copies of each Qur\'an row in train, so the iʿrāb heads are not drowned by Tashkeela rows')
     ap.add_argument('--alfiyya-repeat', type=int, default=3,
@@ -613,7 +667,7 @@ def main():
     fields = ('role', 'func', 'rel', 'target', 'hidden', 'conj', 'part', 'subj', 'enc', 'cm', 'ptype', 'mn', 'clause', 'end')
     tash = []
     if a.tashkeela:
-        for sp in ('train', 'val', 'test'):
+        for sp in (('val', 'test') if a.tashkeela_books else ('train', 'val', 'test')):
             used = 0
             for k, seg in enumerate(tashkeela_rows(Path(a.tashkeela) / f'{sp}.txt', sp)):
                 if sp == 'train' and a.tashkeela_words and used >= a.tashkeela_words:
@@ -626,6 +680,20 @@ def main():
                     continue                       # mostly unvowelled: skip
                 used += n
                 tash.append(r)
+    if a.tashkeela_books:
+        exclude = set()
+        if a.tashkeela:
+            for sp in ('val', 'test'):
+                exclude |= {l.strip() for l in open(Path(a.tashkeela) / f'{sp}.txt', encoding='utf-8')}
+        got, used = tashkeela_book_rows(a.tashkeela_books, a.books_train_words, a.books_val_words,
+                                        a.books_test_words, exclude)
+        print('Tashkeela books, words per split:', used, flush=True)
+        for sp, key, seg, ends in got:
+            n = len(seg)
+            r = {'src': 'tashkeela_book' if sp == 'test' else 'tashkeela', 'id': key, 'split': sp,
+                 'w': [HARAKAT.sub('', t) for t in seg], **{f: [None] * n for f in fields}}
+            r['end'] = ends
+            tash.append(r)
     rows.extend(tash)
 
     roles, funcs, rels = Vocab(), Vocab(), Vocab(RELS)
@@ -668,7 +736,7 @@ def main():
                                  **{f: n(f, src) for f in ('role', 'func', 'rel', 'target', 'hidden',
                                                            'conj', 'part', 'subj', 'enc',
                                                            'cm', 'ptype', 'mn', 'clause', 'end')}}
-                           for src in ('quran', 'alfiyya', 'shahid', 'tashkeela')},
+                           for src in ('quran', 'alfiyya', 'shahid', 'tashkeela', 'tashkeela_book')},
              'labels': {'roles': len(roles.items), 'funcs': len(funcs.items), 'rels': len(rels.items),
                         'clause': len(clauses.items)},
              'clause_counts': {c: ccnt[c] for c in clauses.items},

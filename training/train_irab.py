@@ -74,8 +74,48 @@ def encode(rows, tok, max_len):
         nw = len(r["w"])
         lab["target"] = [(t - nw + n if t >= nw else (t if t < n else -1)) if t >= 0 else -1
                          for t in lab["target"]]
-        items.append((enc["input_ids"], first, lab))
+        items.append((enc["input_ids"], first, lab, r.get("src", "")))
     return items
+
+
+class MixSampler:
+    """Batches with a fixed share of grammar rows (Qur'an, Alfiyya: the rows with iʿrāb
+    labels) whatever the amount of vowelled prose (Tashkeela, ending labels only).
+    Each prose row is seen once per epoch; grammar rows are cycled through as needed."""
+
+    def __init__(self, items, batch, share, seed):
+        self.prose = [i for i, it in enumerate(items) if it[3].startswith("tashkeela")]
+        self.gram = [i for i, it in enumerate(items) if not it[3].startswith("tashkeela")]
+        self.k = max(1, round(batch * share)) if self.gram else 0
+        self.p = batch - self.k if self.prose else 0
+        self.batch, self.seed, self.epoch = batch, seed, 0
+
+    def set_epoch(self, ep):
+        self.epoch = ep
+
+    def __len__(self):
+        if not self.p:
+            return -(-len(self.gram) // self.batch)
+        return -(-len(self.prose) // self.p)
+
+    def __iter__(self):
+        rnd = random.Random(self.seed * 1000 + self.epoch)
+        prose, gram = self.prose[:], self.gram[:]
+        rnd.shuffle(prose)
+        if not self.p:                       # no prose rows: plain shuffled batches
+            rnd.shuffle(gram)
+            for i in range(0, len(gram), self.batch):
+                yield gram[i:i + self.batch]
+            return
+        order, j = [], 0
+        for i in range(0, len(prose), self.p):
+            b = prose[i:i + self.p]
+            for _ in range(self.k):
+                if j % len(gram) == 0:
+                    rnd.shuffle(gram)
+                b.append(gram[j % len(gram)])
+                j += 1
+            yield b
 
 
 def collate(batch, pad_id):
@@ -87,7 +127,7 @@ def collate(batch, pad_id):
     first = torch.zeros((B, W), dtype=torch.long)
     wmask = torch.zeros((B, W), dtype=torch.bool)
     lab = {k: torch.full((B, W), -1, dtype=torch.long) for k in FIELDS}
-    for b, (x, f, l) in enumerate(batch):
+    for b, (x, f, l, *_) in enumerate(batch):
         ids[b, :len(x)] = torch.tensor(x)
         att[b, :len(x)] = 1
         first[b, :len(f)] = torch.tensor(f)
@@ -201,6 +241,8 @@ def main():
     ap.add_argument("--lr", type=float, default=5e-5)
     ap.add_argument("--max-len", type=int, default=256)
     ap.add_argument("--seed", type=int, default=13)
+    ap.add_argument("--grammar-share", type=float, default=0.2,
+                    help="share of each batch taken from the rows with iʿrāb labels (Qur'an, Alfiyya)")
     ap.add_argument("--smoke", action="store_true")
     ap.add_argument("--init", help="start from a trained irab_model folder; its heads are carried over by label name")
     ap.add_argument("--max-minutes", type=float, default=0,
@@ -224,8 +266,8 @@ def main():
         splits["test"] = splits["test"] or splits["train"][:8]
     print({s: len(v) for s, v in splits.items()}, flush=True)
     col = lambda b: collate(b, tok.pad_token_id)
-    gen = torch.Generator()
-    tl = DataLoader(splits["train"], batch_size=a.batch, shuffle=True, collate_fn=col, generator=gen)
+    sampler = MixSampler(splits["train"], a.batch, a.grammar_share, a.seed)
+    tl = DataLoader(splits["train"], batch_sampler=sampler, collate_fn=col)
     vl = DataLoader(splits["val"], batch_size=a.batch * 2, collate_fn=col)
     sl = DataLoader(splits["test"], batch_size=a.batch * 2, collate_fn=col)
     model = IrabModel(a.base, len(labels["roles"]), len(labels["funcs"]), len(labels["rels"]),
@@ -244,7 +286,7 @@ def main():
         best, start_ep, start_step = c["best"], c["epoch"], c["step"]
         print(f"resumed at epoch {start_ep + 1} step {start_step}", flush=True)
     for ep in range(start_ep, a.epochs):
-        gen.manual_seed(a.seed * 1000 + ep)              # same batch order when resuming
+        sampler.set_epoch(ep)                            # same batch order when resuming
         for step, (ids, att, first, wmask, lab) in enumerate(tl, 1):
             if ep == start_ep and step <= start_step:
                 continue
