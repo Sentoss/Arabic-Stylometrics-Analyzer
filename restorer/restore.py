@@ -127,10 +127,12 @@ class Restorer:
     treated as a tie and decided by Classical frequency (if a prior is given)."""
 
     def __init__(self, disambiguator=None, prior="default", window=0.15, classical=True,
-                 morph_model="default"):
+                 morph_model="default", irab_model=None):
         """classical: give the disambiguator the layer 2 Classical supplement
         (passives, imperatives, interrogative أَ, Classical vowelings, Form II
-        verbs such as حَدَّثَ, the lightened كَأَنْ, the lemma of رَأَى)."""
+        verbs such as حَدَّثَ, the lightened كَأَنْ, the lemma of رَأَى).
+        irab_model: a layer 2b model folder with the `end` head; the word's final
+        vowel is then the one 2b predicts (layer2/ending_from_irab.py)."""
         if morph_model == "default":
             morph_model = DEFAULT_MORPH if (DEFAULT_MORPH / "model.pt").exists() else None
         if disambiguator is None and morph_model and classical:
@@ -147,6 +149,12 @@ class Restorer:
             if not isinstance(disambiguator._analyzer, ClassicalAnalyzer):
                 disambiguator._analyzer = ClassicalAnalyzer(analyzer=disambiguator._analyzer,
                                                             keep_backoff=True, mode="text")
+        if irab_model:
+            from layer2.ending_from_irab import IrabEndings
+            import sys as _sys
+            _sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "layer2b"))
+            from irab import IrabTagger
+            disambiguator = IrabEndings(disambiguator, IrabTagger(irab_model))
         self.dis = disambiguator
         if prior == "default":
             prior = FormPrior.load(DEFAULT_PRIOR) if DEFAULT_PRIOR.exists() else None
