@@ -100,6 +100,9 @@ PTYPE_OF = {'REL': 'اسم موصول', 'NEG': 'حرف نفي', 'ACC': 'حرف �
 # types with no QAC source, labelled only by annotators: تعجب (ما التعجبية …), حرف نداء
 # (QAC attaches يا to the next word; in prose it is a word of its own)
 EXPERT_PTYPE = {'تعجب', 'حرف نداء'}
+# clause functions with no (or too few) QAC examples, labelled by annotators: مبتدأ (e.g. the
+# clause after همزة التسوية: سواءٌ عليهم أأنذرتهم أم لم تنذرهم, a fronted خبر before it)
+EXPERT_CLAUSE = ['مبتدأ']
 PTYPE = ['none'] + sorted(set(PTYPE_OF.values()) | {'فعل ناسخ'} | EXPERT_PTYPE)
 END = ['none', 'ضمة', 'فتحة', 'كسرة', 'تنوين ضم', 'تنوين فتح', 'تنوين كسر', 'سكون']
 MARK_NAME = {'\u064f': 'ضمة', '\u064e': 'فتحة', '\u0650': 'كسرة', '\u064c': 'تنوين ضم',
@@ -703,7 +706,8 @@ def main():
     cvoc = {'conj': Vocab(CONJ), 'part': Vocab(PART), 'subj': Vocab(SUBJ), 'enc': Vocab(ENC),
             'cm': Vocab(CM), 'ptype': Vocab(PTYPE), 'mn': Vocab(MEANING), 'end': Vocab(END)}
     ccnt = collections.Counter(c for r in rows for c in r['clause'] if c)
-    clauses = Vocab(['none'] + sorted((c for c, k in ccnt.items() if k >= 10 and c != 'none'), key=lambda c: -ccnt[c]))
+    clauses = Vocab(['none'] + sorted((c for c, k in ccnt.items() if k >= 10 and c != 'none'), key=lambda c: -ccnt[c])
+                    + [c for c in EXPERT_CLAUSE if not (ccnt[c] >= 10)])
     cnt = collections.Counter(f for r in rows for f in r['func'] if f)
     keep = {f for f, c in cnt.items() if c >= 3}
     for r in rows:
