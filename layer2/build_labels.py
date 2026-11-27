@@ -188,9 +188,16 @@ def main():
     ap.add_argument("--no-passives", action="store_true", help="MSA analyzer without generated passives")
     ap.add_argument("--variants", default=None,
                     help="harvested variants TSV ('none' to disable; default: resources/classical_variants.tsv)")
+    ap.add_argument("--lane", action="store_true", help="dictionary with Lane's stems added (lane/lexicon_db.py)")
     a = ap.parse_args()
     from supplement import VARIANTS
-    an = ClassicalAnalyzer(passives=not a.no_passives,
+    base = None
+    if a.lane:
+        sys.path.insert(0, str(Path(__file__).resolve().parent.parent))
+        from layer2.lane.lexicon_db import lane_db
+        from camel_tools.morphology.analyzer import Analyzer
+        base = Analyzer(lane_db())
+    an = ClassicalAnalyzer(analyzer=base, passives=not a.no_passives,
                            variants=None if a.variants == "none" else (a.variants or VARIANTS))
     src = Counter()
     cache_r, cache_l = {}, {}

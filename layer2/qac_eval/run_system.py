@@ -4,8 +4,8 @@ per word.
 usage: python run_system.py SYSTEM aligned.jsonl OUT.jsonl [--limit N]
 SYSTEM: msa | msa_sup (CAMeL's MSA model, without / with the Classical
 supplement) | a folder with one of our morphology models (model.pt, config.json),
-optionally followed by +imp (offer imperatives always) and/or +q (offer
-question-hamza readings)
+optionally followed by +imp (offer imperatives always), +q (offer
+question-hamza readings), +lane (dictionary with Lane's stems)
 """
 import json
 import sys
@@ -32,6 +32,10 @@ def build(system):
     # MODEL_DIR[+imp][+q]: also offer imperatives always / question-hamza readings
     model, *opts = system.split("+")
     d = ClassicalDisambiguator(model, top=1)
+    if "lane" in opts:                      # dictionary with Lane's stems
+        from camel_tools.morphology.analyzer import Analyzer
+        from layer2.lane.lexicon_db import lane_db
+        d._analyzer = Analyzer(lane_db(), backoff="ADD_PROP")
     d._analyzer = ClassicalAnalyzer(analyzer=d._analyzer, keep_backoff=True, mode="text",
                                     imperatives="always" if "imp" in opts else None,
                                     questions=True if "q" in opts else None)
