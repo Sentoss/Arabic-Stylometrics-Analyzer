@@ -3,8 +3,11 @@
     tagger = IrabTagger("models/irab_model")
     tagger.tag(["قال", "محمد", "هو", "ابن", "مالك"])
     -> [{"word", "role", "func", "rel", "target", "target_word", "hidden", "p_func",
-         and, when the word has them, "conj", "part", "subj", "enc"}, …]
-    (conj: the و/ف prefix; part: another prefix; subj / enc: attached pronouns)
+         and, when the word has them, "conj", "part", "subj", "enc", "cm", "ptype", "clause"}, …]
+    (conj: the و/ف prefix; part: another prefix; subj / enc: attached pronouns;
+     cm: the case or mood the word carries; ptype: the kind of particle or relative;
+     clause: the function of the clause that starts at this word. Models trained
+     before these heads existed simply leave them out.)
 
 target is the index of the linked word, or one of the محذوف slots ("محذوف خبر" …),
 and is only given when rel is not "none". hidden (verbs only) is True when the
@@ -28,7 +31,7 @@ import torch.nn as nn
 from transformers import AutoConfig, AutoModel, AutoTokenizer
 
 N_SLOTS = 5
-CLITICS = ("conj", "part", "subj", "enc")
+CLITICS = ("conj", "part", "subj", "enc", "cm", "ptype", "clause")
 VOWELS = re.compile(r"[ً-ْٰـ]")
 STOP = set(".!?؟:;؛")
 CONN = re.compile(r"^(ف|ثم$|و)")

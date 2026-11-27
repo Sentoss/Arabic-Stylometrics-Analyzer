@@ -12,6 +12,14 @@ The last four are the attached pieces of the word, each with its own function:
   part  another prefix (حرف جر، لام التعليل، أ الاستفهام، س …)
   subj  an attached subject pronoun on a verb (ت، وا، نا …): فاعل، نائب فاعل، اسم كان
   enc   an attached object / possessive pronoun: مفعول به، مضاف إليه، مجرور، اسم إنّ …
+Three more word-level fields come from the rest of QAC:
+  cm      the case or mood the word carries (QAC morphology, whole Qur'an): رفع، نصب، جر،
+          مضارع مرفوع، منصوب، مجزوم; "none" for a word with no case or mood (مبني، حرف، ماض …)
+  ptype   the kind of particle or relative the word is (QAC stem tag, whole Qur'an):
+          حرف نفي، شرط، حرف مصدري، استفهام … "none" for other words
+  clause  the function of the clause or phrase that starts at this word (QAC treebank:
+          صلة، شرط، جواب شرط، خبر، مفعول به، صفة، حال …), "none" if it starts none;
+          the plain متعلق / جار ومجرور of a prepositional phrase is left out
 "none" is a label (the word has no such piece); -1 means unknown.
 Labels are ids into labels.json; -1 means "not annotated" and is skipped by the loss.
 target: index of the linked word, or len(w)+k for the k-th محذوف slot.
@@ -35,6 +43,14 @@ QAC_CONJ = {'CONJ': 'عاطفة', 'REM': 'استئنافية', 'RSLT': 'رابط
             'CAUS': 'سببية', 'SUP': 'زائدة', 'COM': 'معية'}
 QAC_PART = {'EMPH': 'توكيد', 'INTG': 'استفهام', 'EQ': 'تسوية', 'PRP': 'تعليل', 'FUT': 'استقبال',
             'IMPV': 'أمر', 'VOC': 'نداء'}
+CM = ['none', 'رفع', 'نصب', 'جر', 'مضارع مرفوع', 'مضارع منصوب', 'مضارع مجزوم']
+PTYPE_OF = {'REL': 'اسم موصول', 'NEG': 'حرف نفي', 'ACC': 'حرف ناسخ', 'COND': 'شرط', 'SUB': 'حرف مصدري',
+            'RES': 'حصر', 'INTG': 'استفهام', 'CERT': 'تحقيق', 'PRO': 'نهي', 'PREV': 'كافة', 'RET': 'إضراب',
+            'EXP': 'استثناء', 'INC': 'ابتداء', 'EXL': 'تفصيل', 'AMD': 'استدراك', 'INT': 'تفسير',
+            'FUT': 'استقبال', 'ANS': 'جواب', 'EXH': 'تحضيض', 'SUR': 'فجاءة', 'AVR': 'ردع', 'INL': 'حروف مقطعة',
+            'SUP': 'زائد', 'IMPN': 'اسم فعل', 'P': 'حرف جر', 'CONJ': 'حرف عطف'}
+PTYPE = ['none'] + sorted(set(PTYPE_OF.values()))
+CLAUSE_SKIP = {'متعلق', 'جار ومجرور'}
 MASAQ_SUBJ = {'AGNT': 'فاعل', 'PASS_SUBJ': 'نائب فاعل', 'SUBJ_COP_V': 'اسم كان'}
 MASAQ_ENC = {'OBJ': 'مفعول به', 'GEN_CONS': 'مضاف إليه', 'PREP_OBJ': 'مجرور', 'SUBJ_COP_PART': 'اسم إنّ'}
 
@@ -224,6 +240,35 @@ def alfiyya_clitics(e, word):
     return c
 
 
+def qac_morph_words(path):
+    """(sura, verse, word) -> (cm, ptype) for every word of the Qur'an, from QAC morphology."""
+    segs = collections.defaultdict(list)
+    for line in open(path, encoding='utf-8'):
+        m = re.match(r'\((\d+):(\d+):(\d+):\d+\)\t[^\t]*\t([^\t]+)\t(\S+)', line)
+        if m:
+            segs[tuple(map(int, m.groups()[:3]))].append((m.group(4), m.group(5).split('|')))
+    out = {}
+    for k, ss in segs.items():
+        stem = next(((t, f) for t, f in ss if f[0] == 'STEM'), None)
+        cm, pt = 'none', 'none'
+        if stem:
+            tag, f = stem
+            pt = PTYPE_OF.get(tag, 'none')
+            fs = set(f)
+            if 'NOM' in fs: cm = 'رفع'
+            elif 'ACC' in fs: cm = 'نصب'
+            elif 'GEN' in fs: cm = 'جر'
+            elif tag == 'V' and 'IMPF' in fs:
+                if 'MOOD:SUBJ' in fs: cm = 'مضارع منصوب'
+                elif 'MOOD:JUS' in fs: cm = 'مضارع مجزوم'
+                elif any(t == 'EMPH' or 'PRON:3FP' in f or 'PRON:2FP' in f for t, f in ss) or \
+                        any(x in fs for x in ('3FP', '2FP')):
+                    cm = 'none'                 # نون التوكيد / نون النسوة: مبني
+                else: cm = 'مضارع مرفوع'
+        out[k] = (cm, pt)
+    return out
+
+
 def masaq_verses(path):
     words = collections.defaultdict(lambda: collections.defaultdict(list))
     for r in csv.DictReader(open(path, encoding='utf-8-sig')):
@@ -383,7 +428,8 @@ def alfiyya_rows(path):
         words = [t['word'] for t in r['tokens']]
         key = '%s:%s:%s' % (r['kind'], r['page'], r['verse'][:20])
         yield {'src': r['kind'], 'id': key, 'w': words, 'role': [None] * n,
-               'func': func, 'rel': rel, 'target': target, 'hidden': hidden, **cl}
+               'func': func, 'rel': rel, 'target': target, 'hidden': hidden, **cl,
+               'cm': [None] * n, 'ptype': [None] * n, 'clause': [None] * n}
 
 
 def main():
@@ -406,6 +452,7 @@ def main():
         s, v, w = map(int, x['loc'].split(':'))
         qac.setdefault((s, v), {})[w] = x
 
+    morph = qac_morph_words(a.qac_morph)
     order = object_order(qac)
     qac_flat = {f"{v[0]}:{v[1]}:{w}": x for v, ws in qac.items() for w, x in ws.items()}
     rows, skipped = [], []
@@ -418,10 +465,15 @@ def main():
                'func': [None] * nw, 'rel': [None] * nw, 'target': [None] * nw, 'hidden': [None] * nw}
         for k in ('conj', 'part', 'subj', 'enc'):
             row[k] = [c[k] for _, _, c in words]
+        row['cm'] = [morph.get((*v, i + 1), (None, None))[0] for i in range(nw)]
+        row['ptype'] = [morph.get((*v, i + 1), (None, None))[1] for i in range(nw)]
+        row['clause'] = [None] * nw
         for w, x in qac.get(v, {}).items():
             f, rl, t, h = qac_labels(x, nw, v, order, qac_flat)
             i = w - 1
             row['func'][i], row['rel'][i], row['target'][i], row['hidden'][i] = f, rl, t, h
+            cf = x.get('clause_function')
+            row['clause'][i] = 'none' if cf is None or cf in CLAUSE_SKIP else cf
             for k, val in qac_clitics(x, order, v).items():
                 if val is not None and (val != 'none' or row[k][i] is None or k == 'conj'):
                     row[k][i] = val          # QAC's analysis wins where it has one
@@ -429,7 +481,10 @@ def main():
     rows.extend(alfiyya_rows(a.alfiyya))
 
     roles, funcs, rels = Vocab(), Vocab(), Vocab(RELS)
-    cvoc = {'conj': Vocab(CONJ), 'part': Vocab(PART), 'subj': Vocab(SUBJ), 'enc': Vocab(ENC)}
+    cvoc = {'conj': Vocab(CONJ), 'part': Vocab(PART), 'subj': Vocab(SUBJ), 'enc': Vocab(ENC),
+            'cm': Vocab(CM), 'ptype': Vocab(PTYPE)}
+    ccnt = collections.Counter(c for r in rows for c in r['clause'] if c)
+    clauses = Vocab(['none'] + sorted((c for c, k in ccnt.items() if k >= 10 and c != 'none'), key=lambda c: -ccnt[c]))
     cnt = collections.Counter(f for r in rows for f in r['func'] if f)
     keep = {f for f, c in cnt.items() if c >= 3}
     for r in rows:
@@ -440,6 +495,7 @@ def main():
         r['hidden'] = [-1 if h is None else h for h in r['hidden']]
         for k, voc in cvoc.items():
             r[k] = [voc(x) for x in r[k]]
+        r['clause'] = [clauses(x) if x in clauses.idx or x is None else -1 for x in r['clause']]
     out = Path(a.out); out.mkdir(parents=True, exist_ok=True)
     split = collections.defaultdict(list)
     for r in rows:
@@ -450,7 +506,7 @@ def main():
             for r in rs:
                 f.write(json.dumps(r, ensure_ascii=False) + '\n')
     json.dump({'roles': roles.items, 'funcs': funcs.items, 'rels': rels.items, 'slots': SLOTS,
-               **{k: v.items for k, v in cvoc.items()}},
+               **{k: v.items for k, v in cvoc.items()}, 'clause': clauses.items},
               open(out / 'labels.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
 
     def n(field, src=None):
@@ -459,9 +515,12 @@ def main():
              'by_source': {src: {'units': sum(1 for r in rows if r['src'] == src),
                                  'words': sum(len(r['w']) for r in rows if r['src'] == src),
                                  **{f: n(f, src) for f in ('role', 'func', 'rel', 'target', 'hidden',
-                                                           'conj', 'part', 'subj', 'enc')}}
+                                                           'conj', 'part', 'subj', 'enc',
+                                                           'cm', 'ptype', 'clause')}}
                            for src in ('quran', 'alfiyya', 'shahid')},
-             'labels': {'roles': len(roles.items), 'funcs': len(funcs.items), 'rels': len(rels.items)},
+             'labels': {'roles': len(roles.items), 'funcs': len(funcs.items), 'rels': len(rels.items),
+                        'clause': len(clauses.items)},
+             'clause_counts': {c: ccnt[c] for c in clauses.items},
              'skipped_verses': skipped}
     json.dump(stats, open(out / 'stats.json', 'w', encoding='utf-8'), ensure_ascii=False, indent=1)
     print(json.dumps(stats, ensure_ascii=False, indent=1))

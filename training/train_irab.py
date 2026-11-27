@@ -7,6 +7,10 @@ For every (unvowelled) word the model predicts
   target  the word it links to (المتعلَّق به، المتبوع، صاحب الحال), or one of
           five "محذوف" slots (محذوف خبر / صفة / حال / صلة / غير ذلك)
   hidden  for verbs: whether the subject is a ضمير مستتر
+  conj/part/subj/enc  the function of each attached piece (و/ف، حرف جر، ضمير متصل …)
+  cm      the case or mood the word carries (رفع، نصب، جر، مضارع مرفوع/منصوب/مجزوم, none)
+  ptype   the kind of particle or relative (حرف نفي، شرط، حرف مصدري، استفهام …)
+  clause  the function of the clause that starts at this word (صلة، شرط، جواب شرط، خبر …)
 Labels missing for a word (-1) are skipped by the loss.
 
 Data: a folder of train/val/test .jsonl.gz files and labels.json (see TRAINING.md).
@@ -29,7 +33,7 @@ from transformers import AutoModel, AutoTokenizer, get_linear_schedule_with_warm
 
 BASE = "CAMeL-Lab/bert-base-arabic-camelbert-ca"
 N_SLOTS = 5
-CLITICS = ("conj", "part", "subj", "enc")      # the word's attached pieces (see make_dataset.py)
+CLITICS = ("conj", "part", "subj", "enc", "cm", "ptype", "clause")   # word-level heads (see make_dataset.py)
 FIELDS = ("role", "func", "rel", "target", "hidden") + CLITICS
 
 
