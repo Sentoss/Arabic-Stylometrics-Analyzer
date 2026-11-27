@@ -38,6 +38,24 @@ TEI XML as restructured and corrected by Winfried H. Leclaire
    `Analyzer(lane_db())`; `build_labels.py --lane` and
    `qac_eval/run_system.py MODEL+lane` use it.
 
-Verbs are not added yet (CAMeL's verb classes need the aorist vowel and the
-weak-root type per stem); Lane's own work ends at the letter qāf, so later
-letters are thin.
+6. `name_twins.py CORPUS lane_names.tsv`: a proper-noun reading with the same
+   vowels for the 433 Lane words our corpus uses as names (after بن، أبو، أم …):
+   Lane defines مُصْعَب as a stallion camel, but our texts mean the man.
+7. `build_lane_verbs.py lane_cov.jsonl forms_full.tsv ARRAMOOZ/verb_triliteral.csv lane_verbs.tsv`:
+   1,403 verbs (Forms I–X of triliteral roots). Each copies the full stem set
+   (perfect, imperfect, imperative, passives, weak-root shapes) of an existing
+   verb with the same lemma pattern, with its own radicals. The Form I imperfect
+   vowel comes from Lane ("aor."), else from Arramooz's conjugation class
+   (باب). Derived forms of sound roots take the form's standard vowelling
+   (Form VIII with an assimilating first radical, اِدَّكَرَ، اِصْطَبَرَ, only
+   from a vowelled headword).
+8. `arramooz_rows.py ARRAMOOZ/data/nouns arr_rows.jsonl`: nouns from Arramooz
+   (Taha Zerrouki, github.com/linuxscout/arramooz, GPL) for roots beginning
+   with ك ل م ن ه و ي, where Lane is thin (his own work ends at qāf); then
+   steps 2 and 4 as for Lane → `arramooz_stems.tsv` (1,244 entries).
+
+`lexicon_db.py` merges lane_stems, lane_verbs, arramooz_stems and lane_names.
+
+Tried and rejected: the ~8,400 rare Lane words whose bare spelling is also a
+common word, with a very low prior: most of the 538 extra prose changes were
+wrong (زَهْد for زُهْد، الرَيْق، بَصْرِي), and Tashkeela ties rose by 0.6 points.

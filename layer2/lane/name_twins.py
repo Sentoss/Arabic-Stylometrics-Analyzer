@@ -81,7 +81,7 @@ def main(corpus, out_path, min_count=2):
         logp = round(math.log10(n / tokens), 4)
         lexname = f0["lex"].split("_")[0]
         f.update({"diac": diac, "lex": lexname + "_lanename", "bw": diac + "/NOUN_PROP",
-                  "gloss": "name (Lane: " + f0.get("gloss", "") + ")", "root": f0.get("root", ""),
+                  "gloss": "name~" + f0.get("gloss", ""), "root": f0.get("root", ""),
                   "pattern": f0.get("pattern", ""), "source": "lane", "lex_logprob": logp, "pos_lex_logprob": logp,
                   "caphi": "_", "d1tok": diac, "d2tok": diac, "d3tok": diac, "atbtok": diac, "bwtok": diac,
                   "d1seg": diac, "d2seg": diac, "d3seg": diac, "atbseg": diac})

@@ -16,7 +16,7 @@ from camel_tools.morphology.database import MorphologyDB
 
 BASE = Path.home() / ".camel_tools/data/morphology_db/calima-msa-r13/morphology.db"
 RES = Path(__file__).resolve().parents[1] / "resources"
-STEMS = (RES / "lane_stems.tsv", RES / "lane_names.tsv")      # Lane's words + their name twins
+STEMS = (RES / "lane_stems.tsv", RES / "lane_verbs.tsv", RES / "arramooz_stems.tsv", RES / "lane_names.tsv")
 RARE_TRIAL = RES / "lane_rare_trial.tsv"                         # trial: rare competing words, low prior
 CACHE = Path.home() / ".cache" / "arabic_stylometrics"
 
