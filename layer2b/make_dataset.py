@@ -102,7 +102,7 @@ PTYPE_OF = {'REL': 'اسم موصول', 'NEG': 'حرف نفي', 'ACC': 'حرف �
 EXPERT_PTYPE = {'تعجب', 'حرف نداء'}
 # clause functions with no (or too few) QAC examples, labelled by annotators: مبتدأ (e.g. the
 # clause after همزة التسوية: سواءٌ عليهم أأنذرتهم أم لم تنذرهم, a fronted خبر before it)
-EXPERT_CLAUSE = ['مبتدأ']
+EXPERT_CLAUSE = ['مبتدأ', 'المفعول لأجله', 'مستثني']   # the last two: QAC has <10 examples
 PTYPE = ['none'] + sorted(set(PTYPE_OF.values()) | {'فعل ناسخ'} | EXPERT_PTYPE)
 END = ['none', 'ضمة', 'فتحة', 'كسرة', 'تنوين ضم', 'تنوين فتح', 'تنوين كسر', 'سكون']
 MARK_NAME = {'\u064f': 'ضمة', '\u064e': 'فتحة', '\u0650': 'كسرة', '\u064c': 'تنوين ضم',
