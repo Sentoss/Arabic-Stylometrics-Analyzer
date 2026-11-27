@@ -235,11 +235,29 @@ def make_imperative(a, kind, final_vowel=None):
     return head + join(u) + enc
 
 
+ATTESTED_PATH = Path(__file__).parent / "resources" / "tashkeela_forms.tsv"
+PROCLITIC_RE = re.compile("^(?:أَ)?(?:[وف][َ])?(?:[بلك][ِ َ]|سَ)?(?:ال|لِل)?")
+ENCLITIC_RE = re.compile("(?:هُ|هِ|ها|هُم|هِم|هُما|هِما|هُنَّ|كَ|كِ|كُم|كُما|كُنَّ|نِي|نا|ي)[ًٌٍَُِّْ]*$")
+_ATTESTED = None
+
+
+def load_attested(path=ATTESTED_PATH):
+    """Vowelled forms of the full Tashkeela (case ending dropped; diac_freq.key)."""
+    global _ATTESTED
+    if _ATTESTED is None:
+        _ATTESTED = set()
+        if Path(path).exists():
+            for line in open(path, encoding="utf-8"):
+                _ATTESTED.add(line.split("\t", 1)[0])
+    return _ATTESTED
+
+
 class ClassicalAnalyzer:
     """CAMeL's analyzer plus Classical passives and harvested variants."""
 
     def __init__(self, analyzer=None, variants=VARIANTS, passives=True, keep_backoff=False,
-                 cache_size=200000, mode="labels", imperatives=None, questions=None):
+                 cache_size=200000, mode="labels", imperatives=None, questions=None,
+                 attested="default"):
         """keep_backoff: also return the analyzer's backoff guesses (proper
         nouns), as layer 1 needs; the label builder leaves them out.
         mode="labels": every supplement reading (the printed vowels decide).
@@ -248,8 +266,13 @@ class ClassicalAnalyzer:
         reading (the MSA model cannot be trusted with them: it read the name
         أهرمن as أَ + هَرَّمَ). Revisit once the Classical model is trained.
         imperatives ("always" | "fallback") and questions (True | False)
-        override what the mode would do."""
+        override what the mode would do.
+        attested: forms made by rule (passives, imperatives, interrogative أَ)
+        and the stems of Lane's verbs made by analogy are kept only if their
+        vowelled form occurs in the full Tashkeela (resources/tashkeela_forms.tsv):
+        the rules propose, the Classical text decides. None turns the check off."""
         self.mode = mode
+        self.attested = load_attested() if attested == "default" else attested
         self.imp_always = (imperatives == "always") if imperatives else mode == "labels"
         self.questions = questions if questions is not None else mode == "labels"
         self.an = analyzer or Analyzer(MorphologyDB.builtin_db())
@@ -346,10 +369,30 @@ class ClassicalAnalyzer:
             raise AttributeError(name)
         return getattr(self.__dict__["an"], name)
 
+    GATED = ("classical_passive", "classical_imperative", "classical_question")
+
+    @classmethod
+    def _generated(cls, a):
+        return a.get("source") in cls.GATED or (a.get("source") == "lane" and a.get("pos") == "verb")
+
+    def _is_attested(self, a):
+        import sys
+        if str(Path(__file__).parent) not in sys.path:
+            sys.path.insert(0, str(Path(__file__).parent))
+        from diac_freq import key
+        d = a.get("diac", "")
+        cands = [d, PROCLITIC_RE.sub("", d, count=1)]
+        cands += [ENCLITIC_RE.sub("", c, count=1) for c in list(cands)]
+        # the connecting alif inside a word is usually written bare (فَاعْلَمُوا, not فَاِعْلَمُوا)
+        cands += [re.sub("(?<=.)([اٱ])[\u064e\u064f\u0650]", "\\1", c) for c in list(cands)]
+        return any(key(c) in self.attested for c in cands if c)
+
     def analyze(self, word):
         hit = self._cache.get(word)
         if hit is None:
             hit = self._core(word, question=True)
+            if self.attested is not None:
+                hit = [a for a in hit if not self._generated(a) or self._is_attested(a)]
             if self.keep_backoff:
                 hit = hit + [a for a in self.an.analyze(word) if a.get("source") == "backoff"]
             if len(self._cache) >= self._cache_size:

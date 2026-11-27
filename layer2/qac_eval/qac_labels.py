@@ -20,7 +20,7 @@ of an existing labels.json (so the model stays compatible), split by sūra:
   val   sūras with number % 10 == 7
   train the rest
 
-usage: python layer2/qac_eval/qac_labels.py ALIGNED.jsonl LABELS.json OUT_DIR
+usage: python layer2/qac_eval/qac_labels.py ALIGNED.jsonl LABELS.json OUT_DIR [--lane]
 """
 import gzip
 import json
@@ -58,7 +58,13 @@ def split_of(sura):
 def main(aligned, labels_json, out_dir, max_words=100):
     vocab = json.load(open(labels_json, encoding="utf-8"))["values"]
     idx = {k: {v: i for i, v in enumerate(vocab[k])} for k in FEATS}
-    an = ClassicalAnalyzer(passives=True, variants=VARIANTS)
+    base = None
+    if "--lane" in sys.argv:                     # dictionary with Lane / Arramooz
+        sys.path.insert(0, str(HERE.parents[1]))
+        from camel_tools.morphology.analyzer import Analyzer
+        from layer2.lane.lexicon_db import lane_db
+        base = Analyzer(lane_db())
+    an = ClassicalAnalyzer(analyzer=base, passives=True, variants=VARIANTS)
     cache = {}
     stats = Counter()
     out = Path(out_dir)
@@ -87,7 +93,7 @@ def main(aligned, labels_json, out_dir, max_words=100):
                 if fine and any(a["pos"] in fine for a in ok):
                     ok = [a for a in ok if a["pos"] in fine]
                 if ok:
-                    status, _, _, opts = label(diac, ok)
+                    status, _, _, opts = label(diac, ok, secondary=False)
                     if status != "no_match":
                         kept = [o for o in opts.split(";")]
                         how = name + " + vowels"

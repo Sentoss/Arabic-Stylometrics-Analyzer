@@ -119,7 +119,7 @@ def strict(written, a, full):
     return not (w_last & case) or (w_last & case) <= a_last
 
 
-def label(written, readings):
+def label(written, readings, secondary=True):
     bare = MARK.sub("", written)
     full = len(MARK.findall(written)) >= len(bare) - 1
     # final ى may stand for ي (أَبِى); try the text both ways
@@ -143,9 +143,10 @@ def label(written, readings):
     # ordinary readings first (strict, then loose); the supplement's rare
     # constructions (interrogative أَ, imperatives) only when nothing else fits:
     # أَرَادَ stays the verb أَراد, not أَ + رادَ; ابْنِ stays "son of", not "build!"
+    # (secondary=False: they are ordinary candidates and the vowels alone decide)
     kept = []
     for group in (strict_k, loose_k):
-        kept = [k for k in group if k.get("source") not in SECONDARY]
+        kept = [k for k in group if not secondary or k.get("source") not in SECONDARY]
         if kept:
             break
     if not kept:
@@ -190,6 +191,8 @@ def main():
                     help="harvested variants TSV ('none' to disable; default: resources/classical_variants.tsv)")
     ap.add_argument("--lane", action="store_true", help="dictionary with Lane's stems added (lane/lexicon_db.py)")
     ap.add_argument("--lane-rare", action="store_true", help="with --lane: also the rare-words trial file")
+    ap.add_argument("--no-secondary", action="store_true",
+                    help="imperatives and interrogative readings are ordinary candidates (the vowels decide)")
     a = ap.parse_args()
     from supplement import VARIANTS
     base = None
@@ -225,7 +228,7 @@ def main():
                     status, best, k, opts = "oov", None, 0, ""
                 else:
                     if w not in cache_l:
-                        cache_l[w] = label(w, readings)
+                        cache_l[w] = label(w, readings, secondary=not a.no_secondary)
                     status, best, k, opts = cache_l[w]
                 stats[status] += 1
                 if best and str(best.get("source", "")).startswith("classical"):

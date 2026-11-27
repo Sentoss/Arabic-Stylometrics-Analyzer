@@ -34,13 +34,14 @@ def merged_path(stems=STEMS):
             p = line.rstrip("\n").split("\t")
             if len(p) >= 3:
                 rows.append("\t".join(p[:3]) + "\n")
-    tmp = out.with_suffix(".tmp")
+    import os
+    tmp = out.with_suffix(f".{os.getpid()}.tmp")          # several processes may build it at once
     with open(BASE, encoding="utf-8") as src, open(tmp, "w", encoding="utf-8") as dst:
         for line in src:
             if line.startswith("###TABLE AB###"):
                 dst.writelines(rows)          # end of the STEMS section
             dst.write(line)
-    tmp.rename(out)
+    os.replace(tmp, out)
     return out
 
 
